@@ -1,0 +1,70 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/alanmahon/dev.env",
+        "/Users/alanmahon"
+      ]
+    },
+    "docker-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "docker-mcp",
+        "--key",
+        "e168bca1-c770-4f48-90ee-eb5bb33c2299"
+      ]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "railway-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "@railway/mcp-server"],
+      "env": {
+        "RAILWAY_TOKEN": "3ee56e0b-407f-4dea-a198-ca9b94beec28",
+        "RAILWAY_PROJECT_ID": "ee1c67bc-4cbb-4191-bc0e-8ff4d9724c7a",
+        "RAILWAY_SERVICE_ID": "d4a5f251-7816-4af1-8a56-4a78ba90f36a",
+        "RAILWAY_ENVIRONMENT_ID": "6cc0094e-d489-4242-a2a3-fd4c67c116f0"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "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"
+      }
+    },
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-slack"
+      ],
+      "env": {
+        "SLACK_BOT_TOKEN": "xoxb-9064704508177-9377041689926-1aTMV15w0AAH9Ob7KMsfm9ia",
+        "SLACK_TEAM_ID": "T091WLQEY57/C091WLQGW65",
+        "SLACK_CHANNEL_IDS": "optional-channel-ids"
+      }
+    }
+  }
+}

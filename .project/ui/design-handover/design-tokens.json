@@ -1,0 +1,341 @@
+{
+  "meta": {
+    "name": "Schoolcierge Design Tokens",
+    "version": "1.0.0",
+    "description": "Design tokens for Schoolcierge parent-school communication platform",
+    "lastUpdated": "2025-01-17"
+  },
+  "color": {
+    "brand": {
+      "primary": {
+        "value": "#3D348B",
+        "rgb": "61, 52, 139",
+        "description": "Deep Purple - Primary brand color, trust and authority"
+      },
+      "secondary": {
+        "value": "#7678ED",
+        "rgb": "118, 120, 237",
+        "description": "Periwinkle - Secondary actions and engagement"
+      },
+      "accent": {
+        "value": "#F7B801",
+        "rgb": "247, 184, 1",
+        "description": "Gold - Success and achievements"
+      }
+    },
+    "semantic": {
+      "critical": {
+        "value": "#F35B04",
+        "rgb": "243, 91, 4",
+        "description": "Red-Orange - Critical alerts and emergencies"
+      },
+      "urgent": {
+        "value": "#F18701",
+        "rgb": "241, 135, 1",
+        "description": "Orange - Urgent actions and warnings"
+      },
+      "success": {
+        "value": "#4CAF50",
+        "rgb": "76, 175, 80",
+        "description": "Green - Positive outcomes and confirmations"
+      },
+      "info": {
+        "value": "#7678ED",
+        "rgb": "118, 120, 237",
+        "description": "Periwinkle - Informational content"
+      },
+      "achievement": {
+        "value": "#F7B801",
+        "rgb": "247, 184, 1",
+        "description": "Gold - Celebrations and achievements"
+      }
+    },
+    "neutral": {
+      "black": {
+        "value": "#1A1A1A",
+        "rgb": "26, 26, 26",
+        "description": "Primary text color"
+      },
+      "darkGray": {
+        "value": "#4A4A4A",
+        "rgb": "74, 74, 74",
+        "description": "Secondary text color"
+      },
+      "gray": {
+        "value": "#757575",
+        "rgb": "117, 117, 117",
+        "description": "Tertiary text and disabled states"
+      },
+      "lightGray": {
+        "value": "#D1D1D1",
+        "rgb": "209, 209, 209",
+        "description": "Borders and dividers"
+      },
+      "offWhite": {
+        "value": "#F7F7F7",
+        "rgb": "247, 247, 247",
+        "description": "Background color"
+      },
+      "white": {
+        "value": "#FFFFFF",
+        "rgb": "255, 255, 255",
+        "description": "Card backgrounds and primary surfaces"
+      }
+    },
+    "priority": {
+      "critical": {
+        "background": "#F35B04",
+        "text": "#FFFFFF",
+        "border": "#F35B04",
+        "tint": "rgba(243, 91, 4, 0.1)"
+      },
+      "urgent": {
+        "background": "#F18701",
+        "text": "#FFFFFF",
+        "border": "#F18701",
+        "tint": "rgba(241, 135, 1, 0.1)"
+      },
+      "achievement": {
+        "background": "#F7B801",
+        "text": "#1A1A1A",
+        "border": "#F7B801",
+        "tint": "rgba(247, 184, 1, 0.1)"
+      },
+      "academic": {
+        "background": "#7678ED",
+        "text": "#FFFFFF",
+        "border": "#7678ED",
+        "tint": "rgba(118, 120, 237, 0.1)"
+      },
+      "general": {
+        "background": "#3D348B",
+        "text": "#FFFFFF",
+        "border": "#3D348B",
+        "tint": "rgba(61, 52, 139, 0.1)"
+      }
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "primary": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "mono": "'SF Mono', Monaco, Consolas, 'Courier New', monospace"
+    },
+    "fontSize": {
+      "display": {
+        "value": 36,
+        "lineHeight": 44,
+        "letterSpacing": -0.5
+      },
+      "h1": {
+        "value": 32,
+        "lineHeight": 40,
+        "letterSpacing": -0.3
+      },
+      "h2": {
+        "value": 24,
+        "lineHeight": 32,
+        "letterSpacing": -0.2
+      },
+      "h3": {
+        "value": 20,
+        "lineHeight": 28,
+        "letterSpacing": 0
+      },
+      "bodyLarge": {
+        "value": 18,
+        "lineHeight": 26,
+        "letterSpacing": 0
+      },
+      "body": {
+        "value": 16,
+        "lineHeight": 24,
+        "letterSpacing": 0
+      },
+      "bodySmall": {
+        "value": 14,
+        "lineHeight": 20,
+        "letterSpacing": 0
+      },
+      "caption": {
+        "value": 12,
+        "lineHeight": 16,
+        "letterSpacing": 0.1
+      },
+      "micro": {
+        "value": 10,
+        "lineHeight": 14,
+        "letterSpacing": 0.2
+      }
+    },
+    "fontWeight": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    }
+  },
+  "spacing": {
+    "base": 4,
+    "scale": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 32,
+      "xxl": 48,
+      "xxxl": 64
+    },
+    "component": {
+      "buttonPadding": "12px 24px",
+      "cardPadding": 16,
+      "inputPadding": 12,
+      "sectionMargin": 24,
+      "screenPadding": 16
+    }
+  },
+  "borderRadius": {
+    "none": 0,
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "full": 9999,
+    "component": {
+      "button": 12,
+      "card": 12,
+      "input": 8,
+      "badge": 12,
+      "avatar": 9999
+    }
+  },
+  "shadow": {
+    "none": "none",
+    "xs": {
+      "value": "0 1px 2px rgba(0, 0, 0, 0.05)",
+      "elevation": 1
+    },
+    "sm": {
+      "value": "0 1px 3px rgba(0, 0, 0, 0.12)",
+      "elevation": 2
+    },
+    "md": {
+      "value": "0 2px 8px rgba(0, 0, 0, 0.1)",
+      "elevation": 4
+    },
+    "lg": {
+      "value": "0 4px 16px rgba(0, 0, 0, 0.15)",
+      "elevation": 8
+    },
+    "xl": {
+      "value": "0 8px 32px rgba(0, 0, 0, 0.2)",
+      "elevation": 16
+    }
+  },
+  "animation": {
+    "duration": {
+      "instant": 100,
+      "fast": 200,
+      "normal": 300,
+      "slow": 400,
+      "verySlow": 600
+    },
+    "easing": {
+      "standard": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "accelerate": "cubic-bezier(0.4, 0, 1, 1)",
+      "decelerate": "cubic-bezier(0, 0, 0.2, 1)",
+      "sharp": "cubic-bezier(0.4, 0, 0.6, 1)",
+      "bounce": "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+    }
+  },
+  "breakpoints": {
+    "mobile": {
+      "min": 0,
+      "max": 767
+    },
+    "tablet": {
+      "min": 768,
+      "max": 1023
+    },
+    "desktop": {
+      "min": 1024,
+      "max": 1439
+    },
+    "wide": {
+      "min": 1440
+    }
+  },
+  "zIndex": {
+    "base": 0,
+    "dropdown": 100,
+    "sticky": 200,
+    "fixed": 300,
+    "overlay": 400,
+    "modal": 500,
+    "popover": 600,
+    "tooltip": 700,
+    "toast": 800,
+    "maximum": 999
+  },
+  "opacity": {
+    "transparent": 0,
+    "disabled": 0.4,
+    "subtle": 0.6,
+    "translucent": 0.8,
+    "visible": 0.9,
+    "opaque": 1
+  },
+  "component": {
+    "button": {
+      "height": {
+        "small": 36,
+        "medium": 44,
+        "large": 52
+      },
+      "minWidth": 80,
+      "borderWidth": 2
+    },
+    "input": {
+      "height": 44,
+      "borderWidth": 1,
+      "focusBorderWidth": 2
+    },
+    "card": {
+      "minHeight": 60,
+      "borderWidth": 1,
+      "priorityBorderWidth": 4
+    },
+    "badge": {
+      "dot": {
+        "small": 8,
+        "medium": 12
+      },
+      "number": {
+        "small": 16,
+        "medium": 20
+      }
+    },
+    "avatar": {
+      "small": 32,
+      "medium": 40,
+      "large": 56,
+      "xlarge": 80
+    },
+    "icon": {
+      "small": 16,
+      "medium": 20,
+      "large": 24,
+      "xlarge": 32
+    },
+    "touchTarget": {
+      "minimum": 44
+    }
+  },
+  "accessibility": {
+    "focusOutlineWidth": 3,
+    "focusOutlineOffset": 2,
+    "minimumContrastRatio": 4.5,
+    "largeTextContrastRatio": 3,
+    "minimumTouchTarget": 44
+  }
+}

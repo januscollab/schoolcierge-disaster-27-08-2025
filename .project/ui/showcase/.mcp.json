@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "expo-dev-client": {
+      "command": "npx",
+      "args": ["expo-dev-client", "start"],
+      "env": {
+        "EXPO_USE_DEV_CLIENT": "true",
+        "EXPO_DEBUG": "true"
+      }
+    },
+    "ios-simulator": {
+      "command": "npx",
+      "args": ["expo", "start", "--ios", "--dev-client"],
+      "env": {
+        "EXPO_USE_DEV_CLIENT": "true",
+        "EXPO_DEBUG": "true"
+      }
+    }
+  }
+}
