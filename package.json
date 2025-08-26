@@ -1,0 +1,31 @@
+{
+  "name": "schoolcierge",
+  "version": "1.0.0",
+  "description": "SchoolCierge - Intelligent school communications platform",
+  "private": true,
+  "scripts": {
+    "task:add": "node .project/scripts/task-manager.js add",
+    "task:update": "node .project/scripts/task-manager.js update",
+    "task:list": "node .project/scripts/task-manager.js list",
+    "task:detail": "node .project/scripts/task-manager.js detail",
+    "task:complete": "node .project/scripts/task-manager.js complete",
+    "task:start": "node .project/scripts/task-manager.js start",
+    "status": "node .project/scripts/status-report.js",
+    "status:html": "node .project/scripts/status-report.js --format html",
+    "status:json": "node .project/scripts/status-report.js --format json",
+    "whats-next": "node .project/scripts/whats-next.js",
+    "visualize": "node .project/scripts/visualize.js",
+    "visualize:gantt": "node .project/scripts/visualize.js gantt",
+    "visualize:deps": "node .project/scripts/visualize.js dependencies",
+    "critical-path": "node .project/scripts/critical-path.js",
+    "sprint:plan": "node .project/scripts/sprint-planner.js create",
+    "sprint:status": "node .project/scripts/sprint-planner.js status",
+    "dashboard": "node .project/scripts/dashboard-server.js",
+    "views:generate": "node .project/scripts/generate-views.js",
+    "validate": "node .project/scripts/validate.js",
+    "security:audit": "node .project/scripts/security-audit.js",
+    "test:task": "node .project/scripts/test-runner.js"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
