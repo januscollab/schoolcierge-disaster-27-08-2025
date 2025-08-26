@@ -1,9 +1,14 @@
+---
+name: admin-common-agent-instructions
+description: Mandatory instructions for all agents regarding ACF requirements
+---
+
 # MANDATORY AGENT INSTRUCTIONS - ACF REQUIREMENTS
 **CRITICAL: These instructions are MANDATORY for ALL agents. No exceptions.**
 
 ---
 
-## =¨ COLLABORATION FEED REQUIREMENTS - NOT OPTIONAL
+## =ï¿½ COLLABORATION FEED REQUIREMENTS - NOT OPTIONAL
 
 ### MANDATORY - Agent Diary Updates
 You MUST use the collaboration feed at `/project/agent-team/pm-agent/agents-collaboration-feed.md` as follows:
@@ -59,7 +64,7 @@ You MUST use the collaboration feed at `/project/agent-team/pm-agent/agents-coll
 
 ---
 
-## <¯ KEY POINTS TO REMEMBER
+## <ï¿½ KEY POINTS TO REMEMBER
 
 ### The ACF is the PROJECT'S HEARTBEAT
 Without proper ACF updates:
@@ -89,7 +94,7 @@ BEFORE writing to ANY file:
 
 ---
 
-##   CONSEQUENCES OF NON-COMPLIANCE
+## ï¿½ CONSEQUENCES OF NON-COMPLIANCE
 
 Failure to follow these ACF requirements:
 - Breaks team coordination
@@ -102,14 +107,14 @@ Failure to follow these ACF requirements:
 
 ---
 
-## =Ý USAGE INSTRUCTIONS
+## =ï¿½ USAGE INSTRUCTIONS
 
 To add these requirements to any agent configuration:
 
 1. Add at the END of the agent file
 2. Include this header:
    ```markdown
-   ## =¨ MANDATORY ACF REQUIREMENTS
+   ## =ï¿½ MANDATORY ACF REQUIREMENTS
    ```
 3. Copy the entire requirements section
 4. Ensure it's clearly marked as mandatory

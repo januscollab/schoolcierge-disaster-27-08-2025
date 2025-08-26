@@ -4,13 +4,15 @@
   "description": "SchoolCierge - Intelligent school communications platform",
   "private": true,
   "scripts": {
+    "help": "node .project/scripts/help.js",
     "task:add": "node .project/scripts/task-manager.js add",
     "task:update": "node .project/scripts/task-manager.js update",
     "task:list": "node .project/scripts/task-manager.js list",
     "task:detail": "node .project/scripts/task-manager.js detail",
     "task:complete": "node .project/scripts/task-manager.js complete",
     "task:start": "node .project/scripts/task-manager.js start",
-    "status": "node .project/scripts/status-report.js",
+    "status": "node .project/scripts/status-report-sexy.js",
+    "status:plain": "node .project/scripts/status-report.js",
     "status:html": "node .project/scripts/status-report.js --format html",
     "status:json": "node .project/scripts/status-report.js --format json",
     "whats-next": "node .project/scripts/whats-next.js",
@@ -20,12 +22,41 @@
     "critical-path": "node .project/scripts/critical-path.js",
     "sprint:plan": "node .project/scripts/sprint-planner.js create",
     "sprint:status": "node .project/scripts/sprint-planner.js status",
-    "dashboard": "node .project/scripts/dashboard-server.js",
+    "dashboard": "node .project/scripts/dashboard-interactive.js",
+    "dashboard:html": "node .project/scripts/dashboard-html.js",
     "views:generate": "node .project/scripts/generate-views.js",
     "validate": "node .project/scripts/validate.js",
     "security:audit": "node .project/scripts/security-audit.js",
-    "test:task": "node .project/scripts/test-runner.js"
+    "test:task": "node .project/scripts/test-runner.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .project/scripts --ext .js",
+    "lint:fix": "eslint .project/scripts --ext .js --fix",
+    "format": "prettier --write '**/*.{js,json,md}'",
+    "format:check": "prettier --check '**/*.{js,json,md}'",
+    "precommit": "npm run lint && npm run test && npm run security:audit",
+    "prepush": "npm run test:coverage && npm run security:audit",
+    "ci": "npm run lint && npm run test:coverage && npm run security:audit"
   },
-  "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.5",
+    "figlet": "^1.8.0",
+    "gradient-string": "^2.0.2",
+    "ora": "^5.4.1",
+    "terminal-kit": "^3.1.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-security": "^3.0.1",
+    "husky": "^9.1.7",
+    "jest": "^30.0.5",
+    "lint-staged": "^16.1.5",
+    "npm-audit-resolver": "^3.0.0-RC.0",
+    "prettier": "^3.6.2"
+  }
 }

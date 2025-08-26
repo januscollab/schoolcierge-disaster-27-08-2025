@@ -1,0 +1,109 @@
+#!/usr/bin/env node
+
+/**
+ * CX - SchoolCierge Task Management CLI
+ * 
+ * This is a wrapper around npm scripts for easier command execution.
+ * Instead of: npm run task:add "Title"
+ * You can use: cx add "Title"
+ */
+
+const { spawn } = require('child_process');
+const path = require('path');
+
+// Get command and arguments
+const [command, ...args] = process.argv.slice(2);
+
+// Map cx commands to npm scripts
+const commandMap = {
+  // Help
+  'help': 'node .project/scripts/help.js',
+  '--help': 'node .project/scripts/help.js',
+  '-h': 'node .project/scripts/help.js',
+  
+  // Task management
+  'add': 'npm run task:add --',
+  'update': 'npm run task:update --',
+  'list': 'npm run task:list --',
+  'ls': 'npm run task:list --',
+  'detail': 'npm run task:detail --',
+  'show': 'npm run task:detail --',
+  'complete': 'npm run task:complete --',
+  'done': 'npm run task:complete --',
+  'start': 'npm run task:start --',
+  'begin': 'npm run task:start --',
+  
+  // Status and visualization
+  'status': 'npm run status',
+  's': 'npm run status',
+  'dashboard': 'npm run dashboard:html',
+  'dash': 'npm run dashboard',
+  'd': 'npm run dashboard',
+  'html': 'npm run dashboard:html',
+  'json': 'npm run status:json',
+  'next': 'npm run whats-next',
+  'whats-next': 'npm run whats-next',
+  'visualize': 'npm run visualize --',
+  'viz': 'npm run visualize --',
+  'gantt': 'npm run visualize:gantt',
+  'deps': 'npm run visualize:deps',
+  'dependencies': 'npm run visualize:deps',
+  'burndown': 'npm run visualize -- burndown',
+  'critical-path': 'npm run critical-path',
+  'critical': 'npm run critical-path',
+  
+  // Sprint management
+  'sprint:new': 'npm run sprint:plan',
+  'sprint:create': 'npm run sprint:plan',
+  'sprint:status': 'npm run sprint:status',
+  'sprint': 'npm run sprint:status',
+  
+  // Advanced
+  'validate': 'npm run validate',
+  'views': 'npm run views:generate',
+  'generate': 'npm run views:generate',
+  'security': 'npm run security:audit',
+  'audit': 'npm run security:audit',
+  'test': 'npm run test:task --',
+};
+
+// Show help if no command
+if (!command) {
+  console.log('SchoolCierge CLI - Use "cx help" for available commands');
+  process.exit(0);
+}
+
+// Get the npm script to run
+let npmCommand = commandMap[command];
+
+// If no direct mapping, try to map it as a npm script
+if (!npmCommand) {
+  // Try direct npm script mapping
+  npmCommand = `npm run ${command}`;
+}
+
+// Build the full command string with properly escaped arguments
+const quotedArgs = args.map(arg => {
+  // Escape single quotes and wrap in single quotes for shell safety
+  return `'${arg.replace(/'/g, "'\\''")}'`;
+});
+
+const fullCommand = args.length > 0 
+  ? `${npmCommand} ${quotedArgs.join(' ')}`
+  : npmCommand;
+
+// Execute the command as a single string (avoids the deprecation warning)
+const child = spawn(fullCommand, {
+  stdio: 'inherit',
+  shell: true,
+  cwd: __dirname
+});
+
+child.on('error', (error) => {
+  console.error(`Error: ${error.message}`);
+  process.exit(1);
+});
+
+child.on('exit', (code) => {
+  process.exit(code);
+});

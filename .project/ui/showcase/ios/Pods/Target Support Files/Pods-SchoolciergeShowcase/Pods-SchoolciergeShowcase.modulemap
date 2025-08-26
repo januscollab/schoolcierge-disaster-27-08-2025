@@ -1,0 +1,6 @@
+module Pods_SchoolciergeShowcase {
+  umbrella header "Pods-SchoolciergeShowcase-umbrella.h"
+
+  export *
+  module * { export * }
+}
