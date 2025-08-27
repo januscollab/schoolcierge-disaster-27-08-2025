@@ -12,6 +12,13 @@
      ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝
 ```
 
+### Variant 1b: Compact Banner (REPORTS & DASHBOARDS)
+```
+ ██████╗██████╗ ███████╗ █████╗ ██╗████████╗███████╗
+██╔════╝██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝██╔════╝
+╚██████╗██║  ██║███████╗██║  ██║██║   ██║   ███████╗
+```
+
 ### Variant 2: Compact Block
 ```
     ▄████▄   ██▀███  ▓█████  ▄▄▄       ██▓▄▄▄█████▓▓█████ 
@@ -31,7 +38,13 @@
     \___/_/ /_/\___/_/_/\__/\___/ 
 ```
 
-### Variant 4: 3D Effect
+### Variant 4: Minimal Inline Version (lowercase with AI emphasis)
+```
+creaite  (standard lowercase)
+CREAITE  (CAPITALS for report headings only)
+```
+
+### Variant 5: 3D Effect
 ```
      ______ ______ ______ ______ __ ______ ______
     |      |   __ |   ___|      |  |      |   ___|
@@ -39,7 +52,7 @@
     |______|___|__|______|______|__| |__| |______|
 ```
 
-### Variant 5: Minimal Line Art
+### Variant 6: Minimal Line Art
 ```
     ┌─┐┬─┐┌─┐┌─┐┬┌┬┐┌─┐
     │  ├┬┘├┤ ├─┤│ │ ├┤ 
@@ -134,6 +147,11 @@ Note: Compact Inline Display must always be bold (dark teal with gold "ai").
 
 ### Terminal/Console
 Use ASCII art banner (UPPERCASE) for splash screens and headers
+
+### Reports & Dashboards  
+**Primary Choice:** Use Variant 4 (Minimal Inline Version) in CAPITALS for report headings: `CREAITE`
+**Alternative:** Use Variant 1 (Main ASCII Banner) for full dashboard headers
+**Note:** Always consult the designer agent for optimal dashboard/report layouts
 
 ### Documentation
 Use standard lowercase: `creaite`

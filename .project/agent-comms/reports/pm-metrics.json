@@ -1,0 +1,37 @@
+{
+  "timestamp": "2025-08-27T19:14:37.622Z",
+  "taskMetrics": {
+    "total": 66,
+    "completed": 6,
+    "inProgress": 0,
+    "blocked": 0,
+    "notStarted": 58
+  },
+  "velocity": {
+    "tasksPerWeek": 6,
+    "tasksPerDay": 0.8571428571428571,
+    "trend": "increasing"
+  },
+  "burndown": {
+    "totalTasks": 66,
+    "completedTasks": 6,
+    "remainingTasks": 60,
+    "completionPercentage": "9.1"
+  },
+  "blockerAnalysis": {
+    "totalBlocked": 0,
+    "chains": [],
+    "criticalBlockers": []
+  },
+  "estimationAccuracy": {
+    "accuracy": "poor",
+    "averageVariance": "61.6",
+    "sampleSize": 5
+  },
+  "priorityDistribution": {
+    "P0": 25,
+    "P1": 11,
+    "P2": 29,
+    "P3": 1
+  }
+}

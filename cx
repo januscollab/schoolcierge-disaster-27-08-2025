@@ -53,7 +53,7 @@ const commandMap = {
   'l': 'npm run live',
   
   // Parallel task management
-  'analyze': 'npm run analyze --',
+  'analyze': 'node .project/scripts/intelligent-analyzer.js',
   'parallel': 'npm run parallel --',
   'p': 'npm run parallel --',
   

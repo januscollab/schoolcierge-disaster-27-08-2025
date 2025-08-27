@@ -1,0 +1,1580 @@
+{
+  "timestamp": "2025-08-27T19:14:34.393Z",
+  "projectName": "SchoolCierge",
+  "totalTasks": 66,
+  "taskBreakdown": {
+    "infrastructure": {
+      "total": 3,
+      "completed": 2,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null
+    },
+    "authentication": {
+      "total": 2,
+      "completed": 0,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null
+    },
+    "backend": {
+      "total": 1,
+      "completed": 1,
+      "inProgress": 0,
+      "blocked": 0
+    },
+    "integration": {
+      "total": 2,
+      "completed": 0,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null
+    },
+    "mobile": {
+      "total": 10,
+      "completed": 2,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null
+    },
+    "devops": {
+      "total": 1,
+      "completed": 1,
+      "inProgress": 0,
+      "blocked": 0
+    },
+    "clara": {
+      "total": 10,
+      "completed": 0,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null,
+      "ready": null
+    },
+    "timer": {
+      "total": 8,
+      "completed": 0,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null
+    },
+    "adapt": {
+      "total": 5,
+      "completed": 0,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null
+    },
+    "admin": {
+      "total": 5,
+      "completed": 0,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null,
+      "ready": null
+    },
+    "general": {
+      "total": 19,
+      "completed": 0,
+      "inProgress": 0,
+      "blocked": 0,
+      "notstarted": null
+    }
+  },
+  "dependencyGraph": {
+    "TASK-001": {
+      "title": "Initialize Railway project with PostgreSQL and Redis",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-002": {
+      "title": "Initialize Railway project with PostgreSQL and Redis",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-003": {
+      "title": "Configure Clerk authentication with social logins",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-004": {
+      "title": "Implement WhatsApp OTP authentication layer",
+      "dependencies": [],
+      "dependents": [
+        {
+          "title": "Configure Mailgun email ingestion webhook",
+          "dependencies": [
+            "TASK-004"
+          ],
+          "dependents": []
+        },
+        {
+          "title": "Set up 2Chat.io WhatsApp Business integration",
+          "dependencies": [
+            "TASK-004"
+          ],
+          "dependents": [
+            {
+              "title": "Build authentication screens",
+              "dependencies": [
+                "TASK-007"
+              ],
+              "dependents": [
+                {
+                  "title": "Build student management interface",
+                  "dependencies": [
+                    "TASK-028"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Build task detail views",
+                      "dependencies": [
+                        "TASK-030"
+                      ],
+                      "dependents": []
+                    },
+                    {
+                      "title": "Configure push notifications",
+                      "dependencies": [
+                        "TASK-030"
+                      ],
+                      "dependents": []
+                    },
+                    {
+                      "title": "Implement offline support with sync",
+                      "dependencies": [
+                        "TASK-030"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Implement pattern recognition",
+                          "dependencies": [
+                            "TASK-035"
+                          ],
+                          "dependents": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "title": "Implement settings and preferences",
+                  "dependencies": [
+                    "TASK-028"
+                  ],
+                  "dependents": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Configure GitHub CI/CD pipeline",
+          "dependencies": [
+            "TASK-004"
+          ],
+          "dependents": []
+        },
+        {
+          "title": "Build school management CRUD",
+          "dependencies": [
+            "TASK-004"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-005": {
+      "title": "Create Express API boilerplate with TypeScript",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-006": {
+      "title": "Configure Mailgun email ingestion webhook",
+      "dependencies": [
+        "TASK-004"
+      ],
+      "dependents": []
+    },
+    "TASK-007": {
+      "title": "Set up 2Chat.io WhatsApp Business integration",
+      "dependencies": [
+        "TASK-004"
+      ],
+      "dependents": [
+        {
+          "title": "Build authentication screens",
+          "dependencies": [
+            "TASK-007"
+          ],
+          "dependents": [
+            {
+              "title": "Build student management interface",
+              "dependencies": [
+                "TASK-028"
+              ],
+              "dependents": [
+                {
+                  "title": "Build task detail views",
+                  "dependencies": [
+                    "TASK-030"
+                  ],
+                  "dependents": []
+                },
+                {
+                  "title": "Configure push notifications",
+                  "dependencies": [
+                    "TASK-030"
+                  ],
+                  "dependents": []
+                },
+                {
+                  "title": "Implement offline support with sync",
+                  "dependencies": [
+                    "TASK-030"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Implement pattern recognition",
+                      "dependencies": [
+                        "TASK-035"
+                      ],
+                      "dependents": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Implement settings and preferences",
+              "dependencies": [
+                "TASK-028"
+              ],
+              "dependents": []
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-008": {
+      "title": "Initialize Expo mobile app project",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-009": {
+      "title": "Configure GitHub CI/CD pipeline",
+      "dependencies": [
+        "TASK-004"
+      ],
+      "dependents": []
+    },
+    "TASK-010": {
+      "title": "Build email ingestion endpoint",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-011": {
+      "title": "Implement CLARA Stage 1: Raw email storage",
+      "dependencies": [],
+      "dependents": [
+        {
+          "title": "Implement CLARA Stage 3: Classification system",
+          "dependencies": [
+            "TASK-011"
+          ],
+          "dependents": [
+            {
+              "title": "Implement CLARA Stage 5: Action identification",
+              "dependencies": [
+                "TASK-013"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement CLARA Stage 7: Personalization",
+                  "dependencies": [
+                    "TASK-015"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Implement CLARA error handling and retry logic",
+                      "dependencies": [
+                        "TASK-017"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Implement WhatsApp message formatting",
+                          "dependencies": [
+                            "TASK-019"
+                          ],
+                          "dependents": [
+                            {
+                              "title": "Implement reminder engine",
+                              "dependencies": [
+                                "TASK-021"
+                              ],
+                              "dependents": [
+                                {
+                                  "title": "Implement multi-parent coordination",
+                                  "dependencies": [
+                                    "TASK-023"
+                                  ],
+                                  "dependents": []
+                                },
+                                {
+                                  "title": "Implement analytics event tracking",
+                                  "dependencies": [
+                                    "TASK-023"
+                                  ],
+                                  "dependents": [
+                                    {
+                                      "title": "Implement family onboarding flow",
+                                      "dependencies": [
+                                        "TASK-027"
+                                      ],
+                                      "dependents": [
+                                        {
+                                          "title": "Create dashboard with task cards",
+                                          "dependencies": [
+                                            "TASK-029"
+                                          ],
+                                          "dependents": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "title": "Build SMS fallback system",
+                              "dependencies": [
+                                "TASK-021"
+                              ],
+                              "dependents": [
+                                {
+                                  "title": "Implement TIMER delivery tracking",
+                                  "dependencies": [
+                                    "TASK-026"
+                                  ],
+                                  "dependents": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "title": "Build task completion tracking",
+                          "dependencies": [
+                            "TASK-019"
+                          ],
+                          "dependents": []
+                        }
+                      ]
+                    },
+                    {
+                      "title": "Create queue monitoring interface",
+                      "dependencies": [
+                        "TASK-017"
+                      ],
+                      "dependents": []
+                    }
+                  ]
+                },
+                {
+                  "title": "Build task generation from CLARA output",
+                  "dependencies": [
+                    "TASK-015"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Build delivery scheduling system",
+                      "dependencies": [
+                        "TASK-020"
+                      ],
+                      "dependents": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Build entity discovery system",
+              "dependencies": [
+                "TASK-013"
+              ],
+              "dependents": [
+                {
+                  "title": "Build preference learning system",
+                  "dependencies": [
+                    "TASK-036"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Build analytics dashboard for ADAPT",
+                      "dependencies": [
+                        "TASK-038"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Build system configuration UI",
+                          "dependencies": [
+                            "TASK-040"
+                          ],
+                          "dependents": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-012": {
+      "title": "Implement CLARA Stage 2: Content extraction",
+      "dependencies": [],
+      "dependents": [
+        {
+          "title": "Implement CLARA Stage 4: Entity extraction",
+          "dependencies": [
+            "TASK-012"
+          ],
+          "dependents": [
+            {
+              "title": "Implement CLARA Stage 6: Smart summarization",
+              "dependencies": [
+                "TASK-014"
+              ],
+              "dependents": []
+            }
+          ]
+        },
+        {
+          "title": "Implement quality monitoring",
+          "dependencies": [
+            "TASK-012"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-013": {
+      "title": "Implement CLARA Stage 3: Classification system",
+      "dependencies": [
+        "TASK-011"
+      ],
+      "dependents": [
+        {
+          "title": "Implement CLARA Stage 5: Action identification",
+          "dependencies": [
+            "TASK-013"
+          ],
+          "dependents": [
+            {
+              "title": "Implement CLARA Stage 7: Personalization",
+              "dependencies": [
+                "TASK-015"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement CLARA error handling and retry logic",
+                  "dependencies": [
+                    "TASK-017"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Implement WhatsApp message formatting",
+                      "dependencies": [
+                        "TASK-019"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Implement reminder engine",
+                          "dependencies": [
+                            "TASK-021"
+                          ],
+                          "dependents": [
+                            {
+                              "title": "Implement multi-parent coordination",
+                              "dependencies": [
+                                "TASK-023"
+                              ],
+                              "dependents": []
+                            },
+                            {
+                              "title": "Implement analytics event tracking",
+                              "dependencies": [
+                                "TASK-023"
+                              ],
+                              "dependents": [
+                                {
+                                  "title": "Implement family onboarding flow",
+                                  "dependencies": [
+                                    "TASK-027"
+                                  ],
+                                  "dependents": [
+                                    {
+                                      "title": "Create dashboard with task cards",
+                                      "dependencies": [
+                                        "TASK-029"
+                                      ],
+                                      "dependents": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "title": "Build SMS fallback system",
+                          "dependencies": [
+                            "TASK-021"
+                          ],
+                          "dependents": [
+                            {
+                              "title": "Implement TIMER delivery tracking",
+                              "dependencies": [
+                                "TASK-026"
+                              ],
+                              "dependents": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "title": "Build task completion tracking",
+                      "dependencies": [
+                        "TASK-019"
+                      ],
+                      "dependents": []
+                    }
+                  ]
+                },
+                {
+                  "title": "Create queue monitoring interface",
+                  "dependencies": [
+                    "TASK-017"
+                  ],
+                  "dependents": []
+                }
+              ]
+            },
+            {
+              "title": "Build task generation from CLARA output",
+              "dependencies": [
+                "TASK-015"
+              ],
+              "dependents": [
+                {
+                  "title": "Build delivery scheduling system",
+                  "dependencies": [
+                    "TASK-020"
+                  ],
+                  "dependents": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Build entity discovery system",
+          "dependencies": [
+            "TASK-013"
+          ],
+          "dependents": [
+            {
+              "title": "Build preference learning system",
+              "dependencies": [
+                "TASK-036"
+              ],
+              "dependents": [
+                {
+                  "title": "Build analytics dashboard for ADAPT",
+                  "dependencies": [
+                    "TASK-038"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Build system configuration UI",
+                      "dependencies": [
+                        "TASK-040"
+                      ],
+                      "dependents": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-014": {
+      "title": "Implement CLARA Stage 4: Entity extraction",
+      "dependencies": [
+        "TASK-012"
+      ],
+      "dependents": [
+        {
+          "title": "Implement CLARA Stage 6: Smart summarization",
+          "dependencies": [
+            "TASK-014"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-015": {
+      "title": "Implement CLARA Stage 5: Action identification",
+      "dependencies": [
+        "TASK-013"
+      ],
+      "dependents": [
+        {
+          "title": "Implement CLARA Stage 7: Personalization",
+          "dependencies": [
+            "TASK-015"
+          ],
+          "dependents": [
+            {
+              "title": "Implement CLARA error handling and retry logic",
+              "dependencies": [
+                "TASK-017"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement WhatsApp message formatting",
+                  "dependencies": [
+                    "TASK-019"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Implement reminder engine",
+                      "dependencies": [
+                        "TASK-021"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Implement multi-parent coordination",
+                          "dependencies": [
+                            "TASK-023"
+                          ],
+                          "dependents": []
+                        },
+                        {
+                          "title": "Implement analytics event tracking",
+                          "dependencies": [
+                            "TASK-023"
+                          ],
+                          "dependents": [
+                            {
+                              "title": "Implement family onboarding flow",
+                              "dependencies": [
+                                "TASK-027"
+                              ],
+                              "dependents": [
+                                {
+                                  "title": "Create dashboard with task cards",
+                                  "dependencies": [
+                                    "TASK-029"
+                                  ],
+                                  "dependents": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "title": "Build SMS fallback system",
+                      "dependencies": [
+                        "TASK-021"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Implement TIMER delivery tracking",
+                          "dependencies": [
+                            "TASK-026"
+                          ],
+                          "dependents": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "title": "Build task completion tracking",
+                  "dependencies": [
+                    "TASK-019"
+                  ],
+                  "dependents": []
+                }
+              ]
+            },
+            {
+              "title": "Create queue monitoring interface",
+              "dependencies": [
+                "TASK-017"
+              ],
+              "dependents": []
+            }
+          ]
+        },
+        {
+          "title": "Build task generation from CLARA output",
+          "dependencies": [
+            "TASK-015"
+          ],
+          "dependents": [
+            {
+              "title": "Build delivery scheduling system",
+              "dependencies": [
+                "TASK-020"
+              ],
+              "dependents": []
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-016": {
+      "title": "Implement CLARA Stage 6: Smart summarization",
+      "dependencies": [
+        "TASK-014"
+      ],
+      "dependents": []
+    },
+    "TASK-017": {
+      "title": "Implement CLARA Stage 7: Personalization",
+      "dependencies": [
+        "TASK-015"
+      ],
+      "dependents": [
+        {
+          "title": "Implement CLARA error handling and retry logic",
+          "dependencies": [
+            "TASK-017"
+          ],
+          "dependents": [
+            {
+              "title": "Implement WhatsApp message formatting",
+              "dependencies": [
+                "TASK-019"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement reminder engine",
+                  "dependencies": [
+                    "TASK-021"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Implement multi-parent coordination",
+                      "dependencies": [
+                        "TASK-023"
+                      ],
+                      "dependents": []
+                    },
+                    {
+                      "title": "Implement analytics event tracking",
+                      "dependencies": [
+                        "TASK-023"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Implement family onboarding flow",
+                          "dependencies": [
+                            "TASK-027"
+                          ],
+                          "dependents": [
+                            {
+                              "title": "Create dashboard with task cards",
+                              "dependencies": [
+                                "TASK-029"
+                              ],
+                              "dependents": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "title": "Build SMS fallback system",
+                  "dependencies": [
+                    "TASK-021"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Implement TIMER delivery tracking",
+                      "dependencies": [
+                        "TASK-026"
+                      ],
+                      "dependents": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Build task completion tracking",
+              "dependencies": [
+                "TASK-019"
+              ],
+              "dependents": []
+            }
+          ]
+        },
+        {
+          "title": "Create queue monitoring interface",
+          "dependencies": [
+            "TASK-017"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-018": {
+      "title": "Set up BullMQ job queue for CLARA pipeline",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-019": {
+      "title": "Implement CLARA error handling and retry logic",
+      "dependencies": [
+        "TASK-017"
+      ],
+      "dependents": [
+        {
+          "title": "Implement WhatsApp message formatting",
+          "dependencies": [
+            "TASK-019"
+          ],
+          "dependents": [
+            {
+              "title": "Implement reminder engine",
+              "dependencies": [
+                "TASK-021"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement multi-parent coordination",
+                  "dependencies": [
+                    "TASK-023"
+                  ],
+                  "dependents": []
+                },
+                {
+                  "title": "Implement analytics event tracking",
+                  "dependencies": [
+                    "TASK-023"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Implement family onboarding flow",
+                      "dependencies": [
+                        "TASK-027"
+                      ],
+                      "dependents": [
+                        {
+                          "title": "Create dashboard with task cards",
+                          "dependencies": [
+                            "TASK-029"
+                          ],
+                          "dependents": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Build SMS fallback system",
+              "dependencies": [
+                "TASK-021"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement TIMER delivery tracking",
+                  "dependencies": [
+                    "TASK-026"
+                  ],
+                  "dependents": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Build task completion tracking",
+          "dependencies": [
+            "TASK-019"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-020": {
+      "title": "Build task generation from CLARA output",
+      "dependencies": [
+        "TASK-015"
+      ],
+      "dependents": [
+        {
+          "title": "Build delivery scheduling system",
+          "dependencies": [
+            "TASK-020"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-021": {
+      "title": "Implement WhatsApp message formatting",
+      "dependencies": [
+        "TASK-019"
+      ],
+      "dependents": [
+        {
+          "title": "Implement reminder engine",
+          "dependencies": [
+            "TASK-021"
+          ],
+          "dependents": [
+            {
+              "title": "Implement multi-parent coordination",
+              "dependencies": [
+                "TASK-023"
+              ],
+              "dependents": []
+            },
+            {
+              "title": "Implement analytics event tracking",
+              "dependencies": [
+                "TASK-023"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement family onboarding flow",
+                  "dependencies": [
+                    "TASK-027"
+                  ],
+                  "dependents": [
+                    {
+                      "title": "Create dashboard with task cards",
+                      "dependencies": [
+                        "TASK-029"
+                      ],
+                      "dependents": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Build SMS fallback system",
+          "dependencies": [
+            "TASK-021"
+          ],
+          "dependents": [
+            {
+              "title": "Implement TIMER delivery tracking",
+              "dependencies": [
+                "TASK-026"
+              ],
+              "dependents": []
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-022": {
+      "title": "Build delivery scheduling system",
+      "dependencies": [
+        "TASK-020"
+      ],
+      "dependents": []
+    },
+    "TASK-023": {
+      "title": "Implement reminder engine",
+      "dependencies": [
+        "TASK-021"
+      ],
+      "dependents": [
+        {
+          "title": "Implement multi-parent coordination",
+          "dependencies": [
+            "TASK-023"
+          ],
+          "dependents": []
+        },
+        {
+          "title": "Implement analytics event tracking",
+          "dependencies": [
+            "TASK-023"
+          ],
+          "dependents": [
+            {
+              "title": "Implement family onboarding flow",
+              "dependencies": [
+                "TASK-027"
+              ],
+              "dependents": [
+                {
+                  "title": "Create dashboard with task cards",
+                  "dependencies": [
+                    "TASK-029"
+                  ],
+                  "dependents": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-024": {
+      "title": "Build task completion tracking",
+      "dependencies": [
+        "TASK-019"
+      ],
+      "dependents": []
+    },
+    "TASK-025": {
+      "title": "Implement multi-parent coordination",
+      "dependencies": [
+        "TASK-023"
+      ],
+      "dependents": []
+    },
+    "TASK-026": {
+      "title": "Build SMS fallback system",
+      "dependencies": [
+        "TASK-021"
+      ],
+      "dependents": [
+        {
+          "title": "Implement TIMER delivery tracking",
+          "dependencies": [
+            "TASK-026"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-027": {
+      "title": "Implement analytics event tracking",
+      "dependencies": [
+        "TASK-023"
+      ],
+      "dependents": [
+        {
+          "title": "Implement family onboarding flow",
+          "dependencies": [
+            "TASK-027"
+          ],
+          "dependents": [
+            {
+              "title": "Create dashboard with task cards",
+              "dependencies": [
+                "TASK-029"
+              ],
+              "dependents": []
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-028": {
+      "title": "Build authentication screens",
+      "dependencies": [
+        "TASK-007"
+      ],
+      "dependents": [
+        {
+          "title": "Build student management interface",
+          "dependencies": [
+            "TASK-028"
+          ],
+          "dependents": [
+            {
+              "title": "Build task detail views",
+              "dependencies": [
+                "TASK-030"
+              ],
+              "dependents": []
+            },
+            {
+              "title": "Configure push notifications",
+              "dependencies": [
+                "TASK-030"
+              ],
+              "dependents": []
+            },
+            {
+              "title": "Implement offline support with sync",
+              "dependencies": [
+                "TASK-030"
+              ],
+              "dependents": [
+                {
+                  "title": "Implement pattern recognition",
+                  "dependencies": [
+                    "TASK-035"
+                  ],
+                  "dependents": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Implement settings and preferences",
+          "dependencies": [
+            "TASK-028"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-029": {
+      "title": "Implement family onboarding flow",
+      "dependencies": [
+        "TASK-027"
+      ],
+      "dependents": [
+        {
+          "title": "Create dashboard with task cards",
+          "dependencies": [
+            "TASK-029"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-030": {
+      "title": "Build student management interface",
+      "dependencies": [
+        "TASK-028"
+      ],
+      "dependents": [
+        {
+          "title": "Build task detail views",
+          "dependencies": [
+            "TASK-030"
+          ],
+          "dependents": []
+        },
+        {
+          "title": "Configure push notifications",
+          "dependencies": [
+            "TASK-030"
+          ],
+          "dependents": []
+        },
+        {
+          "title": "Implement offline support with sync",
+          "dependencies": [
+            "TASK-030"
+          ],
+          "dependents": [
+            {
+              "title": "Implement pattern recognition",
+              "dependencies": [
+                "TASK-035"
+              ],
+              "dependents": []
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-031": {
+      "title": "Create dashboard with task cards",
+      "dependencies": [
+        "TASK-029"
+      ],
+      "dependents": []
+    },
+    "TASK-032": {
+      "title": "Build task detail views",
+      "dependencies": [
+        "TASK-030"
+      ],
+      "dependents": []
+    },
+    "TASK-033": {
+      "title": "Implement settings and preferences",
+      "dependencies": [
+        "TASK-028"
+      ],
+      "dependents": []
+    },
+    "TASK-034": {
+      "title": "Configure push notifications",
+      "dependencies": [
+        "TASK-030"
+      ],
+      "dependents": []
+    },
+    "TASK-035": {
+      "title": "Implement offline support with sync",
+      "dependencies": [
+        "TASK-030"
+      ],
+      "dependents": [
+        {
+          "title": "Implement pattern recognition",
+          "dependencies": [
+            "TASK-035"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-036": {
+      "title": "Build entity discovery system",
+      "dependencies": [
+        "TASK-013"
+      ],
+      "dependents": [
+        {
+          "title": "Build preference learning system",
+          "dependencies": [
+            "TASK-036"
+          ],
+          "dependents": [
+            {
+              "title": "Build analytics dashboard for ADAPT",
+              "dependencies": [
+                "TASK-038"
+              ],
+              "dependents": [
+                {
+                  "title": "Build system configuration UI",
+                  "dependencies": [
+                    "TASK-040"
+                  ],
+                  "dependents": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-037": {
+      "title": "Implement pattern recognition",
+      "dependencies": [
+        "TASK-035"
+      ],
+      "dependents": []
+    },
+    "TASK-038": {
+      "title": "Build preference learning system",
+      "dependencies": [
+        "TASK-036"
+      ],
+      "dependents": [
+        {
+          "title": "Build analytics dashboard for ADAPT",
+          "dependencies": [
+            "TASK-038"
+          ],
+          "dependents": [
+            {
+              "title": "Build system configuration UI",
+              "dependencies": [
+                "TASK-040"
+              ],
+              "dependents": []
+            }
+          ]
+        }
+      ]
+    },
+    "TASK-039": {
+      "title": "Implement quality monitoring",
+      "dependencies": [
+        "TASK-012"
+      ],
+      "dependents": []
+    },
+    "TASK-040": {
+      "title": "Build analytics dashboard for ADAPT",
+      "dependencies": [
+        "TASK-038"
+      ],
+      "dependents": [
+        {
+          "title": "Build system configuration UI",
+          "dependencies": [
+            "TASK-040"
+          ],
+          "dependents": []
+        }
+      ]
+    },
+    "TASK-041": {
+      "title": "Build school management CRUD",
+      "dependencies": [
+        "TASK-004"
+      ],
+      "dependents": []
+    },
+    "TASK-042": {
+      "title": "Create queue monitoring interface",
+      "dependencies": [
+        "TASK-017"
+      ],
+      "dependents": []
+    },
+    "TASK-043": {
+      "title": "Build CLARA pipeline monitoring",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-044": {
+      "title": "Implement TIMER delivery tracking",
+      "dependencies": [
+        "TASK-026"
+      ],
+      "dependents": []
+    },
+    "TASK-045": {
+      "title": "Build system configuration UI",
+      "dependencies": [
+        "TASK-040"
+      ],
+      "dependents": []
+    },
+    "TASK-046": {
+      "title": "Install and configure Redis/BullMQ for job queue system",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-047": {
+      "title": "Initialize Expo mobile app with Tamagui and complete setup",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-048": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-049": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-050": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-051": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-052": {
+      "title": "'Parallel",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-053": {
+      "title": "'Parallel",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-054": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-055": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-056": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-057": {
+      "title": "'Persistence",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-058": {
+      "title": "'Parallel",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-059": {
+      "title": "'Parallel",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-060": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-061": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-062": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-063": {
+      "title": "'Persistence",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-064": {
+      "title": "'Parallel",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-065": {
+      "title": "'Parallel",
+      "dependencies": [],
+      "dependents": []
+    },
+    "TASK-066": {
+      "title": "'Test",
+      "dependencies": [],
+      "dependents": []
+    }
+  },
+  "technicalStack": {
+    "dependencies": [
+      "@clerk/express",
+      "@expo/vector-icons",
+      "@prisma/client",
+      "@react-navigation/bottom-tabs",
+      "@react-navigation/native",
+      "@react-navigation/stack",
+      "@tamagui/animations-react-native",
+      "@tamagui/config",
+      "@tamagui/core",
+      "@tamagui/font-inter",
+      "@tamagui/lucide-icons",
+      "@tamagui/theme-base",
+      "@tanstack/react-query",
+      "axios",
+      "blessed",
+      "blessed-contrib",
+      "boxen",
+      "bullmq",
+      "chalk",
+      "cli-table3",
+      "compression",
+      "cors",
+      "dotenv",
+      "escape-html",
+      "expo",
+      "expo-constants",
+      "expo-font",
+      "expo-linking",
+      "expo-notifications",
+      "expo-router",
+      "expo-splash-screen",
+      "expo-status-bar",
+      "express",
+      "express-mongo-sanitize",
+      "express-rate-limit",
+      "figlet",
+      "gradient-string",
+      "helmet",
+      "ioredis",
+      "ora",
+      "pino",
+      "pino-http",
+      "react",
+      "react-native",
+      "react-native-safe-area-context",
+      "react-native-screens",
+      "tamagui",
+      "terminal-kit",
+      "tslib",
+      "xss",
+      "zod"
+    ],
+    "devDependencies": [
+      "@jest/globals",
+      "@playwright/test",
+      "@types/compression",
+      "@types/cors",
+      "@types/escape-html",
+      "@types/express",
+      "@types/jest",
+      "@types/node",
+      "@typescript-eslint/eslint-plugin",
+      "@typescript-eslint/parser",
+      "eslint",
+      "eslint-config-prettier",
+      "eslint-plugin-security",
+      "husky",
+      "jest",
+      "js-yaml",
+      "lint-staged",
+      "npm-audit-resolver",
+      "pino-pretty",
+      "playwright",
+      "prettier",
+      "prisma",
+      "supertest",
+      "ts-jest",
+      "tsx",
+      "typescript"
+    ],
+    "frameworks": [
+      "Express.js",
+      "React",
+      "React Native",
+      "Expo",
+      "Prisma",
+      "TypeScript"
+    ]
+  },
+  "codebaseSize": {
+    "totalLines": 0,
+    "estimatedComplexity": "Low"
+  },
+  "criticalPath": [
+    {
+      "id": "TASK-001",
+      "title": "Initialize Railway project with PostgreSQL and Redis",
+      "estimatedHours": "4"
+    }
+  ],
+  "riskFactors": [
+    {
+      "type": "estimation",
+      "severity": "medium",
+      "description": "19 tasks lack time estimates"
+    },
+    {
+      "type": "priority",
+      "severity": "high",
+      "description": "Critical P0 tasks are behind schedule"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
     "title": "Initialize Railway project with PostgreSQL and Redis",
     "category": "infrastructure",
     "priority": "P0",
-    "status": "in-progress",
+    "status": "not-started",
     "created_at": "2025-08-26T12:24:58.439Z",
     "product_requirements": {
       "description": "Set up Railway project with PostgreSQL database and Redis for queue management",
@@ -64,9 +64,9 @@
       "integrity_reset": "2025-08-27T12:06:41.129Z",
       "reset_reason": "No implementation found"
     },
-    "progress": 10,
+    "progress": 0,
     "started_at": "2025-08-26T15:16:34.565Z",
-    "updated_at": "2025-08-27T12:06:41.127Z",
+    "updated_at": "2025-08-27T17:59:25.928Z",
     "files_created": [
       "railway.json",
       "railway.toml",
@@ -162,7 +162,7 @@
     "title": "Configure Clerk authentication with social logins",
     "category": "authentication",
     "priority": "P0",
-    "status": "in-progress",
+    "status": "not-started",
     "created_at": "2025-08-26T12:26:55.146Z",
     "product_requirements": {
       "description": "Implement Clerk authentication with Google OAuth and Apple Sign-In as specified in REQ-002",
@@ -200,16 +200,16 @@
       "integrity_reset": "2025-08-27T06:20:33.254Z",
       "reset_reason": "No implementation found"
     },
-    "progress": 10,
+    "progress": 0,
     "started_at": "2025-08-26T16:16:25.722Z",
-    "updated_at": "2025-08-27T06:20:33.254Z"
+    "updated_at": "2025-08-27T17:59:25.971Z"
   },
   {
     "id": "TASK-004",
     "title": "Implement WhatsApp OTP authentication layer",
     "category": "authentication",
     "priority": "P0",
-    "status": "in-progress",
+    "status": "not-started",
     "created_at": "2025-08-26T12:26:55.146Z",
     "product_requirements": {
       "description": "Custom WhatsApp OTP authentication on top of Clerk as primary auth method (REQ-003, REQ-004)",
@@ -247,8 +247,9 @@
       "testing_approach": "",
       "rollback_plan": ""
     },
-    "progress": 10,
-    "started_at": "2025-08-27T13:07:00.518Z"
+    "progress": 0,
+    "started_at": "2025-08-27T13:07:00.518Z",
+    "updated_at": "2025-08-27T17:59:26.005Z"
   },
   {
     "id": "TASK-005",
@@ -3117,5 +3118,45 @@
     },
     "progress": 75,
     "started_at": "2025-08-27T17:44:10.784Z"
+  },
+  {
+    "created_at": "2025-08-27T17:45:34.834Z",
+    "updated_at": "2025-08-27T17:45:34.835Z",
+    "id": "TASK-066",
+    "title": "'Test",
+    "category": "general",
+    "priority": "P2",
+    "status": "not-started",
+    "product_requirements": {
+      "description": "",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": []
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": []
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 0,
+      "complexity": "M",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
   }
 ]

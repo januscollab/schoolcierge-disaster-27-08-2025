@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-08-27T19:06:18.502Z",
+  "projectName": "SchoolCierge",
+  "analysisResults": {
+    "architecture": {
+      "criticalIssues": [],
+      "optimizations": [
+        {
+          "type": "code_reuse",
+          "impact": "medium",
+          "description": "React/React Native/Expo stack allows 70% code sharing",
+          "recommendation": "Implement shared component library and business logic layer",
+          "effort": "medium"
+        }
+      ],
+      "riskAssessment": {
+        "level": "low",
+        "factors": [
+          "19 tasks lack time estimates",
+          "Critical P0 tasks are behind schedule"
+        ]
+      },
+      "architecturalRecommendations": [
+        "Implement event-driven architecture for CLARA pipeline processing",
+        "Add Redis caching layer for improved API performance",
+        "Consider implementing CQRS pattern for read/write separation"
+      ]
+    },
+    "projectManagement": {
+      "timelineRisks": [
+        {
+          "type": "velocity",
+          "severity": "high",
+          "description": "Low completion rate (9.1%) indicates delivery risk",
+          "mitigation": "Focus on completing in-progress tasks before starting new work",
+          "impact": "could delay delivery by 4-6 weeks"
+        }
+      ],
+      "blockers": [],
+      "velocityInsights": {
+        "currentRate": "0.86",
+        "trend": "increasing",
+        "recommendation": "Maintain current velocity and look for optimization opportunities"
+      },
+      "recommendations": [],
+      "healthScore": 80,
+      "nextMilestone": {
+        "estimatedDays": 0,
+        "confidence": "medium"
+      }
+    }
+  },
+  "summary": {
+    "totalTasks": 66,
+    "completionRate": "9.1",
+    "criticalIssues": 1,
+    "recommendations": 1
+  }
+}

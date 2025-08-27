@@ -1,0 +1,28 @@
+{
+  "number": 1,
+  "name": "Sprint 1",
+  "startDate": "2025-08-27T18:45:03.453Z",
+  "endDate": "2025-09-10T18:45:03.455Z",
+  "status": "active",
+  "goals": [
+    "Complete all P0 critical tasks",
+    "Progress on P1 high-priority items",
+    "Maintain code quality and testing"
+  ],
+  "tasks": [
+    "TASK-001",
+    "TASK-003",
+    "TASK-004",
+    "TASK-006",
+    "TASK-007",
+    "TASK-010",
+    "TASK-011",
+    "TASK-012",
+    "TASK-013",
+    "TASK-014"
+  ],
+  "velocity": {
+    "planned": 10,
+    "completed": 0
+  }
+}

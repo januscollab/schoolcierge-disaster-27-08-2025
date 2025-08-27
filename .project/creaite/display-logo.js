@@ -68,6 +68,40 @@ function displayStylizedLogo() {
   }));
 }
 
+// Compact ASCII banner for reports and dashboards
+function displayCompactBanner() {
+  console.log('\n');
+  
+  // Compact ASCII banner (3 lines instead of 6)
+  const compactBanner = `
+ ██████╗██████╗ ███████╗ █████╗ ██╗████████╗███████╗
+██╔════╝██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝██╔════╝
+╚██████╗██║  ██║███████╗██║  ██║██║   ██║   ███████╗`;
+
+  // Split the banner to apply different colors to AI section
+  const lines = compactBanner.split('\n');
+  
+  lines.forEach(line => {
+    if (line.trim() === '') {
+      console.log(line);
+      return;
+    }
+    
+    // Same boundaries as main banner but for compact version
+    const creaPart = line.substring(0, 28);
+    const aiPart = line.substring(28, 39);
+    const tePart = line.substring(39);
+    
+    console.log(
+      cyanGradient(creaPart) + 
+      aiGradient(aiPart) + 
+      cyanGradient(tePart)
+    );
+  });
+  
+  console.log('\n');
+}
+
 // Minimal version for inline use
 function displayMinimalLogo() {
   console.log('\n');
@@ -97,12 +131,16 @@ console.log(chalk.cyan.bold('\n▶ Variant 2: Stylized Figlet Version (lowercase
 console.log(chalk.gray('────────────────────────────────────────────────────────────'));
 displayStylizedLogo();
 
-console.log(chalk.cyan.bold('\n▶ Variant 3: Minimal Inline Version (lowercase with AI emphasis)'));
+console.log(chalk.cyan.bold('\n▶ Variant 3: Compact Banner (UPPERCASE for reports/dashboards)'));
+console.log(chalk.gray('────────────────────────────────────────────────────────────'));
+displayCompactBanner();
+
+console.log(chalk.cyan.bold('\n▶ Variant 4: Minimal Inline Version (lowercase with AI emphasis)'));
 console.log(chalk.gray('────────────────────────────────────────────────────────────'));
 displayMinimalLogo();
 
 // Show text variations
-console.log(chalk.cyan.bold('\n▶ Variant 4: Text Representations'));
+console.log(chalk.cyan.bold('\n▶ Variant 5: Text Representations'));
 console.log(chalk.gray('────────────────────────────────────────────────────────────'));
 console.log('\n  Regular text:        ', chalk.hex('#0e7490')('cre') + chalk.hex('#f59e0b').bold('ai') + chalk.hex('#0e7490')('te'));
 console.log('  With AI emphasis:    ', chalk.hex('#0e7490').bold('cre') + chalk.hex('#f59e0b').bold('ai') + chalk.hex('#0e7490').bold('te'));
@@ -113,4 +151,4 @@ console.log('  In a sentence:       ', chalk.gray('Welcome to'), chalk.white('cr
 console.log(chalk.yellow.bold('\n══════════════════════════════════════════════════════════\n'));
 
 // Export functions for use in other modules
-export { displayMainLogo, displayStylizedLogo, displayMinimalLogo };
+export { displayMainLogo, displayStylizedLogo, displayCompactBanner, displayMinimalLogo };

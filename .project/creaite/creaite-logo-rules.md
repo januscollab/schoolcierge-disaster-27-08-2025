@@ -3,8 +3,10 @@
 ## Typography Rules
 
 ### Rule #1: Case Sensitivity
-- **Lowercase:** `creaite` is ALWAYS written in lowercase in all contexts EXCEPT banners
-- **Uppercase:** Only written as `CREAITE` when displayed in ASCII art banners or logo displays
+- **Lowercase:** `creaite` is ALWAYS written in lowercase in all contexts EXCEPT banners and report headings
+- **Uppercase:** Only written as `CREAITE` when displayed in:
+  - ASCII art banners or logo displays
+  - Report headings (Variant 4: Minimal Inline Version)
 
 ### Rule #2: AI Emphasis
 - The "AI" portion of the name should be visually distinguished when possible
@@ -22,6 +24,7 @@
 - Full Banner: UPPERCASE with ASCII art (dark teal with gold "AI")
 - Inline Text: lowercase always
 - Compact Inline Display: ALWAYS in BOLD with dark teal + gold "ai"
+- **Report Headings: UPPERCASE Variant 4 (CREAITE) for all reports and dashboards**
 - Icons: Emphasize the "ai" portion in gold
 - Taglines: Always lowercase (e.g., "creaite - where ideas become reality")
 
@@ -69,10 +72,37 @@ Optional: cre[ai]te or cre{ai}te for AI emphasis
 - Highlight AI when possible: "cre**ai**te"
 - Use consistent color scheme
 - Maintain the integrity of the wordmark
+- **Consult the designer agent for all dashboard and report layouts**
+- Use UPPERCASE "CREAITE" for report headings only
 
 ❌ **DON'T:**
 - Capitalize first letter: "Creaite" 
-- Use all caps in body text: "CREAITE"
+- Use all caps in body text: "CREAITE" (except report headings)
 - Split or hyphenate the word
 - Change the spelling or add punctuation
 - Rotate, skew, or distort the logo
+- Create dashboard/report layouts without designer agent consultation
+
+## Designer Agent Consultation Required
+
+**MANDATORY**: For all dashboard and report implementations, agents must consult the designer agent to ensure:
+
+### Visual Standards
+- Proper logo placement and sizing
+- Correct color application and contrast
+- Appropriate variant selection (Variant 1 vs Variant 4)
+- Visual hierarchy and spacing
+
+### Brand Consistency
+- Consistent application across all interfaces
+- Proper typography and color usage
+- Accessible design patterns
+- Professional appearance standards
+
+### Layout Optimization
+- Responsive behavior for different terminal sizes
+- User experience best practices
+- Information architecture
+- Performance considerations
+
+The designer agent will provide specific recommendations on layout, spacing, colors, and brand application to ensure all implementations meet creaite's visual standards.
