@@ -1,0 +1,200 @@
+{
+  "timestamp": "2025-08-27T05:31:24.612Z",
+  "summary": {
+    "totalFiles": 41,
+    "testsGenerated": 5,
+    "remainingUntested": 31,
+    "coverageEstimate": 14
+  },
+  "generated": [
+    {
+      "source": "src/api/middleware/auth.js",
+      "test": "/Users/alanmahon/dev.env/projects/schoolcierge/src/__tests__/api/middleware/auth.test.js",
+      "type": "unit"
+    },
+    {
+      "source": "src/api/middleware/errorHandler.js",
+      "test": "/Users/alanmahon/dev.env/projects/schoolcierge/src/__tests__/api/middleware/errorHandler.test.js",
+      "type": "unit"
+    },
+    {
+      "source": ".project/scripts/batch-import-tasks.js",
+      "test": "/Users/alanmahon/dev.env/projects/schoolcierge/.project/scripts/batch-import-tasks.test.js",
+      "type": "unit"
+    },
+    {
+      "source": ".project/scripts/complete-infrastructure-tasks.js",
+      "test": "/Users/alanmahon/dev.env/projects/schoolcierge/.project/scripts/complete-infrastructure-tasks.test.js",
+      "type": "unit"
+    },
+    {
+      "source": ".project/scripts/creaite-brand.js",
+      "test": "/Users/alanmahon/dev.env/projects/schoolcierge/.project/scripts/creaite-brand.test.js",
+      "type": "unit"
+    }
+  ],
+  "remaining": [
+    {
+      "file": ".project/scripts/creaite-logo.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/dashboard-blessed.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/dashboard-html.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/dashboard-interactive.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/dashboard-live-improved.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/dashboard-live.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/dashboard-simple.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/event-ticker.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/generate-views.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/help-sexy.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/help.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/intelligence/AgentRouter.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/intelligence/TaskIntelligence.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/intelligence/WorkflowOrchestrator.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/parallel-analyzer.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/parallel-executor.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/progress-tracker.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/railway-manager.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/railway-worker-mcp.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/security-audit.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/smart-task-starter.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/sprint-planner.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/status-report-sexy.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/status-report.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/task-manager.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/task-starter.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/utils/html-sanitizer.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/verify-security-fixes.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/visualize.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/whats-next.js",
+      "type": "Script",
+      "recommended": "unit"
+    },
+    {
+      "file": ".project/scripts/worker-system.js",
+      "type": "Script",
+      "recommended": "unit"
+    }
+  ],
+  "recommendations": [
+    "Run tests regularly with: npm test",
+    "Monitor coverage with: npm run test:coverage",
+    "Add pre-commit hooks to run tests",
+    "Set coverage thresholds in jest.config.js",
+    "Implement continuous testing in CI/CD"
+  ]
+}

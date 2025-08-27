@@ -1,0 +1,356 @@
+#!/usr/bin/env node
+
+/**
+ * Blessed-based Live Dashboard
+ * Eliminates flickering and alignment issues using proper terminal UI library
+ */
+
+const fs = require('fs');
+const path = require('path');
+const blessed = require('blessed');
+const contrib = require('blessed-contrib');
+const TaskState = require('./task-state-manager');
+
+class BlessedDashboard {
+  constructor() {
+    this.tasksPath = path.join(__dirname, '../tasks/backlog.json');
+    this.tasks = [];
+    this.viewMode = 'overview'; // overview, critical, in-progress, all, completed
+    this.isRunning = true;
+    
+    this.setupScreen();
+    this.createLayout();
+    this.setupKeyHandlers();
+    this.loadTasks();
+  }
+
+  setupScreen() {
+    this.screen = blessed.screen({
+      smartCSR: true,    // Smart Change-Scroll-Region for anti-flicker
+      fastCSR: true,     // Fast CSR optimization
+      fullUnicode: true, // Support unicode characters
+      title: 'CREAITE Live Dashboard'
+    });
+  }
+
+  createLayout() {
+    // Create grid layout
+    this.grid = new contrib.grid({ rows: 12, cols: 12, screen: this.screen });
+
+    // Header
+    this.headerBox = this.grid.set(0, 0, 1, 12, blessed.box, {
+      content: '{center}{bold}CREAITE LIVE DASHBOARD{/bold}{/center}',
+      tags: true,
+      style: {
+        fg: 'cyan',
+        border: { fg: 'cyan' }
+      },
+      border: { type: 'line' }
+    });
+
+    // Status overview (left)
+    this.statusBox = this.grid.set(1, 0, 3, 6, blessed.box, {
+      label: 'STATUS OVERVIEW',
+      tags: true,
+      border: { type: 'line' },
+      style: {
+        fg: 'white',
+        border: { fg: 'cyan' }
+      }
+    });
+
+    // Priority & alerts (right)
+    this.priorityBox = this.grid.set(1, 6, 3, 6, blessed.box, {
+      label: 'PRIORITY & ALERTS',
+      tags: true,
+      border: { type: 'line' },
+      style: {
+        fg: 'white',
+        border: { fg: 'cyan' }
+      }
+    });
+
+    // Tasks list (main area)
+    this.tasksBox = this.grid.set(4, 0, 6, 12, blessed.list, {
+      label: 'TASKS (OVERVIEW)',
+      tags: true,
+      border: { type: 'line' },
+      style: {
+        fg: 'white',
+        border: { fg: 'cyan' },
+        selected: {
+          bg: 'blue',
+          fg: 'white'
+        }
+      },
+      keys: true,
+      vi: true,
+      scrollable: true,
+      alwaysScroll: true,
+      mouse: true
+    });
+
+    // Activity feed
+    this.activityBox = this.grid.set(10, 0, 1, 12, blessed.box, {
+      label: 'ACTIVITY FEED',
+      tags: true,
+      border: { type: 'line' },
+      style: {
+        fg: 'white',
+        border: { fg: 'cyan' }
+      }
+    });
+
+    // Help bar
+    this.helpBox = this.grid.set(11, 0, 1, 12, blessed.box, {
+      content: '{center}[1] Overview  [2] Critical  [3] Active  [4] All  [5] Completed  [↑↓] Scroll  [R] Refresh  [Q] Quit{/center}',
+      tags: true,
+      style: {
+        fg: 'white',
+        bg: 'black'
+      }
+    });
+
+    this.screen.append(this.headerBox);
+    this.screen.append(this.statusBox);
+    this.screen.append(this.priorityBox);
+    this.screen.append(this.tasksBox);
+    this.screen.append(this.activityBox);
+    this.screen.append(this.helpBox);
+  }
+
+  setupKeyHandlers() {
+    // Quit on 'q' or Ctrl+C
+    this.screen.key(['q', 'C-c'], () => {
+      this.quit();
+    });
+
+    // View mode keys
+    this.screen.key('1', () => {
+      this.viewMode = 'overview';
+      this.updateTasks();
+    });
+
+    this.screen.key('2', () => {
+      this.viewMode = 'critical';
+      this.updateTasks();
+    });
+
+    this.screen.key('3', () => {
+      this.viewMode = 'in-progress';
+      this.updateTasks();
+    });
+
+    this.screen.key('4', () => {
+      this.viewMode = 'all';
+      this.updateTasks();
+    });
+
+    this.screen.key('5', () => {
+      this.viewMode = 'completed';
+      this.updateTasks();
+    });
+
+    // Refresh
+    this.screen.key('r', () => {
+      this.loadTasks();
+    });
+
+    // Focus on tasks list
+    this.tasksBox.focus();
+  }
+
+  loadTasks() {
+    try {
+      if (fs.existsSync(this.tasksPath)) {
+        const data = fs.readFileSync(this.tasksPath, 'utf8');
+        this.tasks = JSON.parse(data);
+        this.updateAll();
+      }
+    } catch (error) {
+      this.activityBox.setContent(`Error loading tasks: ${error.message}`);
+      this.screen.render();
+    }
+  }
+
+  updateAll() {
+    this.updateMetrics();
+    this.updateTasks();
+    this.updateActivity();
+    this.screen.render();
+  }
+
+  updateMetrics() {
+    const metrics = this.calculateMetrics();
+    
+    // Update status overview
+    const statusContent = [
+      `{green-fg}✅ Completed:{/green-fg} ${metrics.completed}`,
+      `{yellow-fg}🔄 Active:{/yellow-fg} ${metrics.inProgress}`,
+      `{red-fg}⛔ Blocked:{/red-fg} ${metrics.blocked}`,
+      `{gray-fg}⭕ Pending:{/gray-fg} ${metrics.pending}`,
+      '',
+      `Overall: ${metrics.completionRate}% complete`,
+      `Avg Progress: ${metrics.averageProgress}%`
+    ].join('\\n');
+
+    this.statusBox.setContent(statusContent);
+
+    // Update priority overview
+    const priorityContent = [
+      `{red-fg}🔥 P0:{/red-fg} ${metrics.byPriority.P0}`,
+      `{yellow-fg}⚡ P1:{/yellow-fg} ${metrics.byPriority.P1}`,
+      `{blue-fg}💡 P2:{/blue-fg} ${metrics.byPriority.P2}`,
+      `{gray-fg}📌 P3:{/gray-fg} ${metrics.byPriority.P3}`,
+      '',
+      `{green-fg}📅 Today:{/green-fg} ${metrics.todayCompleted} completed`
+    ].join('\\n');
+
+    this.priorityBox.setContent(priorityContent);
+  }
+
+  updateTasks() {
+    const displayTasks = this.getFilteredTasks();
+    
+    // Update label based on view mode
+    const viewLabel = this.viewMode.toUpperCase();
+    this.tasksBox.setLabel(`TASKS (${viewLabel})`);
+
+    // Format tasks for display - simplified to avoid rendering issues
+    const taskItems = displayTasks.map(task => {
+      const icon = this.getStatusIcon(task.status);
+      const id = task.id.padEnd(12);
+      const title = task.title.substring(0, 50).padEnd(50);
+      const status = task.status === 'completed' && task.completed_at 
+        ? `✅ ${new Date(task.completed_at).toLocaleDateString()}`
+        : task.status === 'in-progress' 
+        ? `${task.progress || 0}%`
+        : task.status;
+      
+      return `${icon} ${id} ${title} ${status}`;
+    });
+
+    this.tasksBox.setItems(taskItems);
+  }
+
+  updateActivity() {
+    const activity = [
+      `[${new Date().toLocaleTimeString()}] Dashboard updated`,
+      `Tasks loaded: ${this.tasks.length}`,
+      `Current view: ${this.viewMode}`
+    ].join('\\n');
+
+    this.activityBox.setContent(activity);
+  }
+
+  calculateMetrics() {
+    const metrics = {
+      total: this.tasks.length,
+      completed: this.tasks.filter(t => t.status === 'completed').length,
+      inProgress: this.tasks.filter(t => t.status === 'in-progress').length,
+      blocked: this.tasks.filter(t => t.status === 'blocked').length,
+      pending: this.tasks.filter(t => t.status === 'not-started').length,
+      byPriority: {
+        P0: this.tasks.filter(t => t.priority === 'P0').length,
+        P1: this.tasks.filter(t => t.priority === 'P1').length,
+        P2: this.tasks.filter(t => t.priority === 'P2').length,
+        P3: this.tasks.filter(t => t.priority === 'P3').length
+      },
+      completionRate: 0,
+      averageProgress: 0,
+      todayCompleted: 0
+    };
+
+    if (metrics.total > 0) {
+      metrics.completionRate = Math.round((metrics.completed / metrics.total) * 100);
+      
+      const inProgressTasks = this.tasks.filter(t => t.status === 'in-progress');
+      if (inProgressTasks.length > 0) {
+        const totalProgress = inProgressTasks.reduce((sum, t) => sum + (t.progress || 0), 0);
+        metrics.averageProgress = Math.round(totalProgress / inProgressTasks.length);
+      }
+
+      // Calculate today's completions
+      const today = new Date().toDateString();
+      metrics.todayCompleted = this.tasks.filter(t => {
+        return t.completed_at && new Date(t.completed_at).toDateString() === today;
+      }).length;
+    }
+
+    return metrics;
+  }
+
+  getFilteredTasks() {
+    switch (this.viewMode) {
+      case 'critical':
+        return this.tasks.filter(t => t.priority === 'P0');
+      case 'in-progress':
+        return this.tasks.filter(t => t.status === 'in-progress');
+      case 'completed':
+        return this.tasks.filter(t => t.status === 'completed')
+          .sort((a, b) => new Date(b.completed_at || 0).getTime() - new Date(a.completed_at || 0).getTime());
+      case 'all':
+        return this.tasks;
+      case 'overview':
+      default:
+        // Show mix: in-progress, then critical, then blocked
+        const inProgress = this.tasks.filter(t => t.status === 'in-progress');
+        const critical = this.tasks.filter(t => t.priority === 'P0' && t.status === 'not-started');
+        const blocked = this.tasks.filter(t => t.status === 'blocked');
+        return [...inProgress, ...critical, ...blocked];
+    }
+  }
+
+  getStatusIcon(status) {
+    switch (status) {
+      case 'completed': return '✅';
+      case 'in-progress': return '🔄';
+      case 'blocked': return '⛔';
+      default: return '⭕';
+    }
+  }
+
+  getPriorityColor(priority) {
+    switch (priority) {
+      case 'P0': return 'red-fg';
+      case 'P1': return 'yellow-fg';
+      case 'P2': return 'blue-fg';
+      case 'P3': return 'gray-fg';
+      default: return 'white-fg';
+    }
+  }
+
+  run() {
+    // Initial load
+    this.loadTasks();
+
+    // Auto-refresh every 2 seconds
+    this.refreshTimer = setInterval(() => {
+      if (this.isRunning) {
+        this.loadTasks();
+      }
+    }, 2000);
+
+    // Watch for file changes
+    fs.watchFile(this.tasksPath, { interval: 500 }, () => {
+      if (this.isRunning) {
+        this.loadTasks();
+      }
+    });
+
+    // Render the screen
+    this.screen.render();
+  }
+
+  quit() {
+    this.isRunning = false;
+    clearInterval(this.refreshTimer);
+    fs.unwatchFile(this.tasksPath);
+    this.screen.destroy();
+    process.exit(0);
+  }
+}
+
+// Run the dashboard
+const dashboard = new BlessedDashboard();
+dashboard.run();

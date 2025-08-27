@@ -1,0 +1,2393 @@
+[
+  {
+    "id": "TASK-001",
+    "title": "Initialize Railway project with PostgreSQL and Redis",
+    "category": "infrastructure",
+    "priority": "P0",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:24:58.439Z",
+    "product_requirements": {
+      "description": "Set up Railway project with PostgreSQL database and Redis for queue management",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.1"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 2, 11"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": "4",
+      "complexity": "M",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": "",
+      "execution_log": [
+        {
+          "timestamp": "2025-08-26T17:24:30.523Z",
+          "progress": 10,
+          "notes": "Starting Railway infrastructure setup with MCP"
+        },
+        {
+          "timestamp": "2025-08-26T17:24:30.528Z",
+          "progress": 25,
+          "notes": "Railway MCP integration planned"
+        },
+        {
+          "timestamp": "2025-08-26T17:24:30.528Z",
+          "progress": 50,
+          "notes": "Waiting for Railway authentication - run: railway login"
+        },
+        {
+          "timestamp": "2025-08-26T17:24:30.528Z",
+          "progress": 75,
+          "notes": "MCP execution plan ready - authentication required"
+        }
+      ],
+      "integrity_reset": "2025-08-27T12:06:41.129Z",
+      "reset_reason": "No implementation found"
+    },
+    "progress": 10,
+    "started_at": "2025-08-26T15:16:34.565Z",
+    "updated_at": "2025-08-27T12:06:41.127Z",
+    "files_created": [
+      "railway.json",
+      "railway.toml",
+      "docker-compose.yml",
+      "Dockerfile",
+      ".env.example",
+      "prisma/schema.prisma"
+    ],
+    "verified": true,
+    "do_not_revert": true,
+    "implementation_verified": true
+  },
+  {
+    "id": "TASK-002",
+    "title": "Initialize Railway project with PostgreSQL and Redis",
+    "category": "infrastructure",
+    "priority": "P0",
+    "status": "completed",
+    "created_at": "2025-08-26T12:26:55.145Z",
+    "product_requirements": {
+      "description": "Set up Railway project with PostgreSQL database for primary data and Redis for BullMQ job queues",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.1",
+        "PAD Infrastructure Stack"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 2: Service Architecture",
+        "Section 11: Service Specifications"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 4,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": "",
+      "execution_log": [
+        {
+          "timestamp": "2025-08-26T17:24:30.529Z",
+          "progress": 10,
+          "notes": "Starting Railway infrastructure setup with MCP"
+        },
+        {
+          "timestamp": "2025-08-26T17:24:30.529Z",
+          "progress": 25,
+          "notes": "Railway MCP integration planned"
+        },
+        {
+          "timestamp": "2025-08-26T17:24:30.530Z",
+          "progress": 50,
+          "notes": "Waiting for Railway authentication - run: railway login"
+        },
+        {
+          "timestamp": "2025-08-26T17:24:30.530Z",
+          "progress": 75,
+          "notes": "MCP execution plan ready - authentication required"
+        }
+      ],
+      "files_created": [
+        "railway.json",
+        "railway.toml"
+      ],
+      "verified": true,
+      "do_not_revert": true,
+      "integrity_reset": "2025-08-27T12:06:41.129Z",
+      "reset_reason": "No implementation found"
+    },
+    "progress": 100,
+    "started_at": "2025-08-26T15:34:36.330Z",
+    "updated_at": "2025-08-27T12:06:41.129Z",
+    "completed_at": "2025-08-27T12:19:01.264Z"
+  },
+  {
+    "id": "TASK-003",
+    "title": "Configure Clerk authentication with social logins",
+    "category": "authentication",
+    "priority": "P0",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Implement Clerk authentication with Google OAuth and Apple Sign-In as specified in REQ-002",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "REQ-002: Email/password authentication with social login options"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 13: Security Architecture"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": "",
+      "integrity_reset": "2025-08-27T06:20:33.254Z",
+      "reset_reason": "No implementation found"
+    },
+    "progress": 10,
+    "started_at": "2025-08-26T16:16:25.722Z",
+    "updated_at": "2025-08-27T06:20:33.254Z"
+  },
+  {
+    "id": "TASK-004",
+    "title": "Implement WhatsApp OTP authentication layer",
+    "category": "authentication",
+    "priority": "P0",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Custom WhatsApp OTP authentication on top of Clerk as primary auth method (REQ-003, REQ-004)",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "REQ-003: Required email verification",
+        "REQ-004: Required phone verification",
+        "PRIMARY METHOD - WhatsApp OTP"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 13: Security Architecture"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 12,
+      "complexity": "XL",
+      "risk_level": "high"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 10,
+    "started_at": "2025-08-27T13:07:00.518Z"
+  },
+  {
+    "id": "TASK-005",
+    "title": "Create Express API boilerplate with TypeScript",
+    "category": "backend",
+    "priority": "P0",
+    "status": "completed",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Set up Express server with TypeScript, middleware, error handling, and API structure",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2: Parent HOME Core Features"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 7: Complete API Specifications"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_created": [
+        "src/api/app.ts",
+        "src/api/server.ts",
+        "src/api/routes/*.ts"
+      ],
+      "notes": "Complete Express API boilerplate with TypeScript, middleware, error handling, validation, logging, security, and Prisma integration",
+      "testing_approach": "Ready for unit and integration tests",
+      "rollback_plan": "Remove src/api directory if needed",
+      "verified": true,
+      "do_not_revert": true,
+      "integrity_reset": "2025-08-27T12:06:41.129Z",
+      "reset_reason": "No implementation found"
+    },
+    "progress": 100,
+    "updated_at": "2025-08-27T12:06:41.129Z",
+    "completed_at": "2025-08-27T12:19:01.266Z"
+  },
+  {
+    "id": "TASK-006",
+    "title": "Configure Mailgun email ingestion webhook",
+    "category": "integration",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Set up Mailgun for receiving forwarded emails with webhook endpoint and verification",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 9.1: Mailgun Integration"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 8.1: Mailgun Email Service"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-004"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-007",
+    "title": "Set up 2Chat.io WhatsApp Business integration",
+    "category": "integration",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Configure 2Chat.io for WhatsApp Business messaging with templates and webhooks",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 9.2: WhatsApp Business Integration via 2Chat.io"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 8.2: 2Chat.io WhatsApp Service"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-004"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-008",
+    "title": "Initialize Expo mobile app project",
+    "category": "mobile",
+    "priority": "P0",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Create Expo SDK 50+ project with TypeScript, navigation, and base structure",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2: Parent HOME",
+        "PAD Mobile Application"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Mobile app requirements"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 4,
+      "complexity": "S",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": "",
+      "integrity_reset": "2025-08-27T06:20:33.271Z",
+      "reset_reason": "No implementation found",
+      "audit_correction": true,
+      "audit_reason": "Mobile dependencies added but no actual app structure - corrected from false completion",
+      "corrected_at": "2025-08-27T13:18:30.861Z"
+    },
+    "progress": 15,
+    "started_at": "2025-08-27T12:50:47.753Z",
+    "updated_at": "2025-08-27T13:18:30.861Z",
+    "integrity_check": {
+      "checked_at": "2025-08-27T12:09:38.513Z",
+      "status": "missing",
+      "reason": "No Expo/React Native implementation found - tests failing"
+    },
+    "completed_at": "2025-08-27T12:50:51.824Z"
+  },
+  {
+    "id": "TASK-009",
+    "title": "Configure GitHub CI/CD pipeline",
+    "category": "devops",
+    "priority": "P1",
+    "status": "completed",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Set up GitHub Actions for testing, building, and deploying to Railway",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.5: Data Management & Compliance"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 16: Deployment Configuration"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-004"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": "",
+      "workflow_id": "workflow-TASK-009-1756238716008",
+      "agent_interactions": 0,
+      "phases_completed": 4,
+      "integrity_reset": "2025-08-27T12:06:41.130Z",
+      "reset_reason": "No implementation found",
+      "files_created": [
+        ".github/workflows/ci.yml"
+      ],
+      "verified": true,
+      "do_not_revert": true
+    },
+    "progress": 100,
+    "started_at": "2025-08-26T20:05:16.005Z",
+    "updated_at": "2025-08-27T12:06:41.130Z",
+    "completed_at": "2025-08-27T12:19:01.266Z"
+  },
+  {
+    "id": "TASK-010",
+    "title": "Build email ingestion endpoint",
+    "category": "clara",
+    "priority": "P0",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Create Mailgun webhook endpoint for receiving and storing raw emails",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.2: CLARA Single-Service Architecture"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.1: CLARA Service Overview"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": "",
+      "workflow_id": "workflow-TASK-010-1756271531523",
+      "agent_interactions": 0,
+      "phases_completed": 5,
+      "integrity_reset": "2025-08-27T06:20:33.288Z",
+      "reset_reason": "No implementation found"
+    },
+    "progress": 10,
+    "updated_at": "2025-08-27T06:20:33.288Z",
+    "started_at": "2025-08-27T05:12:11.520Z"
+  },
+  {
+    "id": "TASK-011",
+    "title": "Implement CLARA Stage 1: Raw email storage",
+    "category": "clara",
+    "priority": "P0",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Store raw email data with metadata in PostgreSQL",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.4: Stage 1 - Raw Data Ingestion"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.2: Processing Pipeline Stages"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 4,
+      "complexity": "S",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 10,
+    "started_at": "2025-08-27T06:21:59.002Z",
+    "updated_at": "2025-08-27T05:07:39.643Z"
+  },
+  {
+    "id": "TASK-012",
+    "title": "Implement CLARA Stage 2: Content extraction",
+    "category": "clara",
+    "priority": "P0",
+    "status": "ready",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Parse email HTML/text, extract body, headers, and attachments",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.4: Stage 2 - Content Extraction"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.2: Processing Pipeline Stages"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-013",
+    "title": "Implement CLARA Stage 3: Classification system",
+    "category": "clara",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Build AI classification for 11 email categories using OpenAI",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.4: Stage 3 - Classification",
+        "Section 8.3: Classification System"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.3: Classification Categories"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-011"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 12,
+      "complexity": "XL",
+      "risk_level": "high"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-014",
+    "title": "Implement CLARA Stage 4: Entity extraction",
+    "category": "clara",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Extract dates, names, amounts, locations from classified emails",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.4: Stage 4 - Entity Extraction"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.4: Entity Extraction"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-012"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-015",
+    "title": "Implement CLARA Stage 5: Action identification",
+    "category": "clara",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Identify required actions from email content and entities",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.4: Stage 5 - Action Identification",
+        "Section 3.8: Action Matrix"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.5: Action Identification"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-013"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-016",
+    "title": "Implement CLARA Stage 6: Smart summarization",
+    "category": "clara",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Generate concise summaries optimized for WhatsApp delivery",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.4: Stage 6 - Smart Summarization"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.6: Summarization"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-014"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-017",
+    "title": "Implement CLARA Stage 7: Personalization",
+    "category": "clara",
+    "priority": "P2",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Apply family preferences and learning to message formatting",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.4: Stage 7 - Personalization"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.7: Personalization"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-015"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 10,
+    "started_at": "2025-08-26T20:23:56.909Z"
+  },
+  {
+    "id": "TASK-018",
+    "title": "Set up BullMQ job queue for CLARA pipeline",
+    "category": "clara",
+    "priority": "P0",
+    "status": "completed",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Configure BullMQ with Redis for async pipeline processing",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.7: Technical Implementation Requirements"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.8: Queue Management"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": "",
+      "workflow_id": "workflow-TASK-018-1756275063406",
+      "agent_interactions": 0,
+      "phases_completed": 5,
+      "files_created": [
+        "src/lib/health-check.ts"
+      ],
+      "verified": true,
+      "do_not_revert": true
+    },
+    "progress": 100,
+    "started_at": "2025-08-27T06:11:03.405Z",
+    "updated_at": "2025-08-27T11:46:23.743Z",
+    "completed_at": "2025-08-27T11:58:40.214Z"
+  },
+  {
+    "id": "TASK-019",
+    "title": "Implement CLARA error handling and retry logic",
+    "category": "clara",
+    "priority": "P1",
+    "status": "in-progress",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Add error handling, retries, and dead letter queue for failed emails",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 3.7: Technical Implementation Requirements"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 15: Error Handling & Recovery"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-017"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 10,
+    "started_at": "2025-08-26T20:14:36.025Z"
+  },
+  {
+    "id": "TASK-020",
+    "title": "Build task generation from CLARA output",
+    "category": "timer",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Convert CLARA-processed emails into actionable tasks with metadata",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 4.3: Task Generation & Lifecycle"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 5.1: TIMER Service Overview"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-015"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-021",
+    "title": "Implement WhatsApp message formatting",
+    "category": "timer",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Format tasks for WhatsApp with emojis, structure, and action buttons",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 4.2: Multi-Channel Task Interface"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 5.2: Message Formatting"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-019"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-022",
+    "title": "Build delivery scheduling system",
+    "category": "timer",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Schedule message delivery based on urgency and preferences",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 4.6: Message Orchestration & Delivery"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 5.3: Delivery Scheduling"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-020"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-023",
+    "title": "Implement reminder engine",
+    "category": "timer",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Build smart reminder system with escalation logic",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 4.5: Intelligent Reminder & Escalation"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 5.4: Reminder System"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-021"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-024",
+    "title": "Build task completion tracking",
+    "category": "timer",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Track task completions via WhatsApp responses and app actions",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 4.4: Action Tracking & Completion"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 5.5: Completion Tracking"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-019"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-025",
+    "title": "Implement multi-parent coordination",
+    "category": "timer",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Handle task assignment and visibility for multiple parents",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 4.8: Family Coordination Features"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 5.6: Multi-Parent Logic"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-023"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-026",
+    "title": "Build SMS fallback system",
+    "category": "timer",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Implement Twilio SMS fallback when WhatsApp fails",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 9.3: SMS Fallback Integration"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 8.3: Twilio SMS Service"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-021"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-027",
+    "title": "Implement analytics event tracking",
+    "category": "timer",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Track delivery, opens, actions for analytics",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 4.7: Performance Metrics & Analytics"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 5.7: Analytics Events"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-023"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-028",
+    "title": "Build authentication screens",
+    "category": "mobile",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "WhatsApp OTP, Google, Apple login screens with Clerk SDK",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "REQ-002 to REQ-007: Authentication requirements"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Mobile authentication flow"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-007"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-029",
+    "title": "Implement family onboarding flow",
+    "category": "mobile",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Multi-step onboarding: family setup, students, preferences, email forwarding",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.1: Family Onboarding System"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Onboarding data models"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-027"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 12,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-030",
+    "title": "Build student management interface",
+    "category": "mobile",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Add, edit, remove students with school associations",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.2: Family Management System"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 3: Data Models - Student"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-028"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-031",
+    "title": "Create dashboard with task cards",
+    "category": "mobile",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Main dashboard showing tasks, urgency indicators, quick actions",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.4: Intelligent Task Dashboard"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Dashboard API endpoints"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-029"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-032",
+    "title": "Build task detail views",
+    "category": "mobile",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Detailed task view with original email, actions, completion",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.4: Task Dashboard components"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Task detail API"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-030"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-033",
+    "title": "Implement settings and preferences",
+    "category": "mobile",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "User preferences, notification settings, communication channels",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.3: User Preferences & Settings"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Preferences data model"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-028"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-034",
+    "title": "Configure push notifications",
+    "category": "mobile",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Set up Expo push notifications for iOS and Android",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 9.5: Push Notification Integration"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Push notification service"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-030"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-035",
+    "title": "Implement offline support with sync",
+    "category": "mobile",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Offline task viewing with background sync when online",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 2.4: Dashboard offline capability"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Offline sync strategy"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-030"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-036",
+    "title": "Build entity discovery system",
+    "category": "adapt",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Discover and learn new entities from email patterns",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 6.1: Entity Discovery & Management"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 12.1: ADAPT Architecture"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-013"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-037",
+    "title": "Implement pattern recognition",
+    "category": "adapt",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Recognize communication patterns and email structures",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 6.1: Pattern detection algorithms"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 12.2: Learning Algorithms"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-035"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 12,
+      "complexity": "XL",
+      "risk_level": "high"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-038",
+    "title": "Build preference learning system",
+    "category": "adapt",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Learn family preferences from interactions",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 6.3: Strategic Evolution Insights"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 12.3: Preference Learning"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-036"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-039",
+    "title": "Implement quality monitoring",
+    "category": "adapt",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Monitor classification accuracy and processing quality",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 6.2: Quality Assurance & Monitoring"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 12.4: Quality Metrics"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-012"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-040",
+    "title": "Build analytics dashboard for ADAPT",
+    "category": "adapt",
+    "priority": "P3",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Dashboard showing learning progress and system insights",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 6.5: Operations Dashboard"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 12.5: ADAPT Dashboard"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-038"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-041",
+    "title": "Build school management CRUD",
+    "category": "admin",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Admin interface for managing schools and configurations",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 7.2: School & App Database Management"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 9.1: Admin API"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-004"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-042",
+    "title": "Create queue monitoring interface",
+    "category": "admin",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Monitor BullMQ queues, job status, and failures",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 7.5: Queue Management Interface"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 9.2: Queue Monitoring"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-017"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-043",
+    "title": "Build CLARA pipeline monitoring",
+    "category": "admin",
+    "priority": "P1",
+    "status": "ready",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Monitor each CLARA stage performance and errors",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 7.1: Admin Dashboard Components"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 9.3: Pipeline Monitoring"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-044",
+    "title": "Implement TIMER delivery tracking",
+    "category": "admin",
+    "priority": "P1",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Track message delivery status and failures",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 7.6: TIMER Analytics Dashboard"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 9.4: Delivery Analytics"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-026"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 8,
+      "complexity": "M",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-045",
+    "title": "Build system configuration UI",
+    "category": "admin",
+    "priority": "P2",
+    "status": "not-started",
+    "created_at": "2025-08-26T12:26:55.146Z",
+    "product_requirements": {
+      "description": "Configure AI providers, thresholds, and system settings",
+      "acceptance_criteria": [],
+      "user_stories": [],
+      "prd_references": [
+        "Section 7.7: AI Provider Configuration"
+      ]
+    },
+    "technical_requirements": {
+      "description": "",
+      "architecture_decisions": [],
+      "technology_stack": [],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 9.5: Configuration Management"
+      ]
+    },
+    "dependencies": {
+      "blocks": [],
+      "blocked_by": [
+        "TASK-040"
+      ],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 10,
+      "complexity": "L",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [],
+      "files_to_create": [],
+      "testing_approach": "",
+      "rollback_plan": ""
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-046",
+    "title": "Install and configure Redis/BullMQ for job queue system",
+    "category": "infrastructure",
+    "priority": "P0",
+    "status": "completed",
+    "created_at": "2025-08-26T20:10:00.000Z",
+    "product_requirements": {
+      "description": "Complete Redis and BullMQ setup for async job processing pipeline",
+      "acceptance_criteria": [
+        "Redis server configuration in docker-compose.yml",
+        "BullMQ installed with TypeScript types",
+        "Queue configuration module created",
+        "Job processor templates ready",
+        "Redis connection utility established",
+        "Environment variables configured"
+      ],
+      "user_stories": [
+        "As a developer, I need Redis running locally for development",
+        "As the system, I need BullMQ to process async jobs reliably"
+      ],
+      "prd_references": [
+        "Section 3.7: Technical Implementation Requirements",
+        "Section 4.8: Queue Management"
+      ]
+    },
+    "technical_requirements": {
+      "description": "Redis server with BullMQ for reliable job processing",
+      "architecture_decisions": [
+        "Use Redis 7+ for stability",
+        "BullMQ for TypeScript-native queue management",
+        "Separate queues for each CLARA stage",
+        "Dead letter queue for failed jobs"
+      ],
+      "technology_stack": [
+        "redis:7-alpine (Docker)",
+        "bullmq: ^5.x",
+        "ioredis: ^5.x",
+        "@types/redis",
+        "@types/ioredis"
+      ],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.8: Queue Management",
+        "Section 15: Error Handling & Recovery"
+      ]
+    },
+    "dependencies": {
+      "blocks": [
+        "TASK-018"
+      ],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 3,
+      "complexity": "S",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [
+        "docker-compose.yml",
+        "package.json",
+        ".env.example"
+      ],
+      "files_to_create": [
+        "src/utils/redis.ts",
+        "src/utils/queue.ts",
+        "src/workers/base.worker.ts",
+        "src/config/redis.config.ts"
+      ],
+      "testing_approach": "Unit tests for queue operations, integration tests for Redis connection",
+      "rollback_plan": "Remove packages and Docker service if issues arise",
+      "suggested_workflow": {
+        "agent": "infrastructure-devops-agent",
+        "mcp_tools": [
+          "mcp__filesystem",
+          "Bash",
+          "Edit"
+        ],
+        "steps": [
+          "1. Add Redis service to docker-compose.yml",
+          "2. Install bullmq and ioredis packages",
+          "3. Create Redis connection utility",
+          "4. Set up base queue configuration",
+          "5. Create worker template",
+          "6. Update environment variables",
+          "7. Test connection and queue operations"
+        ]
+      },
+      "files_created": [
+        "docker-compose.yml",
+        "src/tests/infrastructure.test.ts"
+      ],
+      "verified": true,
+      "do_not_revert": true
+    },
+    "progress": 100,
+    "started_at": "2025-08-26T20:12:52.339Z",
+    "completed_at": "2025-08-26T20:12:57.931Z"
+  },
+  {
+    "id": "TASK-047",
+    "title": "Initialize Expo mobile app with Tamagui and complete setup",
+    "category": "mobile",
+    "priority": "P0",
+    "status": "completed",
+    "created_at": "2025-08-26T20:10:00.000Z",
+    "product_requirements": {
+      "description": "Complete mobile app initialization with Expo SDK 50+, Tamagui UI, and proper project structure",
+      "acceptance_criteria": [
+        "Expo SDK 50+ initialized and configured",
+        "Tamagui UI library integrated",
+        "React Navigation setup complete",
+        "Safe area context configured",
+        "App directory structure created",
+        "TypeScript properly configured for mobile",
+        "Development scripts working",
+        "App runs on iOS/Android simulators"
+      ],
+      "user_stories": [
+        "As a developer, I can run the mobile app locally",
+        "As a user, I can launch the app on my device",
+        "As a designer, I can use Tamagui components consistently"
+      ],
+      "prd_references": [
+        "Section 2: Parent HOME Mobile Application",
+        "PAD Mobile Application Requirements"
+      ]
+    },
+    "technical_requirements": {
+      "description": "Modern React Native app with Expo managed workflow and Tamagui design system",
+      "architecture_decisions": [
+        "Expo SDK 50+ for latest features",
+        "Expo Router for file-based routing",
+        "Tamagui for cross-platform UI consistency",
+        "TypeScript for type safety",
+        "React Query for data fetching",
+        "Expo SecureStore for sensitive data"
+      ],
+      "technology_stack": [
+        "expo: ~50.0.0",
+        "react-native: 0.73.x",
+        "tamagui: ^1.x",
+        "@tamagui/core",
+        "@tamagui/animations-react-native",
+        "expo-router: ~3.x",
+        "react-native-safe-area-context",
+        "react-native-screens",
+        "@tanstack/react-query",
+        "expo-secure-store"
+      ],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Mobile Architecture",
+        "Section 2: Parent HOME"
+      ]
+    },
+    "dependencies": {
+      "blocks": [
+        "TASK-028",
+        "TASK-029",
+        "TASK-030",
+        "TASK-031"
+      ],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [
+        "package.json",
+        "tsconfig.json"
+      ],
+      "files_to_create": [
+        "app.json",
+        "app.config.ts",
+        "app/_layout.tsx",
+        "app/(tabs)/_layout.tsx",
+        "app/(tabs)/index.tsx",
+        "app/(tabs)/tasks.tsx",
+        "app/(tabs)/family.tsx",
+        "app/(tabs)/settings.tsx",
+        "components/ui/Button.tsx",
+        "components/ui/Card.tsx",
+        "components/ui/Input.tsx",
+        "lib/tamagui.config.ts",
+        "lib/api-client.ts",
+        "hooks/useAuth.ts"
+      ],
+      "testing_approach": "Component testing with React Native Testing Library, E2E with Maestro",
+      "rollback_plan": "Keep backup of current state, can reinitialize if needed",
+      "suggested_workflow": {
+        "agent": "mobile-app-agent",
+        "mcp_tools": [
+          "mcp__filesystem",
+          "Bash",
+          "Context7 (for Tamagui docs)"
+        ],
+        "steps": [
+          "1. Initialize Expo app with TypeScript template",
+          "2. Install and configure Tamagui with all dependencies",
+          "3. Set up Expo Router with tab navigation",
+          "4. Create base UI components with Tamagui",
+          "5. Configure safe area and responsive layouts",
+          "6. Set up API client with environment config",
+          "7. Create authentication hooks",
+          "8. Test on iOS and Android simulators",
+          "9. Configure deep linking and navigation"
+        ]
+      },
+      "mobile_specific": {
+        "platforms": [
+          "ios",
+          "android"
+        ],
+        "min_ios_version": "13.0",
+        "min_android_api": "21",
+        "expo_plugins": [
+          "expo-router",
+          "expo-secure-store",
+          "expo-notifications",
+          "expo-updates"
+        ],
+        "tamagui_config": {
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "animations": true,
+          "fonts": [
+            "Inter",
+            "System"
+          ],
+          "responsive": true
+        }
+      }
+    },
+    "progress": 100,
+    "started_at": "2025-08-26T20:12:52.344Z",
+    "completed_at": "2025-08-26T20:12:57.462Z"
+  }
+]

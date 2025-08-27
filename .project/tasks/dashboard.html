@@ -42,8 +42,20 @@
             align-items: center;
         }
         
+        .logo .cre {
+            background: linear-gradient(135deg, #008B8B, #00CED1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
         .logo .ai {
             background: linear-gradient(135deg, #FFD60A, #FFB700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo .te {
+            background: linear-gradient(135deg, #008B8B, #00CED1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -322,6 +334,54 @@
         .gantt-bar.status-blocked { background: linear-gradient(90deg, #f56565, #e53e3e); }
         .gantt-bar.status-not-started { background: linear-gradient(90deg, #a0aec0, #718096); }
         
+        /* Dependency visualization */
+        .gantt-chart-wrapper {
+            position: relative;
+        }
+        
+        .dependency-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .dependency-line {
+            stroke: #4a90e2;
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.6;
+            stroke-dasharray: 5, 3;
+        }
+        
+        .dependency-arrow {
+            fill: #4a90e2;
+            opacity: 0.8;
+        }
+        
+        .gantt-row[data-task-id] {
+            position: relative;
+        }
+        
+        .gantt-bar.has-dependencies {
+            border: 2px solid rgba(74, 144, 226, 0.5);
+        }
+        
+        .dependency-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            z-index: 100;
+            pointer-events: none;
+            display: none;
+        }
+        
         /* What's Next Section */
         .next-actions {
             display: grid;
@@ -381,10 +441,10 @@
     <div class="header">
         <div class="header-content">
             <div class="logo">
-                🚀 Crea<span class="ai">AI</span>te Dashboard
+                🚀 <span class="cre">CRE</span><span class="ai">AI</span><span class="te">TE</span> Dashboard
             </div>
             <div class="last-updated">
-                Last updated: 8/26/2025, 7:26:25 PM
+                Last updated: 8/27/2025, 8:26:31 PM
             </div>
         </div>
     </div>
@@ -405,16 +465,16 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>Overall Progress</h3>
-                    <div class="stat-value">0.0%</div>
-                    <div class="stat-label">0/45 tasks completed</div>
+                    <div class="stat-value">14.9%</div>
+                    <div class="stat-label">7/47 tasks completed</div>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0.0%"></div>
+                        <div class="progress-fill" style="width: 14.9%"></div>
                     </div>
                 </div>
                 
                 <div class="stat-card">
                     <h3>In Progress</h3>
-                    <div class="stat-value">1</div>
+                    <div class="stat-value">7</div>
                     <div class="stat-label">Active tasks</div>
                 </div>
                 
@@ -426,7 +486,7 @@
                 
                 <div class="stat-card">
                     <h3>Daily Velocity</h3>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value">8.3</div>
                     <div class="stat-label">Tasks per day</div>
                 </div>
             </div>
@@ -450,6 +510,96 @@
                         </div>
                     </div>
                 
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-003</span>
+                            <span class="task-title">Configure Clerk authentication with social logins</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P0">P0</span>
+                                <span class="badge status-in-progress">In Progress</span>
+                                <span class="badge">10% complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="width: 150px;">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-004</span>
+                            <span class="task-title">Implement WhatsApp OTP authentication layer</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P0">P0</span>
+                                <span class="badge status-in-progress">In Progress</span>
+                                <span class="badge">10% complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="width: 150px;">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-010</span>
+                            <span class="task-title">Build email ingestion endpoint</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P0">P0</span>
+                                <span class="badge status-in-progress">In Progress</span>
+                                <span class="badge">10% complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="width: 150px;">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-011</span>
+                            <span class="task-title">Implement CLARA Stage 1: Raw email storage</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P0">P0</span>
+                                <span class="badge status-in-progress">In Progress</span>
+                                <span class="badge">10% complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="width: 150px;">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-017</span>
+                            <span class="task-title">Implement CLARA Stage 7: Personalization</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P2">P2</span>
+                                <span class="badge status-in-progress">In Progress</span>
+                                <span class="badge">10% complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="width: 150px;">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-019</span>
+                            <span class="task-title">Implement CLARA error handling and retry logic</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P1">P1</span>
+                                <span class="badge status-in-progress">In Progress</span>
+                                <span class="badge">10% complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="width: 150px;">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                
             </div>
             
             
@@ -458,7 +608,7 @@
                 <div class="category-pills">
                     
                         <div class="category-pill">
-                            🏗️ infrastructure: 2
+                            🏗️ infrastructure: 3
                         </div>
                     
                         <div class="category-pill">
@@ -474,7 +624,7 @@
                         </div>
                     
                         <div class="category-pill">
-                            📱 mobile: 9
+                            📱 mobile: 10
                         </div>
                     
                         <div class="category-pill">
@@ -510,62 +660,12 @@
                     
                         <div class="task-item">
                             <div class="task-info">
-                                <span class="task-id">TASK-001</span>
-                                <span class="task-title">Initialize Railway project with PostgreSQL and Redis</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-001')">
-                            $ cx start TASK-001
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-002</span>
-                                <span class="task-title">Initialize Railway project with PostgreSQL and Redis</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-002')">
-                            $ cx start TASK-002
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-003</span>
-                                <span class="task-title">Configure Clerk authentication with social logins</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-003')">
-                            $ cx start TASK-003
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-004</span>
-                                <span class="task-title">Implement WhatsApp OTP authentication layer</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-004')">
-                            $ cx start TASK-004
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-005</span>
-                                <span class="task-title">Create Express API boilerplate with TypeScript</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-005')">
-                            $ cx start TASK-005
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
                                 <span class="task-id">TASK-006</span>
                                 <span class="task-title">Configure Mailgun email ingestion webhook</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-006')">
-                            $ cx start TASK-006
+                        <div class="command-box" onclick="copyCommand('cx build TASK-006')">
+                            $ cx build TASK-006
                         </div>
                     
                         <div class="task-item">
@@ -574,48 +674,8 @@
                                 <span class="task-title">Set up 2Chat.io WhatsApp Business integration</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-007')">
-                            $ cx start TASK-007
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-008</span>
-                                <span class="task-title">Initialize Expo mobile app project</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-008')">
-                            $ cx start TASK-008
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-010</span>
-                                <span class="task-title">Build email ingestion endpoint</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-010')">
-                            $ cx start TASK-010
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-011</span>
-                                <span class="task-title">Implement CLARA Stage 1: Raw email storage</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-011')">
-                            $ cx start TASK-011
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-012</span>
-                                <span class="task-title">Implement CLARA Stage 2: Content extraction</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-012')">
-                            $ cx start TASK-012
+                        <div class="command-box" onclick="copyCommand('cx build TASK-007')">
+                            $ cx build TASK-007
                         </div>
                     
                         <div class="task-item">
@@ -624,8 +684,8 @@
                                 <span class="task-title">Implement CLARA Stage 3: Classification system</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-013')">
-                            $ cx start TASK-013
+                        <div class="command-box" onclick="copyCommand('cx build TASK-013')">
+                            $ cx build TASK-013
                         </div>
                     
                         <div class="task-item">
@@ -634,8 +694,8 @@
                                 <span class="task-title">Implement CLARA Stage 4: Entity extraction</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-014')">
-                            $ cx start TASK-014
+                        <div class="command-box" onclick="copyCommand('cx build TASK-014')">
+                            $ cx build TASK-014
                         </div>
                     
                         <div class="task-item">
@@ -644,8 +704,8 @@
                                 <span class="task-title">Implement CLARA Stage 5: Action identification</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-015')">
-                            $ cx start TASK-015
+                        <div class="command-box" onclick="copyCommand('cx build TASK-015')">
+                            $ cx build TASK-015
                         </div>
                     
                         <div class="task-item">
@@ -654,18 +714,8 @@
                                 <span class="task-title">Implement CLARA Stage 6: Smart summarization</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-016')">
-                            $ cx start TASK-016
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-018</span>
-                                <span class="task-title">Set up BullMQ job queue for CLARA pipeline</span>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-018')">
-                            $ cx start TASK-018
+                        <div class="command-box" onclick="copyCommand('cx build TASK-016')">
+                            $ cx build TASK-016
                         </div>
                     
                         <div class="task-item">
@@ -674,8 +724,8 @@
                                 <span class="task-title">Build task generation from CLARA output</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-020')">
-                            $ cx start TASK-020
+                        <div class="command-box" onclick="copyCommand('cx build TASK-020')">
+                            $ cx build TASK-020
                         </div>
                     
                         <div class="task-item">
@@ -684,8 +734,8 @@
                                 <span class="task-title">Implement WhatsApp message formatting</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-021')">
-                            $ cx start TASK-021
+                        <div class="command-box" onclick="copyCommand('cx build TASK-021')">
+                            $ cx build TASK-021
                         </div>
                     
                         <div class="task-item">
@@ -694,8 +744,8 @@
                                 <span class="task-title">Build delivery scheduling system</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-022')">
-                            $ cx start TASK-022
+                        <div class="command-box" onclick="copyCommand('cx build TASK-022')">
+                            $ cx build TASK-022
                         </div>
                     
                         <div class="task-item">
@@ -704,8 +754,8 @@
                                 <span class="task-title">Build authentication screens</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-028')">
-                            $ cx start TASK-028
+                        <div class="command-box" onclick="copyCommand('cx build TASK-028')">
+                            $ cx build TASK-028
                         </div>
                     
                         <div class="task-item">
@@ -714,8 +764,8 @@
                                 <span class="task-title">Implement family onboarding flow</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-029')">
-                            $ cx start TASK-029
+                        <div class="command-box" onclick="copyCommand('cx build TASK-029')">
+                            $ cx build TASK-029
                         </div>
                     
                         <div class="task-item">
@@ -724,8 +774,8 @@
                                 <span class="task-title">Build student management interface</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-030')">
-                            $ cx start TASK-030
+                        <div class="command-box" onclick="copyCommand('cx build TASK-030')">
+                            $ cx build TASK-030
                         </div>
                     
                         <div class="task-item">
@@ -734,57 +784,13 @@
                                 <span class="task-title">Create dashboard with task cards</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-031')">
-                            $ cx start TASK-031
+                        <div class="command-box" onclick="copyCommand('cx build TASK-031')">
+                            $ cx build TASK-031
                         </div>
                     
                 </div>
                 
                 
-                
-                <div class="action-card" style="border-left: 4px solid #48bb78;">
-                    <h3>✨ Recommended Next</h3>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-002</span>
-                                <span class="task-title">Initialize Railway project with PostgreSQL and Redis</span>
-                                <div class="task-meta">
-                                    <span class="badge priority-P0">P0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-002')">
-                            $ cx start TASK-002
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-003</span>
-                                <span class="task-title">Configure Clerk authentication with social logins</span>
-                                <div class="task-meta">
-                                    <span class="badge priority-P0">P0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-003')">
-                            $ cx start TASK-003
-                        </div>
-                    
-                        <div class="task-item">
-                            <div class="task-info">
-                                <span class="task-id">TASK-008</span>
-                                <span class="task-title">Initialize Expo mobile app project</span>
-                                <div class="task-meta">
-                                    <span class="badge priority-P0">P0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="command-box" onclick="copyCommand('cx start TASK-008')">
-                            $ cx start TASK-008
-                        </div>
-                    
-                </div>
                 
             </div>
             
@@ -795,288 +801,311 @@
         <div id="gantt" class="tab-content">
             <div class="gantt-container">
                 <h2>📅 Project Timeline</h2>
-                <div class="gantt-chart">
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-001</strong>: Initialize Railway project wit
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-in-progress" 
-                                     style="left: 5.362633353505855%; 
-                                            width: 25.477278558091818%;"
-                                     title="Initialize Railway project with PostgreSQL and Redis (2025-07-27 to 2025-07-28)">
-                                    10%
+                <div class="gantt-chart-wrapper">
+                    <div class="gantt-chart" id="ganttChart">
+                        
+                            <div class="gantt-row" data-task-id="TASK-001" data-index="0">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-001</strong>: Initialize Railway project wit
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-in-progress " 
+                                         data-task="TASK-001"
+                                         style="left: 4.911011122634403%; 
+                                                width: 17.023857024005224%;"
+                                         title="Initialize Railway project with PostgreSQL and Redis (2025-07-28 to 2025-07-29)">
+                                        10%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-002</strong>: Initialize Railway project wit
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 14.877856344108935%; 
-                                            width: 25.92873740560283%;"
-                                     title="Initialize Railway project with PostgreSQL and Redis (2025-07-29 to 2025-07-30)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-002" data-index="1">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-002</strong>: Initialize Railway project wit
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-completed " 
+                                         data-task="TASK-002"
+                                         style="left: 4.275995059871285%; 
+                                                width: 23.434900684919576%;"
+                                         title="Initialize Railway project with PostgreSQL and Redis (2025-08-26 to 2025-08-27)">
+                                        100%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-003</strong>: Configure Clerk authentication
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 3.633137597266989%; 
-                                            width: 12.706365061680584%;"
-                                     title="Configure Clerk authentication with social logins (2025-07-31 to 2025-08-01)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-003" data-index="2">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-003</strong>: Configure Clerk authentication
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-in-progress " 
+                                         data-task="TASK-003"
+                                         style="left: 12.92556576659533%; 
+                                                width: 19.426928667204848%;"
+                                         title="Configure Clerk authentication with social logins (2025-08-01 to 2025-08-02)">
+                                        10%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-004</strong>: Implement WhatsApp OTP authent
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 5.9993201581419875%; 
-                                            width: 24.16142190961972%;"
-                                     title="Implement WhatsApp OTP authentication layer (2025-08-02 to 2025-08-03)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-004" data-index="3">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-004</strong>: Implement WhatsApp OTP authent
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-in-progress " 
+                                         data-task="TASK-004"
+                                         style="left: 8.95838185631578%; 
+                                                width: 10.173890667254105%;"
+                                         title="Implement WhatsApp OTP authentication layer (2025-08-03 to 2025-08-04)">
+                                        10%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-005</strong>: Create Express API boilerplate
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 17.885508810940095%; 
-                                            width: 11.963594635362815%;"
-                                     title="Create Express API boilerplate with TypeScript (2025-08-04 to 2025-08-05)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-005" data-index="4">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-005</strong>: Create Express API boilerplate
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-completed " 
+                                         data-task="TASK-005"
+                                         style="left: 2.8366168295957084%; 
+                                                width: 19.347089098967153%;"
+                                         title="Create Express API boilerplate with TypeScript (2025-08-26 to 2025-08-27)">
+                                        100%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-006</strong>: Configure Mailgun email ingest
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 6.995276550554053%; 
-                                            width: 19.397879176632657%;"
-                                     title="Configure Mailgun email ingestion webhook (2025-08-06 to 2025-08-07)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-006" data-index="5">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-006</strong>: Configure Mailgun email ingest
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-not-started has-dependencies" 
+                                         data-task="TASK-006"
+                                         style="left: 1.1882003850353362%; 
+                                                width: 22.840416103524873%;"
+                                         title="Configure Mailgun email ingestion webhook (2025-08-07 to 2025-08-08)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-007</strong>: Set up 2Chat.io WhatsApp Busin
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 16.702122576878676%; 
-                                            width: 17.60978174296141%;"
-                                     title="Set up 2Chat.io WhatsApp Business integration (2025-08-08 to 2025-08-09)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-007" data-index="6">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-007</strong>: Set up 2Chat.io WhatsApp Busin
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-not-started has-dependencies" 
+                                         data-task="TASK-007"
+                                         style="left: 17.8552062799875%; 
+                                                width: 27.736999130290798%;"
+                                         title="Set up 2Chat.io WhatsApp Business integration (2025-08-09 to 2025-08-10)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-008</strong>: Initialize Expo mobile app pro
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 13.274145399003887%; 
-                                            width: 10.44229460087654%;"
-                                     title="Initialize Expo mobile app project (2025-08-10 to 2025-08-11)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-008" data-index="7">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-008</strong>: Initialize Expo mobile app pro
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-completed " 
+                                         data-task="TASK-008"
+                                         style="left: 14.55997882284597%; 
+                                                width: 24.830786925852443%;"
+                                         title="Initialize Expo mobile app project (2025-08-26 to 2025-08-27)">
+                                        100%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-009</strong>: Configure GitHub CI/CD pipelin
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 11.428788286011125%; 
-                                            width: 23.25118361498032%;"
-                                     title="Configure GitHub CI/CD pipeline (2025-08-12 to 2025-08-13)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-009" data-index="8">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-009</strong>: Configure GitHub CI/CD pipelin
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-completed has-dependencies" 
+                                         data-task="TASK-009"
+                                         style="left: 17.60073876713201%; 
+                                                width: 18.33763411412066%;"
+                                         title="Configure GitHub CI/CD pipeline (2025-08-26 to 2025-08-27)">
+                                        100%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-010</strong>: Build email ingestion endpoint
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 14.973980230206617%; 
-                                            width: 22.89045261949058%;"
-                                     title="Build email ingestion endpoint (2025-08-14 to 2025-08-15)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-010" data-index="9">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-010</strong>: Build email ingestion endpoint
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-in-progress " 
+                                         data-task="TASK-010"
+                                         style="left: 11.004974908992764%; 
+                                                width: 23.164940615217223%;"
+                                         title="Build email ingestion endpoint (2025-08-15 to 2025-08-16)">
+                                        10%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-011</strong>: Implement CLARA Stage 1: Raw e
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 4.6207931678767515%; 
-                                            width: 26.170502464584956%;"
-                                     title="Implement CLARA Stage 1: Raw email storage (2025-08-16 to 2025-08-17)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-011" data-index="10">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-011</strong>: Implement CLARA Stage 1: Raw e
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-in-progress " 
+                                         data-task="TASK-011"
+                                         style="left: 9.93503417313919%; 
+                                                width: 13.707795076630598%;"
+                                         title="Implement CLARA Stage 1: Raw email storage (2025-08-17 to 2025-08-18)">
+                                        10%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-012</strong>: Implement CLARA Stage 2: Conte
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 16.177158903437924%; 
-                                            width: 14.338441401592446%;"
-                                     title="Implement CLARA Stage 2: Content extraction (2025-08-18 to 2025-08-19)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-012" data-index="11">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-012</strong>: Implement CLARA Stage 2: Conte
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-ready " 
+                                         data-task="TASK-012"
+                                         style="left: 14.99648555803997%; 
+                                                width: 17.58271203894873%;"
+                                         title="Implement CLARA Stage 2: Content extraction (2025-08-19 to 2025-08-20)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-013</strong>: Implement CLARA Stage 3: Class
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 11.249214330617392%; 
-                                            width: 13.790243947545878%;"
-                                     title="Implement CLARA Stage 3: Classification system (2025-08-20 to 2025-08-21)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-013" data-index="12">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-013</strong>: Implement CLARA Stage 3: Class
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-not-started has-dependencies" 
+                                         data-task="TASK-013"
+                                         style="left: 14.019580907490692%; 
+                                                width: 15.27728455085381%;"
+                                         title="Implement CLARA Stage 3: Classification system (2025-08-21 to 2025-08-22)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-014</strong>: Implement CLARA Stage 4: Entit
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 9.382528731595094%; 
-                                            width: 12.797826336053802%;"
-                                     title="Implement CLARA Stage 4: Entity extraction (2025-08-22 to 2025-08-23)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-014" data-index="13">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-014</strong>: Implement CLARA Stage 4: Entit
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-not-started has-dependencies" 
+                                         data-task="TASK-014"
+                                         style="left: 4.169520788166226%; 
+                                                width: 19.739780523573224%;"
+                                         title="Implement CLARA Stage 4: Entity extraction (2025-08-23 to 2025-08-24)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-015</strong>: Implement CLARA Stage 5: Actio
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 2.766956023321865%; 
-                                            width: 20.84678063589584%;"
-                                     title="Implement CLARA Stage 5: Action identification (2025-08-24 to 2025-08-25)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-015" data-index="14">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-015</strong>: Implement CLARA Stage 5: Actio
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-not-started has-dependencies" 
+                                         data-task="TASK-015"
+                                         style="left: 6.970405735100278%; 
+                                                width: 15.777941759689922%;"
+                                         title="Implement CLARA Stage 5: Action identification (2025-08-25 to 2025-08-26)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-016</strong>: Implement CLARA Stage 6: Smart
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 2.663117755825517%; 
-                                            width: 17.470965305136232%;"
-                                     title="Implement CLARA Stage 6: Smart summarization (2025-08-26 to 2025-08-27)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-016" data-index="15">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-016</strong>: Implement CLARA Stage 6: Smart
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-not-started has-dependencies" 
+                                         data-task="TASK-016"
+                                         style="left: 16.407002832855685%; 
+                                                width: 19.746482141430214%;"
+                                         title="Implement CLARA Stage 6: Smart summarization (2025-08-27 to 2025-08-28)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-017</strong>: Implement CLARA Stage 7: Perso
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 14.212469536471366%; 
-                                            width: 12.83494902783032%;"
-                                     title="Implement CLARA Stage 7: Personalization (2025-08-28 to 2025-08-29)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-017" data-index="16">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-017</strong>: Implement CLARA Stage 7: Perso
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-in-progress has-dependencies" 
+                                         data-task="TASK-017"
+                                         style="left: 18.48064484358555%; 
+                                                width: 24.506996068991356%;"
+                                         title="Implement CLARA Stage 7: Personalization (2025-08-29 to 2025-08-30)">
+                                        10%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-018</strong>: Set up BullMQ job queue for CL
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 4.591728852992887%; 
-                                            width: 25.861744485170867%;"
-                                     title="Set up BullMQ job queue for CLARA pipeline (2025-08-30 to 2025-08-31)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-018" data-index="17">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-018</strong>: Set up BullMQ job queue for CL
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-completed " 
+                                         data-task="TASK-018"
+                                         style="left: 12.887244092167906%; 
+                                                width: 11.414103651109022%;"
+                                         title="Set up BullMQ job queue for CLARA pipeline (2025-08-26 to 2025-08-27)">
+                                        100%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-019</strong>: Implement CLARA error handling
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 19.041378521191653%; 
-                                            width: 26.228806888960907%;"
-                                     title="Implement CLARA error handling and retry logic (2025-09-01 to 2025-09-02)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-019" data-index="18">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-019</strong>: Implement CLARA error handling
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-in-progress has-dependencies" 
+                                         data-task="TASK-019"
+                                         style="left: 10.427818778732231%; 
+                                                width: 22.13939916351449%;"
+                                         title="Implement CLARA error handling and retry logic (2025-09-02 to 2025-09-03)">
+                                        10%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>TASK-020</strong>: Build task generation from CLA
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-not-started" 
-                                     style="left: 3.540642422800029%; 
-                                            width: 24.578989376001346%;"
-                                     title="Build task generation from CLARA output (2025-09-03 to 2025-09-04)">
-                                    0%
+                        
+                            <div class="gantt-row" data-task-id="TASK-020" data-index="19">
+                                <div class="gantt-task-info">
+                                    <strong>TASK-020</strong>: Build task generation from CLA
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-not-started has-dependencies" 
+                                         data-task="TASK-020"
+                                         style="left: 12.462097421239424%; 
+                                                width: 12.613585345302313%;"
+                                         title="Build task generation from CLARA output (2025-09-04 to 2025-09-05)">
+                                        0%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    
+                        
+                    </div>
+                    <svg class="dependency-svg" id="dependencySvg"></svg>
                 </div>
             </div>
         </div>
@@ -1105,9 +1134,9 @@
                             <span class="task-title">Initialize Railway project with PostgreSQL and Redis</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-completed">completed</span>
                                 <span class="badge">infrastructure</span>
-                                
+                                <span class="badge">100%</span>
                             </div>
                         </div>
                     </div>
@@ -1118,9 +1147,9 @@
                             <span class="task-title">Configure Clerk authentication with social logins</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-in-progress">in progress</span>
                                 <span class="badge">authentication</span>
-                                
+                                <span class="badge">10%</span>
                             </div>
                         </div>
                     </div>
@@ -1131,9 +1160,9 @@
                             <span class="task-title">Implement WhatsApp OTP authentication layer</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-in-progress">in progress</span>
                                 <span class="badge">authentication</span>
-                                
+                                <span class="badge">10%</span>
                             </div>
                         </div>
                     </div>
@@ -1144,9 +1173,9 @@
                             <span class="task-title">Create Express API boilerplate with TypeScript</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-completed">completed</span>
                                 <span class="badge">backend</span>
-                                
+                                <span class="badge">100%</span>
                             </div>
                         </div>
                     </div>
@@ -1183,9 +1212,9 @@
                             <span class="task-title">Initialize Expo mobile app project</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-completed">completed</span>
                                 <span class="badge">mobile</span>
-                                
+                                <span class="badge">100%</span>
                             </div>
                         </div>
                     </div>
@@ -1196,9 +1225,9 @@
                             <span class="task-title">Configure GitHub CI/CD pipeline</span>
                             <div class="task-meta">
                                 <span class="badge priority-P1">P1</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-completed">completed</span>
                                 <span class="badge">devops</span>
-                                
+                                <span class="badge">100%</span>
                             </div>
                         </div>
                     </div>
@@ -1209,9 +1238,9 @@
                             <span class="task-title">Build email ingestion endpoint</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-in-progress">in progress</span>
                                 <span class="badge">clara</span>
-                                
+                                <span class="badge">10%</span>
                             </div>
                         </div>
                     </div>
@@ -1222,9 +1251,9 @@
                             <span class="task-title">Implement CLARA Stage 1: Raw email storage</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-in-progress">in progress</span>
                                 <span class="badge">clara</span>
-                                
+                                <span class="badge">10%</span>
                             </div>
                         </div>
                     </div>
@@ -1235,7 +1264,7 @@
                             <span class="task-title">Implement CLARA Stage 2: Content extraction</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-ready">ready</span>
                                 <span class="badge">clara</span>
                                 
                             </div>
@@ -1300,9 +1329,9 @@
                             <span class="task-title">Implement CLARA Stage 7: Personalization</span>
                             <div class="task-meta">
                                 <span class="badge priority-P2">P2</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-in-progress">in progress</span>
                                 <span class="badge">clara</span>
-                                
+                                <span class="badge">10%</span>
                             </div>
                         </div>
                     </div>
@@ -1313,9 +1342,9 @@
                             <span class="task-title">Set up BullMQ job queue for CLARA pipeline</span>
                             <div class="task-meta">
                                 <span class="badge priority-P0">P0</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-completed">completed</span>
                                 <span class="badge">clara</span>
-                                
+                                <span class="badge">100%</span>
                             </div>
                         </div>
                     </div>
@@ -1326,9 +1355,9 @@
                             <span class="task-title">Implement CLARA error handling and retry logic</span>
                             <div class="task-meta">
                                 <span class="badge priority-P1">P1</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-in-progress">in progress</span>
                                 <span class="badge">clara</span>
-                                
+                                <span class="badge">10%</span>
                             </div>
                         </div>
                     </div>
@@ -1638,7 +1667,7 @@
                             <span class="task-title">Build CLARA pipeline monitoring</span>
                             <div class="task-meta">
                                 <span class="badge priority-P1">P1</span>
-                                <span class="badge status-not-started">not started</span>
+                                <span class="badge status-ready">ready</span>
                                 <span class="badge">admin</span>
                                 
                             </div>
@@ -1671,6 +1700,32 @@
                         </div>
                     </div>
                 
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-046</span>
+                            <span class="task-title">Install and configure Redis/BullMQ for job queue system</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P0">P0</span>
+                                <span class="badge status-completed">completed</span>
+                                <span class="badge">infrastructure</span>
+                                <span class="badge">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="task-item">
+                        <div class="task-info">
+                            <span class="task-id">TASK-047</span>
+                            <span class="task-title">Initialize Expo mobile app with Tamagui and complete setup</span>
+                            <div class="task-meta">
+                                <span class="badge priority-P0">P0</span>
+                                <span class="badge status-completed">completed</span>
+                                <span class="badge">mobile</span>
+                                <span class="badge">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                
             </div>
         </div>
         
@@ -1679,13 +1734,13 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>Average Progress</h3>
-                    <div class="stat-value">0%</div>
+                    <div class="stat-value">16%</div>
                     <div class="stat-label">Across all tasks</div>
                 </div>
                 
                 <div class="stat-card">
                     <h3>Weekly Velocity</h3>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value">58.1</div>
                     <div class="stat-label">Tasks per week</div>
                 </div>
                 
@@ -1694,7 +1749,7 @@
                     <div style="margin-top: 15px;">
                         <div style="display: flex; justify-content: space-between; margin: 5px 0;">
                             <span>P0</span>
-                            <strong>23</strong>
+                            <strong>25</strong>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin: 5px 0;">
                             <span>P1</span>
@@ -1716,11 +1771,11 @@
                     <div style="margin-top: 15px;">
                         <div style="display: flex; justify-content: space-between; margin: 5px 0;">
                             <span>Completed</span>
-                            <strong style="color: #22543d;">0</strong>
+                            <strong style="color: #22543d;">7</strong>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin: 5px 0;">
                             <span>In Progress</span>
-                            <strong style="color: #7c2d12;">1</strong>
+                            <strong style="color: #7c2d12;">7</strong>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin: 5px 0;">
                             <span>Blocked</span>
@@ -1728,7 +1783,7 @@
                         </div>
                         <div style="display: flex; justify-content: space-between; margin: 5px 0;">
                             <span>Not Started</span>
-                            <strong style="color: #4a5568;">44</strong>
+                            <strong style="color: #4a5568;">31</strong>
                         </div>
                     </div>
                 </div>
@@ -1753,6 +1808,11 @@
             
             // Mark button as active
             event.target.classList.add('active');
+            
+            // Draw dependencies if Gantt tab is selected
+            if (tabName === 'gantt') {
+                setTimeout(() => drawDependencies(), 100);
+            }
         }
         
         function copyCommand(command) {
@@ -1769,6 +1829,111 @@
                 }, 1500);
             });
         }
+        
+        function drawDependencies() {
+            const svg = document.getElementById('dependencySvg');
+            if (!svg) return;
+            
+            const ganttChart = document.getElementById('ganttChart');
+            if (!ganttChart) return;
+            
+            // Clear existing dependencies
+            svg.innerHTML = '';
+            
+            // Define task dependencies
+            const dependencies = [
+                { from: 'TASK-001', to: 'TASK-005' },  // Railway setup -> Express API
+                { from: 'TASK-002', to: 'TASK-003' },  // Railway -> Clerk auth
+                { from: 'TASK-003', to: 'TASK-004' },  // Clerk -> WhatsApp OTP
+                { from: 'TASK-005', to: 'TASK-010' },  // Express -> Email ingestion
+                { from: 'TASK-010', to: 'TASK-011' },  // Email endpoint -> CLARA Stage 1
+                { from: 'TASK-011', to: 'TASK-012' },  // CLARA 1 -> CLARA 2
+                { from: 'TASK-012', to: 'TASK-013' },  // CLARA 2 -> CLARA 3
+                { from: 'TASK-013', to: 'TASK-014' },  // CLARA 3 -> CLARA 4
+                { from: 'TASK-014', to: 'TASK-015' },  // CLARA 4 -> CLARA 5
+                { from: 'TASK-015', to: 'TASK-016' },  // CLARA 5 -> CLARA 6
+                { from: 'TASK-016', to: 'TASK-017' },  // CLARA 6 -> CLARA 7
+                { from: 'TASK-006', to: 'TASK-010' },  // Mailgun -> Email ingestion
+                { from: 'TASK-007', to: 'TASK-018' },  // WhatsApp -> BullMQ
+                { from: 'TASK-018', to: 'TASK-019' },  // BullMQ -> Error handling
+                { from: 'TASK-019', to: 'TASK-020' }   // Error handling -> Task generation
+            ];
+            
+            // Set SVG dimensions
+            const chartRect = ganttChart.getBoundingClientRect();
+            svg.setAttribute('width', chartRect.width);
+            svg.setAttribute('height', chartRect.height);
+            
+            // Draw each dependency
+            dependencies.forEach(dep => {
+                const fromRow = document.querySelector('[data-task-id="' + dep.from + '"]');
+                const toRow = document.querySelector('[data-task-id="' + dep.to + '"]');
+                
+                if (fromRow && toRow) {
+                    const fromBar = fromRow.querySelector('.gantt-bar');
+                    const toBar = toRow.querySelector('.gantt-bar');
+                    
+                    if (fromBar && toBar) {
+                        const fromRect = fromBar.getBoundingClientRect();
+                        const toRect = toBar.getBoundingClientRect();
+                        const svgRect = svg.getBoundingClientRect();
+                        
+                        // Calculate positions relative to SVG
+                        const fromX = fromRect.right - svgRect.left;
+                        const fromY = fromRect.top + fromRect.height/2 - svgRect.top;
+                        const toX = toRect.left - svgRect.left;
+                        const toY = toRect.top + toRect.height/2 - svgRect.top;
+                        
+                        // Only draw if there's horizontal space between tasks
+                        if (toX > fromX + 10) {
+                            // Create path for curved connector
+                            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                            const midX = (fromX + toX) / 2;
+                            
+                            // Create a smooth curve
+                            const d = 'M ' + fromX + ' ' + fromY + 
+                                      ' C ' + midX + ' ' + fromY + ', ' +
+                                      midX + ' ' + toY + ', ' +
+                                      (toX - 10) + ' ' + toY +
+                                      ' L ' + toX + ' ' + toY;
+                            
+                            path.setAttribute('d', d);
+                            path.setAttribute('class', 'dependency-line');
+                            svg.appendChild(path);
+                            
+                            // Add arrow head
+                            const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                            const arrowPoints = toX + ',' + toY + ' ' + 
+                                              (toX-8) + ',' + (toY-4) + ' ' + 
+                                              (toX-8) + ',' + (toY+4);
+                            arrow.setAttribute('points', arrowPoints);
+                            arrow.setAttribute('class', 'dependency-arrow');
+                            svg.appendChild(arrow);
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Draw dependencies on load if Gantt tab is visible
+        window.addEventListener('load', () => {
+            const ganttTab = document.getElementById('gantt');
+            if (ganttTab && ganttTab.classList.contains('active')) {
+                setTimeout(() => drawDependencies(), 500);
+            }
+        });
+        
+        // Redraw on window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const ganttTab = document.getElementById('gantt');
+                if (ganttTab && ganttTab.classList.contains('active')) {
+                    drawDependencies();
+                }
+            }, 250);
+        });
         
         // Auto-refresh every 60 seconds
         setTimeout(() => location.reload(), 60000);

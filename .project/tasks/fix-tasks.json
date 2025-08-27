@@ -1,0 +1,216 @@
+[
+  {
+    "id": "TASK-046",
+    "title": "Install and configure Redis/BullMQ for job queue system",
+    "category": "infrastructure",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T20:10:00.000Z",
+    "product_requirements": {
+      "description": "Complete Redis and BullMQ setup for async job processing pipeline",
+      "acceptance_criteria": [
+        "Redis server configuration in docker-compose.yml",
+        "BullMQ installed with TypeScript types",
+        "Queue configuration module created",
+        "Job processor templates ready",
+        "Redis connection utility established",
+        "Environment variables configured"
+      ],
+      "user_stories": [
+        "As a developer, I need Redis running locally for development",
+        "As the system, I need BullMQ to process async jobs reliably"
+      ],
+      "prd_references": [
+        "Section 3.7: Technical Implementation Requirements",
+        "Section 4.8: Queue Management"
+      ]
+    },
+    "technical_requirements": {
+      "description": "Redis server with BullMQ for reliable job processing",
+      "architecture_decisions": [
+        "Use Redis 7+ for stability",
+        "BullMQ for TypeScript-native queue management",
+        "Separate queues for each CLARA stage",
+        "Dead letter queue for failed jobs"
+      ],
+      "technology_stack": [
+        "redis:7-alpine (Docker)",
+        "bullmq: ^5.x",
+        "ioredis: ^5.x",
+        "@types/redis",
+        "@types/ioredis"
+      ],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Section 4.8: Queue Management",
+        "Section 15: Error Handling & Recovery"
+      ]
+    },
+    "dependencies": {
+      "blocks": ["TASK-018"],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 3,
+      "complexity": "S",
+      "risk_level": "low"
+    },
+    "implementation_notes": {
+      "files_to_modify": [
+        "docker-compose.yml",
+        "package.json",
+        ".env.example"
+      ],
+      "files_to_create": [
+        "src/utils/redis.ts",
+        "src/utils/queue.ts",
+        "src/workers/base.worker.ts",
+        "src/config/redis.config.ts"
+      ],
+      "testing_approach": "Unit tests for queue operations, integration tests for Redis connection",
+      "rollback_plan": "Remove packages and Docker service if issues arise",
+      "suggested_workflow": {
+        "agent": "infrastructure-devops-agent",
+        "mcp_tools": ["mcp__filesystem", "Bash", "Edit"],
+        "steps": [
+          "1. Add Redis service to docker-compose.yml",
+          "2. Install bullmq and ioredis packages",
+          "3. Create Redis connection utility",
+          "4. Set up base queue configuration",
+          "5. Create worker template",
+          "6. Update environment variables",
+          "7. Test connection and queue operations"
+        ]
+      }
+    },
+    "progress": 0
+  },
+  {
+    "id": "TASK-047",
+    "title": "Initialize Expo mobile app with Tamagui and complete setup",
+    "category": "mobile",
+    "priority": "P0",
+    "status": "not-started",
+    "created_at": "2025-08-26T20:10:00.000Z",
+    "product_requirements": {
+      "description": "Complete mobile app initialization with Expo SDK 50+, Tamagui UI, and proper project structure",
+      "acceptance_criteria": [
+        "Expo SDK 50+ initialized and configured",
+        "Tamagui UI library integrated",
+        "React Navigation setup complete",
+        "Safe area context configured",
+        "App directory structure created",
+        "TypeScript properly configured for mobile",
+        "Development scripts working",
+        "App runs on iOS/Android simulators"
+      ],
+      "user_stories": [
+        "As a developer, I can run the mobile app locally",
+        "As a user, I can launch the app on my device",
+        "As a designer, I can use Tamagui components consistently"
+      ],
+      "prd_references": [
+        "Section 2: Parent HOME Mobile Application",
+        "PAD Mobile Application Requirements"
+      ]
+    },
+    "technical_requirements": {
+      "description": "Modern React Native app with Expo managed workflow and Tamagui design system",
+      "architecture_decisions": [
+        "Expo SDK 50+ for latest features",
+        "Expo Router for file-based routing",
+        "Tamagui for cross-platform UI consistency",
+        "TypeScript for type safety",
+        "React Query for data fetching",
+        "Expo SecureStore for sensitive data"
+      ],
+      "technology_stack": [
+        "expo: ~50.0.0",
+        "react-native: 0.73.x",
+        "tamagui: ^1.x",
+        "@tamagui/core",
+        "@tamagui/animations-react-native",
+        "expo-router: ~3.x",
+        "react-native-safe-area-context",
+        "react-native-screens",
+        "@tanstack/react-query",
+        "expo-secure-store"
+      ],
+      "api_contracts": {},
+      "data_models": {},
+      "trd_references": [
+        "Mobile Architecture",
+        "Section 2: Parent HOME"
+      ]
+    },
+    "dependencies": {
+      "blocks": ["TASK-028", "TASK-029", "TASK-030", "TASK-031"],
+      "blocked_by": [],
+      "parallel_with": []
+    },
+    "estimates": {
+      "effort_hours": 6,
+      "complexity": "M",
+      "risk_level": "medium"
+    },
+    "implementation_notes": {
+      "files_to_modify": [
+        "package.json",
+        "tsconfig.json"
+      ],
+      "files_to_create": [
+        "app.json",
+        "app.config.ts",
+        "app/_layout.tsx",
+        "app/(tabs)/_layout.tsx",
+        "app/(tabs)/index.tsx",
+        "app/(tabs)/tasks.tsx",
+        "app/(tabs)/family.tsx",
+        "app/(tabs)/settings.tsx",
+        "components/ui/Button.tsx",
+        "components/ui/Card.tsx",
+        "components/ui/Input.tsx",
+        "lib/tamagui.config.ts",
+        "lib/api-client.ts",
+        "hooks/useAuth.ts"
+      ],
+      "testing_approach": "Component testing with React Native Testing Library, E2E with Maestro",
+      "rollback_plan": "Keep backup of current state, can reinitialize if needed",
+      "suggested_workflow": {
+        "agent": "mobile-app-agent",
+        "mcp_tools": ["mcp__filesystem", "Bash", "Context7 (for Tamagui docs)"],
+        "steps": [
+          "1. Initialize Expo app with TypeScript template",
+          "2. Install and configure Tamagui with all dependencies",
+          "3. Set up Expo Router with tab navigation",
+          "4. Create base UI components with Tamagui",
+          "5. Configure safe area and responsive layouts",
+          "6. Set up API client with environment config",
+          "7. Create authentication hooks",
+          "8. Test on iOS and Android simulators",
+          "9. Configure deep linking and navigation"
+        ]
+      },
+      "mobile_specific": {
+        "platforms": ["ios", "android"],
+        "min_ios_version": "13.0",
+        "min_android_api": "21",
+        "expo_plugins": [
+          "expo-router",
+          "expo-secure-store",
+          "expo-notifications",
+          "expo-updates"
+        ],
+        "tamagui_config": {
+          "themes": ["light", "dark"],
+          "animations": true,
+          "fonts": ["Inter", "System"],
+          "responsive": true
+        }
+      }
+    },
+    "progress": 0
+  }
+]

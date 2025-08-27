@@ -133,18 +133,43 @@ class InteractiveDashboard {
   displayCreaiteHeader() {
     console.clear();
     
-    // Display CreaAIte logo with special AI highlighting
+    // CREAITE branding with teal CRE/TE and gold AI
     console.log();
-    console.log(this.creaiteGradient(figlet.textSync('CreaAIte', {
+    
+    // Generate the full ASCII art first
+    const tealGradient = gradient(['#008B8B', '#00CED1', '#40E0D0']);
+    const goldGradient = gradient(['#FFD700', '#FFA500']);
+    
+    const fullLogo = figlet.textSync('CREAITE', {
       font: 'Big',
-      horizontalLayout: 'default'
-    })));
+      horizontalLayout: 'default',
+    });
+    
+    // Split into lines and color each part
+    const lines = fullLogo.split('\n');
+    lines.forEach(line => {
+      if (line.trim()) {
+        // For 'Big' font, approximate positions: CRE (0-29), AI (29-47), TE (47-end)
+        const cre = line.substring(0, 29);
+        const ai = line.substring(29, 47);
+        const te = line.substring(47);
+        
+        // Apply colors directly to text
+        console.log(
+          tealGradient(cre) + 
+          goldGradient(ai) + 
+          tealGradient(te)
+        );
+      } else {
+        console.log(line);
+      }
+    });
     console.log();
     
     console.log(
       boxen(
         chalk.bold.cyan('🚀 Intelligent Development Dashboard') + '\n' +
-        chalk.gray('Powered by ') + this.aiGradient.multiline('AI-driven insights'),
+        chalk.gray('Powered by ') + gradient(['#FFD700', '#FFA500'])('AI-driven insights'),
         {
           padding: 1,
           margin: { top: 1, bottom: 1 },
@@ -177,7 +202,7 @@ class InteractiveDashboard {
           chalk.bold.white(task.id) + ': ' +
           chalk.yellow(task.title)
         );
-        console.log(chalk.gray(`     Command: `) + chalk.cyan(`cx start ${task.id}`));
+        console.log(chalk.gray(`     Command: `) + chalk.cyan(`cx build ${task.id}`));
       });
       console.log();
     }
@@ -231,7 +256,7 @@ class InteractiveDashboard {
           priColor(task.priority),
           chalk.bold(task.id),
           task.title.substring(0, 33),
-          chalk.green(`cx start ${task.id}`)
+          chalk.green(`cx build ${task.id}`)
         ]);
       });
       
@@ -261,7 +286,7 @@ class InteractiveDashboard {
           chalk.bold.red(blocker.id),
           chalk.yellow(blocker.status),
           chalk.white(blocker.blocking.join(', ')),
-          chalk.cyan(`cx start ${blocker.id}`)
+          chalk.cyan(`cx build ${blocker.id}`)
         ]);
       });
       
@@ -314,7 +339,7 @@ class InteractiveDashboard {
       ['cx next', 'Show what to work on next'],
       ['cx list', 'List all tasks with filters'],
       ['cx detail [ID]', 'Show task details'],
-      ['cx start [ID]', 'Start working on a task'],
+      ['cx build [ID]', 'Build and start working on a task'],
       ['cx update [ID]', 'Update task progress'],
       ['cx complete [ID]', 'Mark task as complete'],
       ['cx add "[title]"', 'Add a new task'],
@@ -461,7 +486,7 @@ class InteractiveDashboard {
       chalk.gray('Last updated: ') + 
       chalk.white(new Date().toLocaleString()) +
       chalk.gray(' | ') +
-      this.creaiteGradient('Powered by creAIte') +
+      this.creaiteGradient('Powered by CREAITE') +
       chalk.gray(' | ') +
       chalk.cyan('cx dashboard') +
       chalk.gray(' to refresh')

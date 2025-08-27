@@ -6,6 +6,7 @@ const term = require('terminal-kit').terminal;
 const chalk = require('chalk');
 const gradient = require('gradient-string');
 const boxen = require('boxen');
+const TaskState = require('./task-state-manager');
 
 class LiveDashboard {
   constructor() {

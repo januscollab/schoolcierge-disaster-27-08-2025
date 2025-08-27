@@ -20,7 +20,7 @@ ${color.section('Quick Start:')}
 
 ${color.section('Task Management:')}
   ${color.command('cx add "Task title"')}  ${color.desc('Add a new task')}
-  ${color.command('cx start TASK-001')}    ${color.desc('Start working on a task')}
+  ${color.command('cx build TASK-001')}    ${color.desc('Build and start working on a task')}
   ${color.command('cx update TASK-001')}   ${color.desc('Update task (--progress 50, --status complete)')}
   ${color.command('cx complete TASK-001')} ${color.desc('Mark task as completed')}
   ${color.command('cx detail TASK-001')}   ${color.desc('Show detailed task information')}
@@ -28,16 +28,17 @@ ${color.section('Task Management:')}
   ${color.command('cx list --priority P0')}       ${color.desc('Filter tasks by priority')}
 
 ${color.section('Visualization & Reporting:')}
-  ${color.command('cx status')}            ${color.desc('Markdown progress report')}
+  ${color.command('cx status')}            ${color.desc('Overall progress (excludes completed tasks)')}
+  ${color.command('cx status include-completed')} ${color.desc('Show all tasks including completed')}
+  ${color.command('cx status TASK-001')}   ${color.desc('Show detailed status for single task')}
   ${color.command('cx dashboard')}         ${color.desc('Generate HTML dashboard')}
-  ${color.command('cx gantt')}             ${color.desc('Show Gantt chart')}
+  ${color.command('cx gantt')}             ${color.desc('Interactive terminal Gantt chart')}
   ${color.command('cx deps')}              ${color.desc('Show dependency graph')}
   ${color.command('cx burndown')}          ${color.desc('Show burndown metrics')}
 
 ${color.section('Sprint Planning:')}
   ${color.command('cx sprint:new')}        ${color.desc('Create new sprint')}
   ${color.command('cx sprint:status')}     ${color.desc('Current sprint status')}
-  ${color.command('cx critical-path')}     ${color.desc('Show critical path')}
 
 ${color.section('Advanced Commands:')}
   ${color.command('cx validate')}          ${color.desc('Validate task data integrity')}
@@ -46,8 +47,9 @@ ${color.section('Advanced Commands:')}
 ${color.section('Examples:')}
   ${color.alias('# Start your day')}
   ${color.command('cx status')}            ${color.desc('# Check overall progress')}
+  ${color.command('cx status TASK-001')}   ${color.desc('# Check specific task status')}
   ${color.command('cx next')}              ${color.desc('# See what to work on')}
-  ${color.command('cx start TASK-001')}    ${color.desc('# Begin working on task')}
+  ${color.command('cx build TASK-001')}    ${color.desc('# Begin working on task')}
   
   ${color.alias('# Update progress')}
   ${color.command('cx update TASK-001 --progress 50')}
@@ -80,6 +82,7 @@ ${color.title('Current Project Stats:')}
 // Load and display current stats
 const fs = require('fs');
 const path = require('path');
+const TaskState = require('./task-state-manager');
 const tasksPath = path.join(__dirname, '../tasks/backlog.json');
 
 if (fs.existsSync(tasksPath)) {

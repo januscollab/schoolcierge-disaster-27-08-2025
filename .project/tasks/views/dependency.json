@@ -1,0 +1,354 @@
+{
+  "blockers": [
+    {
+      "id": "TASK-046",
+      "title": "Install and configure Redis/BullMQ for job queue system",
+      "blocks": [
+        "TASK-018"
+      ],
+      "status": "completed"
+    },
+    {
+      "id": "TASK-047",
+      "title": "Initialize Expo mobile app with Tamagui and complete setup",
+      "blocks": [
+        "TASK-028",
+        "TASK-029",
+        "TASK-030",
+        "TASK-031"
+      ],
+      "status": "completed"
+    }
+  ],
+  "blocked": [
+    {
+      "id": "TASK-006",
+      "title": "Configure Mailgun email ingestion webhook",
+      "blockedBy": [
+        "TASK-004"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-007",
+      "title": "Set up 2Chat.io WhatsApp Business integration",
+      "blockedBy": [
+        "TASK-004"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-009",
+      "title": "Configure GitHub CI/CD pipeline",
+      "blockedBy": [
+        "TASK-004"
+      ],
+      "status": "completed"
+    },
+    {
+      "id": "TASK-013",
+      "title": "Implement CLARA Stage 3: Classification system",
+      "blockedBy": [
+        "TASK-011"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-014",
+      "title": "Implement CLARA Stage 4: Entity extraction",
+      "blockedBy": [
+        "TASK-012"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-015",
+      "title": "Implement CLARA Stage 5: Action identification",
+      "blockedBy": [
+        "TASK-013"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-016",
+      "title": "Implement CLARA Stage 6: Smart summarization",
+      "blockedBy": [
+        "TASK-014"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-017",
+      "title": "Implement CLARA Stage 7: Personalization",
+      "blockedBy": [
+        "TASK-015"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "TASK-019",
+      "title": "Implement CLARA error handling and retry logic",
+      "blockedBy": [
+        "TASK-017"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "TASK-020",
+      "title": "Build task generation from CLARA output",
+      "blockedBy": [
+        "TASK-015"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-021",
+      "title": "Implement WhatsApp message formatting",
+      "blockedBy": [
+        "TASK-019"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-022",
+      "title": "Build delivery scheduling system",
+      "blockedBy": [
+        "TASK-020"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-023",
+      "title": "Implement reminder engine",
+      "blockedBy": [
+        "TASK-021"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-024",
+      "title": "Build task completion tracking",
+      "blockedBy": [
+        "TASK-019"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-025",
+      "title": "Implement multi-parent coordination",
+      "blockedBy": [
+        "TASK-023"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-026",
+      "title": "Build SMS fallback system",
+      "blockedBy": [
+        "TASK-021"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-027",
+      "title": "Implement analytics event tracking",
+      "blockedBy": [
+        "TASK-023"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-028",
+      "title": "Build authentication screens",
+      "blockedBy": [
+        "TASK-007"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-029",
+      "title": "Implement family onboarding flow",
+      "blockedBy": [
+        "TASK-027"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-030",
+      "title": "Build student management interface",
+      "blockedBy": [
+        "TASK-028"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-031",
+      "title": "Create dashboard with task cards",
+      "blockedBy": [
+        "TASK-029"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-032",
+      "title": "Build task detail views",
+      "blockedBy": [
+        "TASK-030"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-033",
+      "title": "Implement settings and preferences",
+      "blockedBy": [
+        "TASK-028"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-034",
+      "title": "Configure push notifications",
+      "blockedBy": [
+        "TASK-030"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-035",
+      "title": "Implement offline support with sync",
+      "blockedBy": [
+        "TASK-030"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-036",
+      "title": "Build entity discovery system",
+      "blockedBy": [
+        "TASK-013"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-037",
+      "title": "Implement pattern recognition",
+      "blockedBy": [
+        "TASK-035"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-038",
+      "title": "Build preference learning system",
+      "blockedBy": [
+        "TASK-036"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-039",
+      "title": "Implement quality monitoring",
+      "blockedBy": [
+        "TASK-012"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-040",
+      "title": "Build analytics dashboard for ADAPT",
+      "blockedBy": [
+        "TASK-038"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-041",
+      "title": "Build school management CRUD",
+      "blockedBy": [
+        "TASK-004"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-042",
+      "title": "Create queue monitoring interface",
+      "blockedBy": [
+        "TASK-017"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-044",
+      "title": "Implement TIMER delivery tracking",
+      "blockedBy": [
+        "TASK-026"
+      ],
+      "status": "not-started"
+    },
+    {
+      "id": "TASK-045",
+      "title": "Build system configuration UI",
+      "blockedBy": [
+        "TASK-040"
+      ],
+      "status": "not-started"
+    }
+  ],
+  "standalone": [
+    {
+      "id": "TASK-001",
+      "title": "Initialize Railway project with PostgreSQL and Redis",
+      "status": "in-progress"
+    },
+    {
+      "id": "TASK-002",
+      "title": "Initialize Railway project with PostgreSQL and Redis",
+      "status": "completed"
+    },
+    {
+      "id": "TASK-003",
+      "title": "Configure Clerk authentication with social logins",
+      "status": "in-progress"
+    },
+    {
+      "id": "TASK-004",
+      "title": "Implement WhatsApp OTP authentication layer",
+      "status": "in-progress"
+    },
+    {
+      "id": "TASK-005",
+      "title": "Create Express API boilerplate with TypeScript",
+      "status": "completed"
+    },
+    {
+      "id": "TASK-008",
+      "title": "Initialize Expo mobile app project",
+      "status": "completed"
+    },
+    {
+      "id": "TASK-010",
+      "title": "Build email ingestion endpoint",
+      "status": "in-progress"
+    },
+    {
+      "id": "TASK-011",
+      "title": "Implement CLARA Stage 1: Raw email storage",
+      "status": "in-progress"
+    },
+    {
+      "id": "TASK-012",
+      "title": "Implement CLARA Stage 2: Content extraction",
+      "status": "ready"
+    },
+    {
+      "id": "TASK-018",
+      "title": "Set up BullMQ job queue for CLARA pipeline",
+      "status": "completed"
+    },
+    {
+      "id": "TASK-043",
+      "title": "Build CLARA pipeline monitoring",
+      "status": "ready"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "timestamp": "2025-08-27T16:26:33.146Z",
+  "summary": {
+    "total": 20,
+    "passed": 20,
+    "failed": 0,
+    "successRate": 100
+  },
+  "results": [
+    {
+      "description": "cx help shows help text",
+      "command": "./cx help",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 help\n> node .project/scripts/help-sexy.js\n\n\n   _____ _____  ______          _____ _______ ______ \n  / ____|  __ \\|  ____|   /\\   |_   _|__   __|  ____|\n | |    | |__) | |__     /"
+    },
+    {
+      "description": "cx status shows project status",
+      "command": "./cx status",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 status\n> node .project/scripts/status-report-simple.js\n\n\n🚀 SchoolCierge Status Report\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 OVERALL SUMMARY\n   Total T"
+    },
+    {
+      "description": "cx status excludes completed tasks by default",
+      "command": "./cx status",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 status\n> node .project/scripts/status-report-simple.js\n\n\n🚀 SchoolCierge Status Report\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 OVERALL SUMMARY\n   Total T"
+    },
+    {
+      "description": "cx status include-completed shows all tasks",
+      "command": "./cx status include-completed",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 status\n> node .project/scripts/status-report-simple.js 'include-completed'\n\n\n🚀 SchoolCierge Status Report\n   (including completed tasks)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
+      "description": "cx status TASK-XXX shows single task",
+      "command": "./cx status TASK-001",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 status\n> node .project/scripts/status-report-simple.js 'TASK-001'\n\n\n🔄 TASK-001: Initialize Railway project with PostgreSQL and Redis\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
+      "description": "cx list shows all tasks",
+      "command": "./cx list",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 task:list\n> node .project/scripts/task-manager.js list\n\n\\n📋 Task List\\n==================================================\n🔄 TASK-001: Initialize Railway project with PostgreSQL"
+    },
+    {
+      "description": "cx list --status filters by status",
+      "command": "./cx list --status in-progress",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 task:list\n> node .project/scripts/task-manager.js list '--status' 'in-progress'\n\n\\n📋 Task List\\n==================================================\n🔄 TASK-001: Initialize Railwa"
+    },
+    {
+      "description": "cx list --priority filters by priority",
+      "command": "./cx list --priority P0",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 task:list\n> node .project/scripts/task-manager.js list '--priority' 'P0'\n\n\\n📋 Task List\\n==================================================\n🔄 TASK-001: Initialize Railway proje"
+    },
+    {
+      "description": "cx detail shows task details",
+      "command": "./cx detail TASK-001",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 task:detail\n> node .project/scripts/task-manager.js detail 'TASK-001'\n\n\\n============================================================\nTask Details: TASK-001\n====================="
+    },
+    {
+      "description": "cx next suggests next tasks",
+      "command": "./cx next",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 whats-next\n> node .project/scripts/whats-next.js\n\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n    \u001b[1mcreaite\u001b[0m \u001b[1m\u001b[37m🎯 What to Work on Next\u001b[0m\n━━━━━━━━━"
+    },
+    {
+      "description": "cx dashboard generates HTML dashboard",
+      "command": "./cx dashboard",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 dashboard:html\n> node .project/scripts/dashboard-html.js\n\n\n📊 Dashboard saved to: /Users/alanmahon/dev.env/projects/schoolcierge/.project/tasks/dashboard.html\n🌐 Open in browser:"
+    },
+    {
+      "description": "cx test runs tests",
+      "command": "./cx test TASK-009",
+      "passed": true,
+      "reason": "",
+      "output": "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n    \u001b[1mcreaite\u001b[0m \u001b[1m🧪 Test Runner\u001b[0m\n\u001b[36m    🎯 Testing: TASK-009\u001b[0m\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+    },
+    {
+      "description": "cx validate checks data integrity",
+      "command": "./cx validate",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 validate\n> node .project/scripts/integrity-checker.js\n\n\n🔍 TASK INTEGRITY CHECK\n════════════════════════════════════════════════════════════════════════════════\n\n❌ TASK-002: FALS"
+    },
+    {
+      "description": "cx views regenerates views",
+      "command": "./cx views",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 views:generate\n> node .project/scripts/generate-views.js\n\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\u001b[1mcreaite\u001b[0m \u001b[1m📊 Views Generator\u001b[0m\n━━━━━━━━━━━━━━━"
+    },
+    {
+      "description": "cx update validates arguments",
+      "command": "./cx update TASK-999 --progress 50",
+      "passed": true,
+      "reason": "",
+      "output": "\n> schoolcierge@1.0.0 task:update\n> node .project/scripts/task-manager.js update 'TASK-999' '--progress' '50'\n\n"
+    },
+    {
+      "description": "backlog.json exists",
+      "command": "ls .project/tasks/backlog.json",
+      "passed": true,
+      "reason": "",
+      "output": ".project/tasks/backlog.json\n"
+    },
+    {
+      "description": "task-manager.js exists",
+      "command": "ls .project/scripts/task-manager.js",
+      "passed": true,
+      "reason": "",
+      "output": ".project/scripts/task-manager.js\n"
+    },
+    {
+      "description": "test-runner.js exists",
+      "command": "ls .project/scripts/test-runner.js",
+      "passed": true,
+      "reason": "",
+      "output": ".project/scripts/test-runner.js\n"
+    },
+    {
+      "description": "cx script is executable",
+      "command": "ls -la cx",
+      "passed": true,
+      "reason": "",
+      "output": "-rwxr-xr-x@ 1 alanmahon  staff  3858 Aug 27 17:10 cx\n"
+    },
+    {
+      "description": "cx without args shows help",
+      "command": "./cx",
+      "passed": true,
+      "reason": "",
+      "output": "SchoolCierge CLI - Use \"cx help\" for available commands\n"
+    }
+  ]
+}

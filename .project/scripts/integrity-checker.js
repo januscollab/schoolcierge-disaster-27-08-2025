@@ -1,0 +1,257 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const { logEvent } = require('./event-ticker');
+const TaskState = require('./task-state-manager');
+
+class IntegrityChecker {
+  constructor() {
+    this.tasksPath = path.join(__dirname, '../tasks/backlog.json');
+    this.srcPath = path.join(__dirname, '../../src');
+    
+    // Define implementation expectations for each task
+    this.implementationMap = {
+      'TASK-001': { files: ['railway.json', 'railway.toml'], type: 'any' },
+      'TASK-002': { files: ['railway.json', 'railway.toml'], type: 'any' },
+      'TASK-003': { patterns: ['@clerk'], type: 'code' },
+      'TASK-004': { patterns: ['whatsapp.*otp', 'otp.*auth'], type: 'code' },
+      'TASK-005': { files: ['src/api/app.ts', 'src/api/server.ts'], type: 'any' },
+      'TASK-006': { patterns: ['mailgun.*webhook'], type: 'code' },
+      'TASK-007': { patterns: ['2chat', 'whatsapp.*business'], type: 'code' },
+      'TASK-008': { files: ['prisma/schema.prisma'], type: 'file' },
+      'TASK-009': { files: ['.github/workflows'], type: 'directory' },
+      'TASK-010': { patterns: ['email.*ingestion', 'mailgun.*endpoint'], type: 'code' },
+      'TASK-011': { files: ['src/clara', 'src/api/routes/email-storage.ts'], type: 'any' },
+      'TASK-012': { patterns: ['content.*extract', 'email.*parse'], type: 'code' },
+      'TASK-013': { patterns: ['classification', 'categorize'], type: 'code' },
+      'TASK-014': { patterns: ['entity.*extract', 'ner'], type: 'code' },
+      'TASK-015': { patterns: ['action.*identif'], type: 'code' },
+      'TASK-016': { patterns: ['summar'], type: 'code' },
+      'TASK-017': { patterns: ['personaliz'], type: 'code' },
+      'TASK-018': { files: ['src/queues', 'src/lib/bullmq.ts'], patterns: ['BullMQ', 'Queue'], type: 'any' },
+      'TASK-019': { patterns: ['retry.*logic', 'error.*handling.*clara'], type: 'code' },
+      'TASK-046': { patterns: ['redis', 'bullmq'], files: ['docker-compose.yml'], type: 'any' }
+    };
+  }
+
+  checkFileExists(filePath) {
+    const fullPath = path.isAbsolute(filePath) 
+      ? filePath 
+      : path.join(path.dirname(this.tasksPath), '..', filePath);
+    return fs.existsSync(fullPath);
+  }
+
+  searchCodePattern(pattern) {
+    try {
+      const { execSync } = require('child_process');
+      const result = execSync(
+        `grep -r -i "${pattern}" ${this.srcPath} --include="*.ts" --include="*.js" --include="*.tsx" --include="*.jsx" 2>/dev/null | head -1`,
+        { encoding: 'utf8' }
+      );
+      return result.trim().length > 0;
+    } catch {
+      return false;
+    }
+  }
+
+  checkTaskImplementation(task) {
+    const rules = this.implementationMap[task.id];
+    if (!rules) return { status: 'unknown', reason: 'No validation rules defined' };
+
+    let hasImplementation = false;
+    let details = [];
+
+    // Check files
+    if (rules.files) {
+      for (const file of rules.files) {
+        if (this.checkFileExists(file)) {
+          hasImplementation = true;
+          details.push(`✅ Found: ${file}`);
+          if (rules.type === 'any') break;
+        } else {
+          details.push(`❌ Missing: ${file}`);
+        }
+      }
+    }
+
+    // Check code patterns
+    if (rules.patterns && !hasImplementation) {
+      for (const pattern of rules.patterns) {
+        if (this.searchCodePattern(pattern)) {
+          hasImplementation = true;
+          details.push(`✅ Found pattern: "${pattern}"`);
+          if (rules.type === 'any') break;
+        } else {
+          details.push(`❌ No match: "${pattern}"`);
+        }
+      }
+    }
+
+    return {
+      status: hasImplementation ? 'verified' : 'missing',
+      hasImplementation,
+      details
+    };
+  }
+
+  async checkAllTasks() {
+    const tasks = JSON.parse(fs.readFileSync(this.tasksPath, 'utf8'));
+    const issues = [];
+    const stats = {
+      total: 0,
+      completed: 0,
+      falsePositives: 0,
+      verified: 0,
+      inProgress: 0,
+      stalled: 0
+    };
+
+    console.log('\n' + chalk.bold.cyan('🔍 TASK INTEGRITY CHECK'));
+    console.log('═'.repeat(80));
+
+    for (const task of tasks) {
+      if (task.status === 'completed' || task.status === 'in-progress') {
+        stats.total++;
+        
+        const check = this.checkTaskImplementation(task);
+        
+        if (task.status === 'completed') {
+          stats.completed++;
+          
+          if (check.status === 'missing') {
+            stats.falsePositives++;
+            issues.push({
+              id: task.id,
+              title: task.title,
+              type: 'FALSE_COMPLETION',
+              status: task.status,
+              progress: task.progress,
+              issue: 'Marked complete without implementation'
+            });
+            
+            console.log(chalk.red(`\n❌ ${task.id}: FALSE COMPLETION`));
+            console.log(chalk.gray(`   ${task.title}`));
+            console.log(chalk.yellow('   Status: completed but NO implementation found'));
+            
+            logEvent('integrity_violation', `False completion detected: ${task.id}`, {
+              taskId: task.id,
+              status: task.status,
+              implementation: false
+            });
+          } else if (check.status === 'verified') {
+            stats.verified++;
+            console.log(chalk.green(`\n✅ ${task.id}: VERIFIED`));
+            console.log(chalk.gray(`   ${task.title}`));
+          }
+        }
+        
+        if (task.status === 'in-progress') {
+          stats.inProgress++;
+          
+          if (check.status === 'missing' && task.progress > 20) {
+            stats.stalled++;
+            issues.push({
+              id: task.id,
+              title: task.title,
+              type: 'STALLED',
+              status: task.status,
+              progress: task.progress,
+              issue: 'In progress but no implementation'
+            });
+            
+            console.log(chalk.yellow(`\n⚠️  ${task.id}: STALLED`));
+            console.log(chalk.gray(`   ${task.title}`));
+            console.log(chalk.gray(`   Progress: ${task.progress}% but no implementation`));
+          }
+        }
+      }
+    }
+
+    // Summary
+    console.log('\n' + '═'.repeat(80));
+    console.log(chalk.bold('\n📊 INTEGRITY SUMMARY'));
+    console.log(chalk.gray('─'.repeat(40)));
+    console.log(`Total checked: ${stats.total}`);
+    console.log(chalk.green(`✅ Verified: ${stats.verified}`));
+    console.log(chalk.red(`❌ False completions: ${stats.falsePositives}`));
+    console.log(chalk.yellow(`⚠️  Stalled tasks: ${stats.stalled}`));
+
+    if (issues.length > 0) {
+      console.log('\n' + chalk.red.bold('🚨 CRITICAL ISSUES FOUND:'));
+      console.log(chalk.red(`${issues.length} tasks need immediate attention`));
+      
+      // Save issues report
+      const reportPath = path.join(__dirname, '../tasks/integrity-report.json');
+      fs.writeFileSync(reportPath, JSON.stringify({
+        timestamp: new Date().toISOString(),
+        stats,
+        issues
+      }, null, 2));
+      
+      console.log(chalk.gray(`\nReport saved to: ${reportPath}`));
+    }
+
+    return { stats, issues };
+  }
+
+  async fixFalseCompletions() {
+    const tasks = JSON.parse(fs.readFileSync(this.tasksPath, 'utf8'));
+    let fixedCount = 0;
+
+    for (let task of tasks) {
+      if (task.status === 'completed') {
+        const check = this.checkTaskImplementation(task);
+        
+        if (check.status === 'missing') {
+          console.log(chalk.yellow(`\n🔧 Fixing ${task.id}: ${task.title}`));
+          
+          // Reset to ready or in-progress based on actual state
+          task.status = task.progress > 0 ? 'in-progress' : 'ready';
+          task.progress = Math.min(task.progress, 10); // Reset progress if no implementation
+          delete task.completed_at;
+          task.updated_at = new Date().toISOString();
+          
+          if (!task.implementation_notes) task.implementation_notes = {};
+          task.implementation_notes.integrity_reset = new Date().toISOString();
+          task.implementation_notes.reset_reason = 'No implementation found';
+          
+          fixedCount++;
+          
+          logEvent('task_reset', `Reset false completion: ${task.id}`, {
+            taskId: task.id,
+            oldStatus: 'completed',
+            newStatus: task.status
+          });
+        }
+      }
+    }
+
+    if (fixedCount > 0) {
+      fs.writeFileSync(this.tasksPath, JSON.stringify(tasks, null, 2));
+      console.log(chalk.green(`\n✅ Fixed ${fixedCount} false completions`));
+    }
+
+    return fixedCount;
+  }
+}
+
+// CLI usage
+if (require.main === module) {
+  const checker = new IntegrityChecker();
+  const args = process.argv.slice(2);
+  
+  if (args[0] === '--fix') {
+    checker.fixFalseCompletions().then(count => {
+      console.log(chalk.bold(`\nFixed ${count} tasks`));
+      process.exit(count > 0 ? 0 : 1);
+    });
+  } else {
+    checker.checkAllTasks().then(({ issues }) => {
+      process.exit(issues.length > 0 ? 1 : 0);
+    });
+  }
+}
+
+module.exports = IntegrityChecker;

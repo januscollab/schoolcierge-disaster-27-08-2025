@@ -1,0 +1,26 @@
+{
+  "name": "creaite-branding",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "creaite brand identity and logo experiments",
+  "main": "display-logo.js",
+  "scripts": {
+    "start": "node display-logo.js",
+    "logo": "node display-logo.js",
+    "simple": "node simple-logo.js"
+  },
+  "keywords": [
+    "creaite",
+    "branding",
+    "logo",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "gradient-string": "^2.0.2",
+    "figlet": "^1.7.0",
+    "boxen": "^7.1.1"
+  }
+}

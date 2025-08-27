@@ -172,7 +172,7 @@ class WhatsNextAnalyzer {
           colors.bold + task.id + colors.reset,
           task.title.substring(0, 38),
           task.category,
-          colors.cyan + `cx start ${task.id}` + colors.reset
+          colors.cyan + `cx build ${task.id}` + colors.reset
         ]);
       });
       
@@ -243,7 +243,7 @@ class WhatsNextAnalyzer {
           colors.bold + task.id + colors.reset,
           task.title.substring(0, 38),
           `${task.effort}h`,
-          colors.green + `cx start ${task.id}` + colors.reset
+          colors.green + `cx build ${task.id}` + colors.reset
         ]);
       });
       
@@ -266,7 +266,7 @@ class WhatsNextAnalyzer {
           colors.yellow + task.priority + colors.reset,
           colors.bold + task.id + colors.reset,
           task.title.substring(0, 33),
-          colors.green + `cx start ${task.id}` + colors.reset
+          colors.green + `cx build ${task.id}` + colors.reset
         ]);
       });
       

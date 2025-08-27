@@ -1,0 +1,221 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Core models for School'cierge application
+
+model User {
+  id               String    @id @default(uuid())
+  clerkId          String    @unique
+  email            String    @unique
+  role             String    @default("user")
+  status           String    @default("active")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  @@index([clerkId])
+  @@index([email])
+}
+
+model Family {
+  id               String    @id @default(uuid())
+  primaryEmail     String    @unique
+  secondaryEmail   String?
+  whatsappNumber   String    @unique
+  preferredLanguage String   @default("en")
+  timezone         String    @default("UTC")
+  status           String    @default("active")
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  students         Student[]
+  messages         Message[]
+  interactions     Interaction[]
+  feedbacks        Feedback[]
+  userFamilies     UserFamily[]
+  
+  @@index([primaryEmail])
+  @@index([whatsappNumber])
+}
+
+model UserFamily {
+  id               String    @id @default(uuid())
+  userId           String
+  familyId         String
+  role             String    @default("owner")
+  status           String    @default("active")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  family           Family    @relation(fields: [familyId], references: [id])
+  
+  @@unique([userId, familyId])
+  @@index([userId])
+  @@index([familyId])
+}
+
+model School {
+  id               String    @id @default(uuid())
+  name             String
+  domain           String    @unique
+  emailDomain      String    @unique
+  adminEmail       String
+  status           String    @default("active")
+  settings         Json      @default("{}")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  students         Student[]
+  emails           Email[]
+  
+  @@index([emailDomain])
+  @@index([domain])
+}
+
+model Student {
+  id               String    @id @default(uuid())
+  familyId         String
+  schoolId         String
+  firstName        String
+  lastName         String
+  grade            String
+  className        String?
+  status           String    @default("enrolled")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  family           Family    @relation(fields: [familyId], references: [id])
+  school           School    @relation(fields: [schoolId], references: [id])
+  
+  @@index([familyId])
+  @@index([schoolId])
+}
+
+model Email {
+  id               String    @id @default(uuid())
+  schoolId         String
+  messageId        String    @unique
+  from             String
+  to               String[]
+  subject          String
+  body             String
+  rawHtml          String?
+  attachments      Json?
+  receivedAt       DateTime
+  processedAt      DateTime?
+  status           String    @default("pending")
+  createdAt        DateTime  @default(now())
+  
+  school           School    @relation(fields: [schoolId], references: [id])
+  messages         Message[]
+  
+  @@index([schoolId])
+  @@index([messageId])
+  @@index([status])
+}
+
+model Message {
+  id               String    @id @default(uuid())
+  familyId         String
+  emailId          String?
+  type             String    // urgent, informational, actionable
+  direction        String    @default("inbound") // inbound, outbound
+  priority         Int       @default(0)
+  subject          String
+  content          String
+  originalContent  String?
+  metadata         Json?
+  deadline         DateTime?
+  deliveryStatus   String    @default("pending")
+  deliveredAt      DateTime?
+  readAt           DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  family           Family    @relation(fields: [familyId], references: [id])
+  email            Email?    @relation(fields: [emailId], references: [id])
+  interactions     Interaction[]
+  
+  @@index([familyId])
+  @@index([emailId])
+  @@index([type])
+  @@index([deliveryStatus])
+  @@index([direction])
+}
+
+model Interaction {
+  id               String    @id @default(uuid())
+  familyId         String
+  messageId        String
+  type             String    // read, clicked, replied
+  metadata         Json?
+  createdAt        DateTime  @default(now())
+  
+  family           Family    @relation(fields: [familyId], references: [id])
+  message          Message   @relation(fields: [messageId], references: [id])
+  
+  @@index([familyId])
+  @@index([messageId])
+}
+
+model Feedback {
+  id               String    @id @default(uuid())
+  familyId         String
+  messageId        String?
+  type             String    // accuracy, usefulness, issue
+  rating           Int?
+  comment          String?
+  metadata         Json?
+  createdAt        DateTime  @default(now())
+  
+  family           Family    @relation(fields: [familyId], references: [id])
+  
+  @@index([familyId])
+}
+
+// Monitoring and metrics models
+
+model Metric {
+  id               String    @id @default(uuid())
+  name             String
+  value            Float
+  labels           Json?
+  timestamp        DateTime  @default(now())
+  
+  @@index([name])
+  @@index([timestamp])
+}
+
+model ErrorLog {
+  id               String    @id @default(uuid())
+  level            String
+  message          String
+  stack            String?
+  metadata         Json?
+  timestamp        DateTime  @default(now())
+  
+  @@index([level])
+  @@index([timestamp])
+}
+
+model AuditLog {
+  id               String    @id @default(uuid())
+  userId           String?
+  action           String
+  resource         String
+  metadata         Json?
+  timestamp        DateTime  @default(now())
+  
+  @@index([userId])
+  @@index([action])
+  @@index([timestamp])
+}

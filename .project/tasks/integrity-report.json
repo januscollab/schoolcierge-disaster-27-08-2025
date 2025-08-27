@@ -1,0 +1,45 @@
+{
+  "timestamp": "2025-08-27T16:26:32.739Z",
+  "stats": {
+    "total": 14,
+    "completed": 7,
+    "falsePositives": 4,
+    "verified": 2,
+    "inProgress": 7,
+    "stalled": 0
+  },
+  "issues": [
+    {
+      "id": "TASK-002",
+      "title": "Initialize Railway project with PostgreSQL and Redis",
+      "type": "FALSE_COMPLETION",
+      "status": "completed",
+      "progress": 100,
+      "issue": "Marked complete without implementation"
+    },
+    {
+      "id": "TASK-005",
+      "title": "Create Express API boilerplate with TypeScript",
+      "type": "FALSE_COMPLETION",
+      "status": "completed",
+      "progress": 100,
+      "issue": "Marked complete without implementation"
+    },
+    {
+      "id": "TASK-008",
+      "title": "Initialize Expo mobile app project",
+      "type": "FALSE_COMPLETION",
+      "status": "completed",
+      "progress": 100,
+      "issue": "Marked complete without implementation"
+    },
+    {
+      "id": "TASK-009",
+      "title": "Configure GitHub CI/CD pipeline",
+      "type": "FALSE_COMPLETION",
+      "status": "completed",
+      "progress": 100,
+      "issue": "Marked complete without implementation"
+    }
+  ]
+}

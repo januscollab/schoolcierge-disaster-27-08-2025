@@ -24,7 +24,7 @@ cx next            # What should I work on?
 
 ### Working on Tasks
 ```bash
-cx start TASK-001          # Begin working on a task
+cx build TASK-001          # Begin working on a task
 cx update TASK-001 --progress 50   # Update progress
 cx complete TASK-001       # Mark as done
 ```
@@ -46,7 +46,7 @@ cx gantt           # Timeline view
 
 ### Task Management
 - `cx add "Task title"` - Create new task
-- `cx start TASK-001` - Mark task as in-progress
+- `cx build TASK-001` - Mark task as in-progress
 - `cx update TASK-001 --progress 75` - Update progress
 - `cx complete TASK-001` - Mark as completed
 - `cx detail TASK-001` - Show full task details

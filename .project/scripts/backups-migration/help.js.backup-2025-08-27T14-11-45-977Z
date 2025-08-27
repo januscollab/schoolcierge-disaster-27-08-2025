@@ -1,0 +1,106 @@
+#!/usr/bin/env node
+
+// ANSI color codes for terminal output
+const color = {
+  title: (text) => `\x1b[1m\x1b[36m${text}\x1b[0m`,     // Bold Cyan
+  command: (text) => `\x1b[32m${text}\x1b[0m`,          // Green
+  desc: (text) => `\x1b[90m${text}\x1b[0m`,             // Gray
+  section: (text) => `\x1b[33m${text}\x1b[0m`,          // Yellow
+  alias: (text) => `\x1b[35m${text}\x1b[0m`             // Magenta
+};
+
+console.log(`
+${color.title('🚀 SchoolCierge Task Management System')}
+
+${color.section('Quick Start:')}
+  ${color.command('cx help')}              ${color.desc('Show this help menu')}
+  ${color.command('cx status')}            ${color.desc('Show project progress')}
+  ${color.command('cx list')}              ${color.desc('List all tasks')}
+  ${color.command('cx next')}              ${color.desc('Show what to work on next')}
+
+${color.section('Task Management:')}
+  ${color.command('cx add "Task title"')}  ${color.desc('Add a new task')}
+  ${color.command('cx build TASK-001')}    ${color.desc('Build and start working on a task')}
+  ${color.command('cx update TASK-001')}   ${color.desc('Update task (--progress 50, --status complete)')}
+  ${color.command('cx complete TASK-001')} ${color.desc('Mark task as completed')}
+  ${color.command('cx detail TASK-001')}   ${color.desc('Show detailed task information')}
+  ${color.command('cx list --status in-progress')} ${color.desc('Filter tasks by status')}
+  ${color.command('cx list --priority P0')}       ${color.desc('Filter tasks by priority')}
+
+${color.section('Visualization & Reporting:')}
+  ${color.command('cx status')}            ${color.desc('Overall progress (or status TASK-001 for single task)')}
+  ${color.command('cx dashboard')}         ${color.desc('Generate HTML dashboard')}
+  ${color.command('cx gantt')}             ${color.desc('Interactive terminal Gantt chart')}
+  ${color.command('cx deps')}              ${color.desc('Show dependency graph')}
+  ${color.command('cx burndown')}          ${color.desc('Show burndown metrics')}
+
+${color.section('Sprint Planning:')}
+  ${color.command('cx sprint:new')}        ${color.desc('Create new sprint')}
+  ${color.command('cx sprint:status')}     ${color.desc('Current sprint status')}
+
+${color.section('Advanced Commands:')}
+  ${color.command('cx validate')}          ${color.desc('Validate task data integrity')}
+  ${color.command('cx views')}             ${color.desc('Regenerate all views (PROGRESS.md, etc.)')}
+
+${color.section('Examples:')}
+  ${color.alias('# Start your day')}
+  ${color.command('cx status')}            ${color.desc('# Check overall progress')}
+  ${color.command('cx status TASK-001')}   ${color.desc('# Check specific task status')}
+  ${color.command('cx next')}              ${color.desc('# See what to work on')}
+  ${color.command('cx build TASK-001')}    ${color.desc('# Begin working on task')}
+  
+  ${color.alias('# Update progress')}
+  ${color.command('cx update TASK-001 --progress 50')}
+  ${color.command('cx complete TASK-001')}
+  
+  ${color.alias('# Add new task with options')}
+  ${color.command('cx add "Fix login bug" --priority P0 --category auth --estimate 4')}
+
+${color.section('Task Status Values:')}
+  • not-started ${color.desc('(default)')}
+  • in-progress
+  • blocked
+  • completed
+
+${color.section('Priority Levels:')}
+  • P0 ${color.desc('(Critical - Must have)')}
+  • P1 ${color.desc('(High - Should have)')}
+  • P2 ${color.desc('(Medium - Nice to have)')}
+  • P3 ${color.desc('(Low - Future consideration)')}
+
+${color.section('Categories:')}
+  • infrastructure  • authentication  • backend
+  • integration     • mobile          • devops
+  • clara          • timer           • adapt
+  • admin
+
+${color.title('Current Project Stats:')}
+`);
+
+// Load and display current stats
+const fs = require('fs');
+const path = require('path');
+const tasksPath = path.join(__dirname, '../tasks/backlog.json');
+
+if (fs.existsSync(tasksPath)) {
+  const tasks = JSON.parse(fs.readFileSync(tasksPath, 'utf8'));
+  const completed = tasks.filter(t => t.status === 'completed').length;
+  const inProgress = tasks.filter(t => t.status === 'in-progress').length;
+  const blocked = tasks.filter(t => t.status === 'blocked').length;
+  const notStarted = tasks.filter(t => t.status === 'not-started').length;
+  
+  console.log(`  Total Tasks: ${tasks.length}`);
+  console.log(`  ✅ Completed: ${completed}`);
+  console.log(`  🔄 In Progress: ${inProgress}`);
+  console.log(`  🚫 Blocked: ${blocked}`);
+  console.log(`  ⭕ Not Started: ${notStarted}`);
+  console.log(`  📊 Completion: ${tasks.length > 0 ? Math.round(completed / tasks.length * 100) : 0}%`);
+}
+
+console.log(`
+${color.section('Need more help?')}
+  ${color.desc('• PRD location:')} .project/product/PRD-DEV.md
+  ${color.desc('• TRD location:')} .project/product/TRD-DEV.md
+  ${color.desc('• Task data:')}    .project/tasks/backlog.json
+  ${color.desc('• Scripts:')}       .project/scripts/
+`);

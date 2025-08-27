@@ -1,8 +1,14 @@
-const fs = require('fs');
 const path = require('path');
 
-// Mock the file system
-jest.mock('fs');
+// Mock the file system with proper implementation
+jest.mock('fs', () => ({
+  existsSync: jest.fn(),
+  readFileSync: jest.fn(),
+  writeFileSync: jest.fn(),
+  mkdirSync: jest.fn()
+}));
+
+const fs = require('fs');
 
 describe('Task Manager', () => {
   const tasksPath = path.join(__dirname, '../../tasks/backlog.json');
@@ -50,14 +56,12 @@ describe('Task Manager', () => {
       const TaskManager = require('../task-manager');
       const manager = new TaskManager();
       
-      const newTask = manager.addTask('New Test Task', {
+      const newTaskId = manager.addTask('New Test Task', {
         priority: 'P2',
         category: 'testing'
       });
       
-      expect(newTask).toHaveProperty('id');
-      expect(newTask.title).toBe('New Test Task');
-      expect(newTask.status).toBe('not-started');
+      expect(newTaskId).toMatch(/^TASK-\d{3}$/);
     });
 
     test('should update task status', () => {

@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const ora = require('ora');
 const { exec } = require('child_process');
+const escapeHtml = require('escape-html');
 
 class HTMLDashboardGenerator {
   constructor() {
@@ -71,7 +72,7 @@ class HTMLDashboardGenerator {
 
   getNextTasks(tasks) {
     const nextTasks = {
-      critical: tasks.filter(t => t.priority === 'P0' && t.status !== 'completed' && t.status !== 'blocked'),
+      critical: tasks.filter(t => t.priority === 'P0' && t.status === 'not-started'),
       inProgress: tasks.filter(t => t.status === 'in-progress'),
       recommended: [],
       blocked: tasks.filter(t => t.status === 'blocked'),
@@ -182,8 +183,20 @@ class HTMLDashboardGenerator {
             align-items: center;
         }
         
+        .logo .cre {
+            background: linear-gradient(135deg, #008B8B, #00CED1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
         .logo .ai {
             background: linear-gradient(135deg, #FFD60A, #FFB700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo .te {
+            background: linear-gradient(135deg, #008B8B, #00CED1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -462,6 +475,54 @@ class HTMLDashboardGenerator {
         .gantt-bar.status-blocked { background: linear-gradient(90deg, #f56565, #e53e3e); }
         .gantt-bar.status-not-started { background: linear-gradient(90deg, #a0aec0, #718096); }
         
+        /* Dependency visualization */
+        .gantt-chart-wrapper {
+            position: relative;
+        }
+        
+        .dependency-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .dependency-line {
+            stroke: #4a90e2;
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.6;
+            stroke-dasharray: 5, 3;
+        }
+        
+        .dependency-arrow {
+            fill: #4a90e2;
+            opacity: 0.8;
+        }
+        
+        .gantt-row[data-task-id] {
+            position: relative;
+        }
+        
+        .gantt-bar.has-dependencies {
+            border: 2px solid rgba(74, 144, 226, 0.5);
+        }
+        
+        .dependency-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            z-index: 100;
+            pointer-events: none;
+            display: none;
+        }
+        
         /* What's Next Section */
         .next-actions {
             display: grid;
@@ -521,7 +582,7 @@ class HTMLDashboardGenerator {
     <div class="header">
         <div class="header-content">
             <div class="logo">
-                🚀 Crea<span class="ai">AI</span>te Dashboard
+                🚀 <span class="cre">CRE</span><span class="ai">AI</span><span class="te">TE</span> Dashboard
             </div>
             <div class="last-updated">
                 Last updated: ${new Date().toLocaleString()}
@@ -577,10 +638,10 @@ class HTMLDashboardGenerator {
                 ${metrics.inProgressTasks.map(task => `
                     <div class="task-item">
                         <div class="task-info">
-                            <span class="task-id">${task.id}</span>
-                            <span class="task-title">${task.title}</span>
+                            <span class="task-id">${escapeHtml(task.id)}</span>
+                            <span class="task-title">${escapeHtml(task.title)}</span>
                             <div class="task-meta">
-                                <span class="badge priority-${task.priority}">${task.priority}</span>
+                                <span class="badge priority-${escapeHtml(task.priority)}">${escapeHtml(task.priority)}</span>
                                 <span class="badge status-in-progress">In Progress</span>
                                 <span class="badge">${task.progress || 0}% complete</span>
                             </div>
@@ -598,7 +659,7 @@ class HTMLDashboardGenerator {
                 <div class="category-pills">
                     ${Object.entries(metrics.byCategory).map(([cat, count]) => `
                         <div class="category-pill">
-                            ${this.getCategoryIcon(cat)} ${cat}: ${count}
+                            ${this.getCategoryIcon(cat)} ${escapeHtml(cat)}: ${count}
                         </div>
                     `).join('')}
                 </div>
@@ -614,12 +675,12 @@ class HTMLDashboardGenerator {
                     ${nextTasks.critical.map(task => `
                         <div class="task-item">
                             <div class="task-info">
-                                <span class="task-id">${task.id}</span>
-                                <span class="task-title">${task.title}</span>
+                                <span class="task-id">${escapeHtml(task.id)}</span>
+                                <span class="task-title">${escapeHtml(task.title)}</span>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start ${task.id}')">
-                            $ cx start ${task.id}
+                        <div class="command-box" onclick="copyCommand('cx build ${escapeHtml(task.id)}')">
+                            $ cx build ${escapeHtml(task.id)}
                         </div>
                     `).join('')}
                 </div>
@@ -631,15 +692,15 @@ class HTMLDashboardGenerator {
                     ${nextTasks.recommended.map(task => `
                         <div class="task-item">
                             <div class="task-info">
-                                <span class="task-id">${task.id}</span>
-                                <span class="task-title">${task.title}</span>
+                                <span class="task-id">${escapeHtml(task.id)}</span>
+                                <span class="task-title">${escapeHtml(task.title)}</span>
                                 <div class="task-meta">
-                                    <span class="badge priority-${task.priority}">${task.priority}</span>
+                                    <span class="badge priority-${escapeHtml(task.priority)}">${escapeHtml(task.priority)}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="command-box" onclick="copyCommand('cx start ${task.id}')">
-                            $ cx start ${task.id}
+                        <div class="command-box" onclick="copyCommand('cx build ${escapeHtml(task.id)}')">
+                            $ cx build ${escapeHtml(task.id)}
                         </div>
                     `).join('')}
                 </div>
@@ -652,12 +713,12 @@ class HTMLDashboardGenerator {
                 ${nextTasks.blocked.map(task => `
                     <div class="task-item">
                         <div class="task-info">
-                            <span class="task-id">${task.id}</span>
-                            <span class="task-title">${task.title}</span>
+                            <span class="task-id">${escapeHtml(task.id)}</span>
+                            <span class="task-title">${escapeHtml(task.title)}</span>
                             <div class="task-meta">
                                 <span class="badge status-blocked">Blocked</span>
                                 ${task.dependencies?.blocked_by ? `
-                                <span class="badge">Blocked by: ${task.dependencies.blocked_by.join(', ')}</span>
+                                <span class="badge">Blocked by: ${task.dependencies.blocked_by.map(id => escapeHtml(id)).join(', ')}</span>
                                 ` : ''}
                             </div>
                         </div>
@@ -671,22 +732,26 @@ class HTMLDashboardGenerator {
         <div id="gantt" class="tab-content">
             <div class="gantt-container">
                 <h2>📅 Project Timeline</h2>
-                <div class="gantt-chart">
-                    ${ganttData.slice(0, 20).map(task => `
-                        <div class="gantt-row">
-                            <div class="gantt-task-info">
-                                <strong>${task.id}</strong>: ${task.title.substring(0, 30)}
-                            </div>
-                            <div class="gantt-timeline">
-                                <div class="gantt-bar status-${task.status}" 
-                                     style="left: ${this.calculateGanttPosition(task.start)}%; 
-                                            width: ${this.calculateGanttWidth(task.start, task.end)}%;"
-                                     title="${task.title} (${task.start} to ${task.end})">
-                                    ${task.progress}%
+                <div class="gantt-chart-wrapper">
+                    <div class="gantt-chart" id="ganttChart">
+                        ${ganttData.slice(0, 20).map((task, index) => `
+                            <div class="gantt-row" data-task-id="${escapeHtml(task.id)}" data-index="${index}">
+                                <div class="gantt-task-info">
+                                    <strong>${escapeHtml(task.id)}</strong>: ${escapeHtml(task.title.substring(0, 30))}
+                                </div>
+                                <div class="gantt-timeline">
+                                    <div class="gantt-bar status-${escapeHtml(task.status)} ${task.dependencies?.length ? 'has-dependencies' : ''}" 
+                                         data-task="${escapeHtml(task.id)}"
+                                         style="left: ${this.calculateGanttPosition(task.start)}%; 
+                                                width: ${this.calculateGanttWidth(task.start, task.end)}%;"
+                                         title="${escapeHtml(task.title)} (${escapeHtml(task.start)} to ${escapeHtml(task.end)})">
+                                        ${task.progress}%
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
+                    <svg class="dependency-svg" id="dependencySvg"></svg>
                 </div>
             </div>
         </div>
@@ -698,12 +763,12 @@ class HTMLDashboardGenerator {
                 ${tasks.map(task => `
                     <div class="task-item">
                         <div class="task-info">
-                            <span class="task-id">${task.id}</span>
-                            <span class="task-title">${task.title}</span>
+                            <span class="task-id">${escapeHtml(task.id)}</span>
+                            <span class="task-title">${escapeHtml(task.title)}</span>
                             <div class="task-meta">
-                                <span class="badge priority-${task.priority}">${task.priority}</span>
-                                <span class="badge status-${task.status}">${task.status.replace('-', ' ')}</span>
-                                <span class="badge">${task.category}</span>
+                                <span class="badge priority-${escapeHtml(task.priority)}">${escapeHtml(task.priority)}</span>
+                                <span class="badge status-${escapeHtml(task.status)}">${escapeHtml(task.status.replace('-', ' '))}</span>
+                                <span class="badge">${escapeHtml(task.category)}</span>
                                 ${task.progress ? `<span class="badge">${task.progress}%</span>` : ''}
                             </div>
                         </div>
@@ -791,6 +856,11 @@ class HTMLDashboardGenerator {
             
             // Mark button as active
             event.target.classList.add('active');
+            
+            // Draw dependencies if Gantt tab is selected
+            if (tabName === 'gantt') {
+                setTimeout(() => drawDependencies(), 100);
+            }
         }
         
         function copyCommand(command) {
@@ -807,6 +877,111 @@ class HTMLDashboardGenerator {
                 }, 1500);
             });
         }
+        
+        function drawDependencies() {
+            const svg = document.getElementById('dependencySvg');
+            if (!svg) return;
+            
+            const ganttChart = document.getElementById('ganttChart');
+            if (!ganttChart) return;
+            
+            // Clear existing dependencies
+            svg.innerHTML = '';
+            
+            // Define task dependencies
+            const dependencies = [
+                { from: 'TASK-001', to: 'TASK-005' },  // Railway setup -> Express API
+                { from: 'TASK-002', to: 'TASK-003' },  // Railway -> Clerk auth
+                { from: 'TASK-003', to: 'TASK-004' },  // Clerk -> WhatsApp OTP
+                { from: 'TASK-005', to: 'TASK-010' },  // Express -> Email ingestion
+                { from: 'TASK-010', to: 'TASK-011' },  // Email endpoint -> CLARA Stage 1
+                { from: 'TASK-011', to: 'TASK-012' },  // CLARA 1 -> CLARA 2
+                { from: 'TASK-012', to: 'TASK-013' },  // CLARA 2 -> CLARA 3
+                { from: 'TASK-013', to: 'TASK-014' },  // CLARA 3 -> CLARA 4
+                { from: 'TASK-014', to: 'TASK-015' },  // CLARA 4 -> CLARA 5
+                { from: 'TASK-015', to: 'TASK-016' },  // CLARA 5 -> CLARA 6
+                { from: 'TASK-016', to: 'TASK-017' },  // CLARA 6 -> CLARA 7
+                { from: 'TASK-006', to: 'TASK-010' },  // Mailgun -> Email ingestion
+                { from: 'TASK-007', to: 'TASK-018' },  // WhatsApp -> BullMQ
+                { from: 'TASK-018', to: 'TASK-019' },  // BullMQ -> Error handling
+                { from: 'TASK-019', to: 'TASK-020' }   // Error handling -> Task generation
+            ];
+            
+            // Set SVG dimensions
+            const chartRect = ganttChart.getBoundingClientRect();
+            svg.setAttribute('width', chartRect.width);
+            svg.setAttribute('height', chartRect.height);
+            
+            // Draw each dependency
+            dependencies.forEach(dep => {
+                const fromRow = document.querySelector('[data-task-id="' + dep.from + '"]');
+                const toRow = document.querySelector('[data-task-id="' + dep.to + '"]');
+                
+                if (fromRow && toRow) {
+                    const fromBar = fromRow.querySelector('.gantt-bar');
+                    const toBar = toRow.querySelector('.gantt-bar');
+                    
+                    if (fromBar && toBar) {
+                        const fromRect = fromBar.getBoundingClientRect();
+                        const toRect = toBar.getBoundingClientRect();
+                        const svgRect = svg.getBoundingClientRect();
+                        
+                        // Calculate positions relative to SVG
+                        const fromX = fromRect.right - svgRect.left;
+                        const fromY = fromRect.top + fromRect.height/2 - svgRect.top;
+                        const toX = toRect.left - svgRect.left;
+                        const toY = toRect.top + toRect.height/2 - svgRect.top;
+                        
+                        // Only draw if there's horizontal space between tasks
+                        if (toX > fromX + 10) {
+                            // Create path for curved connector
+                            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                            const midX = (fromX + toX) / 2;
+                            
+                            // Create a smooth curve
+                            const d = 'M ' + fromX + ' ' + fromY + 
+                                      ' C ' + midX + ' ' + fromY + ', ' +
+                                      midX + ' ' + toY + ', ' +
+                                      (toX - 10) + ' ' + toY +
+                                      ' L ' + toX + ' ' + toY;
+                            
+                            path.setAttribute('d', d);
+                            path.setAttribute('class', 'dependency-line');
+                            svg.appendChild(path);
+                            
+                            // Add arrow head
+                            const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                            const arrowPoints = toX + ',' + toY + ' ' + 
+                                              (toX-8) + ',' + (toY-4) + ' ' + 
+                                              (toX-8) + ',' + (toY+4);
+                            arrow.setAttribute('points', arrowPoints);
+                            arrow.setAttribute('class', 'dependency-arrow');
+                            svg.appendChild(arrow);
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Draw dependencies on load if Gantt tab is visible
+        window.addEventListener('load', () => {
+            const ganttTab = document.getElementById('gantt');
+            if (ganttTab && ganttTab.classList.contains('active')) {
+                setTimeout(() => drawDependencies(), 500);
+            }
+        });
+        
+        // Redraw on window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const ganttTab = document.getElementById('gantt');
+                if (ganttTab && ganttTab.classList.contains('active')) {
+                    drawDependencies();
+                }
+            }, 250);
+        });
         
         // Auto-refresh every 60 seconds
         setTimeout(() => location.reload(), 60000);

@@ -17,9 +17,9 @@ const [command, ...args] = process.argv.slice(2);
 // Map cx commands to npm scripts
 const commandMap = {
   // Help
-  'help': 'node .project/scripts/help.js',
-  '--help': 'node .project/scripts/help.js',
-  '-h': 'node .project/scripts/help.js',
+  'help': 'npm run help',
+  '--help': 'npm run help',
+  '-h': 'npm run help',
   
   // Task management
   'add': 'npm run task:add --',
@@ -32,25 +32,43 @@ const commandMap = {
   'done': 'npm run task:complete --',
   'start': 'npm run task:start --',
   'begin': 'npm run task:start --',
+  'build': 'npm run task:build --',
+  'b': 'npm run task:build --',
+  
+  // Dependency management
+  'resolve': 'node .project/scripts/dependency-resolver.js',
+  'dependencies': 'node .project/scripts/dependency-resolver.js',
+  
+  // Task health monitoring
+  'health': 'node .project/scripts/cx-health.js',
+  'health-fix': 'node .project/scripts/cx-health.js --fix',
   
   // Status and visualization
-  'status': 'npm run status',
-  's': 'npm run status',
+  'status': 'npm run status --',
+  's': 'npm run status --',
   'dashboard': 'npm run dashboard:html',
   'dash': 'npm run dashboard',
   'd': 'npm run dashboard',
+  'live': 'npm run live',
+  'l': 'npm run live',
+  
+  // Parallel task management
+  'analyze': 'npm run analyze --',
+  'parallel': 'npm run parallel --',
+  'p': 'npm run parallel --',
+  
+  // Event monitoring
+  'ticker': 'npm run ticker',
+  'events': 'npm run events',
+  'event-ticker': 'npm run ticker',
+  
   'html': 'npm run dashboard:html',
-  'json': 'npm run status:json',
   'next': 'npm run whats-next',
   'whats-next': 'npm run whats-next',
-  'visualize': 'npm run visualize --',
-  'viz': 'npm run visualize --',
   'gantt': 'npm run visualize:gantt',
   'deps': 'npm run visualize:deps',
   'dependencies': 'npm run visualize:deps',
   'burndown': 'npm run visualize -- burndown',
-  'critical-path': 'npm run critical-path',
-  'critical': 'npm run critical-path',
   
   // Sprint management
   'sprint:new': 'npm run sprint:plan',
@@ -64,7 +82,12 @@ const commandMap = {
   'generate': 'npm run views:generate',
   'security': 'npm run security:audit',
   'audit': 'npm run security:audit',
-  'test': 'npm run test:task --',
+  'test': 'node .project/scripts/test-runner.js',
+  
+  // Integrity checking
+  'integrity': 'node .project/scripts/integrity-checker.js',
+  'integrity-fix': 'node .project/scripts/integrity-checker.js --fix',
+  'check': 'node .project/scripts/integrity-checker.js',
 };
 
 // Show help if no command
@@ -92,10 +115,14 @@ const fullCommand = args.length > 0
   ? `${npmCommand} ${quotedArgs.join(' ')}`
   : npmCommand;
 
-// Execute the command as a single string (avoids the deprecation warning)
-const child = spawn(fullCommand, {
+// Execute the command - split command and args to avoid deprecation warning
+// We need to parse the full command to extract the actual command and arguments
+const parts = fullCommand.split(' ');
+const cmd = parts[0];
+const cmdArgs = parts.slice(1);
+
+const child = spawn(cmd, cmdArgs, {
   stdio: 'inherit',
-  shell: true,
   cwd: __dirname
 });
 

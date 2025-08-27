@@ -1,0 +1,539 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const Table = require('cli-table3');
+const boxen = require('boxen');
+const gradient = require('gradient-string');
+const figlet = require('figlet');
+const TaskState = require('./task-state-manager');
+
+class ParallelTaskAnalyzer {
+  constructor() {
+    this.tasksPath = path.join(__dirname, '../tasks/backlog.json');
+    this.tasks = [];
+
+    // Gradients - teal and gold for CREAITE
+    this.tealGradient = gradient(['#008B8B', '#00CED1', '#40E0D0']);
+    this.goldGradient = gradient(['#FFD700', '#FFA500']);
+    this.creaiteGradient = gradient(['#00C9A7', '#00B4D8', '#0077B6']);
+    this.successGradient = gradient(['#06FFA5', '#00C9A7']);
+    this.warningGradient = gradient(['#FFB700', '#FF9500']);
+    this.dangerGradient = gradient(['#FF006E', '#C1121F']);
+  }
+
+  loadTasks() {
+    if (!fs.existsSync(this.tasksPath)) {
+      console.error(chalk.red('Error: backlog.json not found'));
+      process.exit(1);
+    }
+    this.tasks = JSON.parse(fs.readFileSync(this.tasksPath, 'utf8'));
+  }
+
+  analyzeParallelism() {
+    const analysis = {
+      parallelGroups: [],
+      blockedChains: [],
+      independentTasks: [],
+      currentlyParallelizable: [],
+      statistics: {
+        totalTasks: this.tasks.length,
+        completedTasks: 0,
+        blockedTasks: 0,
+        readyTasks: 0,
+        inProgressTasks: 0,
+        parallelPotential: 0,
+      },
+    };
+
+    // First, categorize tasks by status
+    this.tasks.forEach((task) => {
+      switch (task.status) {
+        case 'completed':
+          analysis.statistics.completedTasks++;
+          break;
+        case 'blocked':
+          analysis.statistics.blockedTasks++;
+          break;
+        case 'in-progress':
+          analysis.statistics.inProgressTasks++;
+          break;
+        case 'not-started':
+          if (this.canStart(task)) {
+            analysis.statistics.readyTasks++;
+          }
+          break;
+      }
+    });
+
+    // Find independent tasks (no dependencies)
+    analysis.independentTasks = this.tasks.filter(
+      (task) =>
+        task.status === 'not-started' &&
+        (!task.dependencies.blocked_by || task.dependencies.blocked_by.length === 0)
+    );
+
+    // Group tasks that can be done in parallel
+    analysis.parallelGroups = this.identifyParallelGroups();
+
+    // Find currently executable parallel tasks
+    analysis.currentlyParallelizable = this.findCurrentlyParallelizable();
+
+    // Calculate parallel potential
+    analysis.statistics.parallelPotential = this.calculateParallelPotential();
+
+    // Identify blocked chains
+    analysis.blockedChains = this.findBlockedChains();
+
+    return analysis;
+  }
+
+  canStart(task) {
+    if (task.status !== 'not-started') return false;
+
+    const blockedBy = task.dependencies?.blocked_by || [];
+    if (blockedBy.length === 0) return true;
+
+    // Check if all blocking tasks are completed
+    return blockedBy.every((blockerId) => {
+      const blocker = this.tasks.find((t) => t.id === blockerId);
+      return blocker && blocker.status === 'completed';
+    });
+  }
+
+  identifyParallelGroups() {
+    const groups = [];
+    const categorizedTasks = {};
+
+    // Group by category first
+    this.tasks.forEach((task) => {
+      if (task.status === 'not-started') {
+        if (!categorizedTasks[task.category]) {
+          categorizedTasks[task.category] = [];
+        }
+        categorizedTasks[task.category].push(task);
+      }
+    });
+
+    // Analyze each category for parallel opportunities
+    Object.entries(categorizedTasks).forEach(([category, tasks]) => {
+      const parallelTasks = [];
+
+      tasks.forEach((task) => {
+        // Check if task can run parallel with others in same category
+        const canParallel = tasks.filter(
+          (otherTask) =>
+            otherTask.id !== task.id &&
+            !this.hasDirectDependency(task, otherTask) &&
+            !this.hasDirectDependency(otherTask, task)
+        );
+
+        if (canParallel.length > 0) {
+          parallelTasks.push({
+            task: task,
+            parallelWith: canParallel.map((t) => t.id),
+          });
+        }
+      });
+
+      if (parallelTasks.length > 0) {
+        groups.push({
+          category,
+          tasks: parallelTasks,
+          totalTime: this.estimateParallelTime(parallelTasks),
+          savings: this.calculateTimeSavings(parallelTasks),
+        });
+      }
+    });
+
+    return groups;
+  }
+
+  hasDirectDependency(task1, task2) {
+    const t1BlockedBy = task1.dependencies?.blocked_by || [];
+    const t2BlockedBy = task2.dependencies?.blocked_by || [];
+
+    return t1BlockedBy.includes(task2.id) || t2BlockedBy.includes(task1.id);
+  }
+
+  findCurrentlyParallelizable() {
+    const readyTasks = this.tasks.filter((task) => this.canStart(task));
+    const groups = {};
+
+    // Group by priority and category
+    readyTasks.forEach((task) => {
+      const key = `${task.priority}_${task.category}`;
+      if (!groups[key]) {
+        groups[key] = {
+          priority: task.priority,
+          category: task.category,
+          tasks: [],
+        };
+      }
+      groups[key].tasks.push(task);
+    });
+
+    // Sort groups by priority
+    return Object.values(groups).sort((a, b) => {
+      const priorityOrder = { P0: 0, P1: 1, P2: 2, P3: 3 };
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
+    });
+  }
+
+  calculateParallelPotential() {
+    const notStarted = this.tasks.filter((t) => t.status === 'not-started');
+    const independent = notStarted.filter(
+      (t) => !t.dependencies.blocked_by || t.dependencies.blocked_by.length === 0
+    );
+
+    return notStarted.length > 0 ? Math.round((independent.length / notStarted.length) * 100) : 0;
+  }
+
+  findBlockedChains() {
+    const chains = [];
+    const visited = new Set();
+
+    this.tasks.forEach((task) => {
+      if (!visited.has(task.id) && task.status === 'blocked') {
+        const chain = this.buildDependencyChain(task, visited);
+        if (chain.length > 1) {
+          chains.push({
+            rootBlocker: chain[0],
+            chain: chain,
+            totalBlocked: chain.length - 1,
+            estimatedUnblockTime: this.estimateUnblockTime(chain),
+          });
+        }
+      }
+    });
+
+    return chains.sort((a, b) => b.totalBlocked - a.totalBlocked);
+  }
+
+  buildDependencyChain(task, visited) {
+    const chain = [task];
+    visited.add(task.id);
+
+    const blockedBy = task.dependencies?.blocked_by || [];
+    blockedBy.forEach((blockerId) => {
+      const blocker = this.tasks.find((t) => t.id === blockerId);
+      if (blocker && !visited.has(blocker.id)) {
+        chain.unshift(...this.buildDependencyChain(blocker, visited));
+      }
+    });
+
+    return chain;
+  }
+
+  estimateParallelTime(parallelTasks) {
+    const maxHours = Math.max(
+      ...parallelTasks.map((pt) => parseInt(pt.task.estimates?.effort_hours || 8))
+    );
+    return maxHours;
+  }
+
+  calculateTimeSavings(parallelTasks) {
+    const sequentialTime = parallelTasks.reduce(
+      (sum, pt) => sum + parseInt(pt.task.estimates?.effort_hours || 8),
+      0
+    );
+    const parallelTime = this.estimateParallelTime(parallelTasks);
+    return sequentialTime - parallelTime;
+  }
+
+  estimateUnblockTime(chain) {
+    return chain.reduce((sum, task) => sum + parseInt(task.estimates?.effort_hours || 8), 0);
+  }
+
+  displayHeader() {
+    console.clear();
+    console.log();
+    
+    // CREAITE branding with teal CRE/TE and gold AI
+    const fullLogo = figlet.textSync('CREAITE', {
+      font: 'Big',
+      horizontalLayout: 'default',
+    });
+    
+    // Split into lines and color each part
+    const lines = fullLogo.split('\n');
+    lines.forEach(line => {
+      if (line.trim()) {
+        // For 'Big' font, approximate positions: CRE (0-29), AI (29-47), TE (47-end)
+        const cre = line.substring(0, 29);
+        const ai = line.substring(29, 47);
+        const te = line.substring(47);
+        
+        // Apply colors directly to text
+        console.log(
+          this.tealGradient(cre) + 
+          this.goldGradient(ai) + 
+          this.tealGradient(te)
+        );
+      } else {
+        console.log(line);
+      }
+    });
+    
+    console.log();
+    console.log(
+      this.creaiteGradient(
+        figlet.textSync('Parallel Analyzer', {
+          font: 'Standard',
+          horizontalLayout: 'default',
+        })
+      )
+    );
+    console.log();
+  }
+
+  displayAnalysis(analysis) {
+    // Statistics Overview
+    console.log(
+      boxen(
+        chalk.bold('📊 Task Analysis Summary\n\n') +
+          `Total Tasks: ${chalk.cyan(analysis.statistics.totalTasks)}\n` +
+          `Ready to Start: ${chalk.green(analysis.statistics.readyTasks)}\n` +
+          `In Progress: ${chalk.yellow(analysis.statistics.inProgressTasks)}\n` +
+          `Blocked: ${chalk.red(analysis.statistics.blockedTasks)}\n` +
+          `Completed: ${chalk.gray(analysis.statistics.completedTasks)}\n` +
+          `\nParallel Potential: ${this.getParallelBar(analysis.statistics.parallelPotential)}`,
+        {
+          padding: 1,
+          borderStyle: 'round',
+          borderColor: 'cyan',
+        }
+      )
+    );
+
+    // Currently Parallelizable Tasks
+    if (analysis.currentlyParallelizable.length > 0) {
+      console.log(this.successGradient('\n━━━ 🚀 READY TO RUN IN PARALLEL ━━━\n'));
+
+      analysis.currentlyParallelizable.forEach((group) => {
+        console.log(
+          chalk.bold(
+            `\n${this.getPriorityIcon(group.priority)} ${group.priority} - ${group.category}`
+          )
+        );
+
+        const table = new Table({
+          head: [
+            chalk.cyan('ID'),
+            chalk.cyan('Title'),
+            chalk.cyan('Est. Hours'),
+            chalk.cyan('Command'),
+          ],
+          style: { border: ['green'] },
+          colWidths: [12, 40, 12, 20],
+        });
+
+        group.tasks.forEach((task) => {
+          table.push([
+            chalk.bold(task.id),
+            task.title.substring(0, 38),
+            task.estimates?.effort_hours || '8h',
+            chalk.green(`cx build ${task.id}`),
+          ]);
+        });
+
+        console.log(table.toString());
+
+        if (group.tasks.length > 1) {
+          console.log(
+            chalk.yellow(`   💡 These ${group.tasks.length} tasks can run simultaneously!`)
+          );
+        }
+      });
+    }
+
+    // Parallel Groups Analysis
+    if (analysis.parallelGroups.length > 0) {
+      console.log(this.creaiteGradient('\n━━━ 🔄 PARALLEL OPTIMIZATION OPPORTUNITIES ━━━\n'));
+
+      analysis.parallelGroups.forEach((group) => {
+        console.log(chalk.bold.white(`\n📦 ${group.category.toUpperCase()}`));
+        console.log(chalk.gray(`   Time Savings: ${group.savings} hours`));
+        console.log(chalk.gray(`   Parallel Time: ${group.totalTime} hours`));
+
+        const taskList = group.tasks
+          .slice(0, 3)
+          .map((t) => t.task.id)
+          .join(', ');
+        console.log(chalk.cyan(`   Tasks: ${taskList}${group.tasks.length > 3 ? '...' : ''}`));
+      });
+    }
+
+    // Blocked Chains
+    if (analysis.blockedChains.length > 0) {
+      console.log(this.dangerGradient('\n━━━ ⛔ CRITICAL BLOCKERS ━━━\n'));
+
+      const table = new Table({
+        head: [
+          chalk.red('Root Blocker'),
+          chalk.red('Blocks'),
+          chalk.red('Chain Length'),
+          chalk.red('Est. Time to Clear'),
+        ],
+        style: { border: ['red'] },
+      });
+
+      analysis.blockedChains.slice(0, 5).forEach((chain) => {
+        table.push([
+          chain.rootBlocker.id,
+          `${chain.totalBlocked} tasks`,
+          chain.chain.length,
+          `${chain.estimatedUnblockTime}h`,
+        ]);
+      });
+
+      console.log(table.toString());
+      console.log(chalk.yellow('\n   💡 Tip: Focus on root blockers to unlock the most work!'));
+    }
+
+    // Recommendations
+    this.displayRecommendations(analysis);
+  }
+
+  displayRecommendations(analysis) {
+    console.log(
+      boxen(
+        chalk.bold.yellow('🎯 Parallel Execution Strategy\n\n') +
+          this.generateRecommendations(analysis).join('\n'),
+        {
+          padding: 1,
+          borderStyle: 'double',
+          borderColor: 'yellow',
+        }
+      )
+    );
+  }
+
+  generateRecommendations(analysis) {
+    const recommendations = [];
+
+    // Team size recommendations
+    const parallelTasks = analysis.currentlyParallelizable.reduce(
+      (sum, group) => sum + group.tasks.length,
+      0
+    );
+
+    if (parallelTasks >= 5) {
+      recommendations.push(
+        `🏃 You have ${chalk.green(parallelTasks)} tasks ready to run in parallel.`,
+        `   Ideal team size: ${chalk.cyan(Math.min(parallelTasks, 3))} developers`
+      );
+    }
+
+    // Priority recommendations
+    const p0Groups = analysis.currentlyParallelizable.filter((g) => g.priority === 'P0');
+    if (p0Groups.length > 0) {
+      const p0Count = p0Groups.reduce((sum, g) => sum + g.tasks.length, 0);
+      recommendations.push(`🔴 Focus on ${chalk.red(p0Count)} critical P0 tasks first!`);
+    }
+
+    // Blocker recommendations
+    if (analysis.blockedChains.length > 0) {
+      const topBlocker = analysis.blockedChains[0];
+      recommendations.push(
+        `🔓 Completing ${chalk.yellow(topBlocker.rootBlocker.id)} will unblock ${chalk.yellow(topBlocker.totalBlocked)} tasks`
+      );
+    }
+
+    // Efficiency recommendations
+    if (analysis.statistics.parallelPotential > 50) {
+      recommendations.push(
+        `⚡ High parallel potential (${analysis.statistics.parallelPotential}%) - consider splitting work`
+      );
+    }
+
+    return recommendations.length > 0
+      ? recommendations
+      : ['✅ Complete in-progress tasks to unlock more parallel opportunities'];
+  }
+
+  getParallelBar(percentage) {
+    const width = 20;
+    const filled = Math.round((width * percentage) / 100);
+    const empty = width - filled;
+
+    let bar = '';
+    for (let i = 0; i < filled; i++) {
+      bar += chalk.green('█');
+    }
+    for (let i = 0; i < empty; i++) {
+      bar += chalk.gray('░');
+    }
+
+    return bar + ' ' + chalk.bold(`${percentage}%`);
+  }
+
+  getPriorityIcon(priority) {
+    const icons = {
+      P0: '🔴',
+      P1: '🟡',
+      P2: '🔵',
+      P3: '⚪',
+    };
+    return icons[priority] || '⚫';
+  }
+
+  generateParallelCommand(taskIds) {
+    // Generate command to start multiple tasks
+    return `cx parallel ${taskIds.join(' ')}`;
+  }
+
+  exportAnalysis(analysis, format = 'json') {
+    const exportPath = path.join(__dirname, '../tasks/parallel-analysis.json');
+
+    if (format === 'json') {
+      fs.writeFileSync(exportPath, JSON.stringify(analysis, null, 2));
+      console.log(chalk.green(`\n✅ Analysis exported to: ${exportPath}`));
+    }
+
+    return exportPath;
+  }
+
+  run(options = {}) {
+    this.loadTasks();
+    const analysis = this.analyzeParallelism();
+
+    if (options.quiet) {
+      // Just return the analysis for programmatic use
+      return analysis;
+    }
+
+    this.displayHeader();
+    this.displayAnalysis(analysis);
+
+    if (options.export) {
+      this.exportAnalysis(analysis);
+    }
+
+    // Show quick parallel start command
+    if (analysis.currentlyParallelizable.length > 0) {
+      const firstGroup = analysis.currentlyParallelizable[0];
+      const taskIds = firstGroup.tasks.slice(0, 3).map((t) => t.id);
+      console.log('\n' + chalk.gray('─'.repeat(80)));
+      console.log(chalk.gray('Quick start: ') + chalk.cyan(this.generateParallelCommand(taskIds)));
+    }
+
+    return analysis;
+  }
+}
+
+// CLI handling
+if (require.main === module) {
+  const analyzer = new ParallelTaskAnalyzer();
+  const args = process.argv.slice(2);
+
+  const options = {
+    export: args.includes('--export'),
+    quiet: args.includes('--quiet'),
+  };
+
+  analyzer.run(options);
+}
+
+module.exports = ParallelTaskAnalyzer;

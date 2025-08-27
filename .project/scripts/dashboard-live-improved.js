@@ -1,0 +1,592 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const term = require('terminal-kit').terminal;
+const gradient = require('gradient-string');
+const boxenLib = require('boxen');
+const boxen = boxenLib.default || boxenLib;
+const ProgressTracker = require('./progress-tracker');
+const TaskState = require('./task-state-manager');
+
+class ImprovedLiveDashboard {
+  constructor() {
+    this.tasksPath = path.join(__dirname, '../tasks/backlog.json');
+    this.refreshInterval = 2000; // Refresh every 2 seconds
+    this.isRunning = true;
+    this.tasks = [];
+    this.lastModified = null;
+    this.sessionStartTime = Date.now();
+    this.recentActivity = [];
+    this.maxRecentActivity = 10;
+    this.scrollOffset = 0;
+    this.viewMode = 'overview'; // overview, critical, in-progress, all, completed
+
+    // CREAITE branding - teal and gold
+    this.tealGradient = gradient(['#008B8B', '#00CED1', '#40E0D0']);
+    this.goldGradient = gradient(['#FFD700', '#FFA500']);
+    this.creaiteGradient = gradient(['#0891b2', '#06b6d4', '#14b8a6']);
+    this.aiGradient = gradient(['#fbbf24', '#f59e0b', '#fb923c']);
+    this.successGradient = gradient(['#10b981', '#059669']);
+    this.warningGradient = gradient(['#fbbf24', '#f59e0b']);
+    this.dangerGradient = gradient(['#ef4444', '#dc2626']);
+  }
+
+  loadTasks() {
+    try {
+      if (fs.existsSync(this.tasksPath)) {
+        const stats = fs.statSync(this.tasksPath);
+        const oldTasks = [...this.tasks];
+        const data = fs.readFileSync(this.tasksPath, 'utf8');
+        this.tasks = JSON.parse(data);
+
+        // Detect changes for activity feed
+        if (this.lastModified && stats.mtime > this.lastModified) {
+          this.detectChanges(oldTasks, this.tasks);
+        }
+        this.lastModified = stats.mtime;
+      }
+    } catch (error) {
+      this.addActivity('❌ Error loading tasks: ' + error.message, 'error');
+    }
+  }
+
+  detectChanges(oldTasks, newTasks) {
+    const oldMap = new Map(oldTasks.map((t) => [t.id, t]));
+    const newMap = new Map(newTasks.map((t) => [t.id, t]));
+
+    // Check for changes
+    newMap.forEach((newTask, id) => {
+      const oldTask = oldMap.get(id);
+
+      if (!oldTask) {
+        this.addActivity(`✨ New task: ${id} - ${newTask.title}`, 'new');
+      } else {
+        if (oldTask.status !== newTask.status) {
+          const icon = this.getStatusIcon(newTask.status);
+          this.addActivity(`${icon} ${id}: ${oldTask.status} → ${newTask.status}`, 'status');
+        }
+        if (oldTask.progress !== newTask.progress) {
+          const diff = newTask.progress - oldTask.progress;
+          const arrow = diff > 0 ? '↑' : '↓';
+          this.addActivity(
+            `📊 ${id}: Progress ${arrow} ${Math.abs(diff)}% (now ${newTask.progress}%)`,
+            'progress'
+          );
+        }
+      }
+    });
+
+    // Check for deletions
+    oldMap.forEach((oldTask, id) => {
+      if (!newMap.has(id)) {
+        this.addActivity(`🗑️ Removed: ${id}`, 'delete');
+      }
+    });
+  }
+
+  addActivity(message, type = 'info') {
+    const timestamp = new Date().toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+
+    this.recentActivity.unshift({ time: timestamp, message, type });
+    if (this.recentActivity.length > this.maxRecentActivity) {
+      this.recentActivity.pop();
+    }
+  }
+
+  getStatusIcon(status) {
+    const icons = {
+      'not-started': '⭕',
+      'in-progress': '🔄',
+      blocked: '🚫',
+      completed: '✅',
+    };
+    return icons[status] || '❓';
+  }
+
+  getPriorityColor(priority) {
+    const colors = {
+      P0: 'red',
+      P1: 'yellow',
+      P2: 'cyan',
+      P3: 'gray',
+    };
+    return colors[priority] || 'white';
+  }
+
+  calculateMetrics() {
+    const metrics = {
+      total: this.tasks.length,
+      byStatus: {
+        completed: this.tasks.filter((t) => t.status === 'completed').length,
+        inProgress: this.tasks.filter((t) => t.status === 'in-progress').length,
+        blocked: this.tasks.filter((t) => t.status === 'blocked').length,
+        notStarted: this.tasks.filter((t) => t.status === 'not-started').length,
+      },
+      byPriority: {
+        P0: this.tasks.filter((t) => t.priority === 'P0').length,
+        P1: this.tasks.filter((t) => t.priority === 'P1').length,
+        P2: this.tasks.filter((t) => t.priority === 'P2').length,
+        P3: this.tasks.filter((t) => t.priority === 'P3').length,
+      },
+      completionRate: 0,
+      criticalBlocked: this.tasks.filter((t) => t.priority === 'P0' && t.status === 'blocked')
+        .length,
+      todayCompleted: 0,
+      averageProgress: 0,
+    };
+
+    // Calculate completion rate
+    metrics.completionRate =
+      metrics.total > 0 ? ((metrics.byStatus.completed / metrics.total) * 100).toFixed(1) : 0;
+
+    // Calculate today's completions
+    const today = new Date().toDateString();
+    metrics.todayCompleted = this.tasks.filter((t) => {
+      return t.completed_at && new Date(t.completed_at).toDateString() === today;
+    }).length;
+
+    // Calculate average progress
+    const inProgressTasks = this.tasks.filter((t) => t.status === 'in-progress');
+    if (inProgressTasks.length > 0) {
+      const totalProgress = inProgressTasks.reduce((sum, t) => sum + (t.progress || 0), 0);
+      metrics.averageProgress = Math.round(totalProgress / inProgressTasks.length);
+    }
+
+    return metrics;
+  }
+
+  drawHeader() {
+    term.moveTo(1, 1);
+    term.eraseLine();
+
+    // CREAITE logo in header with proper teal and gold
+    const logo = this.tealGradient('CRE') + this.goldGradient('AI') + this.tealGradient('TE');
+    const title = ' LIVE DASHBOARD';
+    const sessionTime = this.formatDuration(Date.now() - this.sessionStartTime);
+
+    term(logo + title);
+    term.moveTo(40, 1);
+    term.gray('│ Session: ');
+    term.cyan(sessionTime);
+    term.moveTo(60, 1);
+    term.gray('│ ');
+    term.white(new Date().toLocaleTimeString());
+
+    term.moveTo(1, 2);
+    term(this.creaiteGradient('━'.repeat(term.width)));
+  }
+
+  drawMetricsPanel(metrics) {
+    const y = 3;
+    const width = Math.floor(term.width / 2) - 2;
+
+    // Left panel - Status Distribution
+    this.drawBox(1, y, width, 8, 'STATUS OVERVIEW');
+
+    term.moveTo(3, y + 2);
+    term.green(`✅ Completed: ${metrics.byStatus.completed}`);
+    term.moveTo(width / 2 + 3, y + 2);
+    term.yellow(`🔄 Active: ${metrics.byStatus.inProgress}`);
+
+    term.moveTo(3, y + 3);
+    term.red(`🚫 Blocked: ${metrics.byStatus.blocked}`);
+    term.moveTo(width / 2 + 3, y + 3);
+    term.gray(`⭕ Pending: ${metrics.byStatus.notStarted}`);
+
+    // Progress bar
+    term.moveTo(3, y + 5);
+    term.white('Overall: ');
+    this.drawProgressBar(parseFloat(metrics.completionRate), width - 15, y + 5, 12);
+
+    term.moveTo(3, y + 6);
+    term.white('Avg Active: ');
+    this.drawProgressBar(metrics.averageProgress, width - 15, y + 6, 14);
+
+    // Right panel - Priority & Alerts
+    const rightX = width + 3;
+    this.drawBox(rightX, y, width, 8, 'PRIORITY & ALERTS');
+
+    term.moveTo(rightX + 2, y + 2);
+    term.red.bold(`🔥 P0: ${metrics.byPriority.P0}`);
+    term.moveTo(rightX + width / 2, y + 2);
+    term.yellow(`⚡ P1: ${metrics.byPriority.P1}`);
+
+    term.moveTo(rightX + 2, y + 3);
+    term.cyan(`💡 P2: ${metrics.byPriority.P2}`);
+    term.moveTo(rightX + width / 2, y + 3);
+    term.gray(`📌 P3: ${metrics.byPriority.P3}`);
+
+    if (metrics.criticalBlocked > 0) {
+      term.moveTo(rightX + 2, y + 5);
+      term.bgRed.white(` ⚠️  ${metrics.criticalBlocked} CRITICAL TASKS BLOCKED `);
+    }
+
+    term.moveTo(rightX + 2, y + 6);
+    term.green(`📅 Today: ${metrics.todayCompleted} completed`);
+  }
+
+  drawBox(x, y, width, height, title) {
+    // Top border
+    term.moveTo(x, y);
+    term.gray('┌─ ');
+    term.bold.white(title);
+    term.gray(' ' + '─'.repeat(width - title.length - 5) + '┐');
+
+    // Sides
+    for (let i = 1; i < height - 1; i++) {
+      term.moveTo(x, y + i);
+      term.gray('│');
+      term.moveTo(x + width - 1, y + i);
+      term.gray('│');
+    }
+
+    // Bottom border
+    term.moveTo(x, y + height - 1);
+    term.gray('└' + '─'.repeat(width - 2) + '┘');
+  }
+
+  drawProgressBar(percentage, width, y, x) {
+    const filled = Math.round((width * percentage) / 100);
+    const empty = width - filled;
+
+    term.moveTo(x, y);
+    term('[');
+
+    for (let i = 0; i < filled; i++) {
+      if (percentage > 75) term.green('█');
+      else if (percentage > 50) term.yellow('█');
+      else if (percentage > 25) term.magenta('█');
+      else term.red('█');
+    }
+
+    for (let i = 0; i < empty; i++) {
+      term.gray('░');
+    }
+
+    term('] ');
+    term.bold(`${percentage}%`);
+  }
+
+  drawTasksPanel() {
+    const y = 12;
+    const height = Math.max(10, term.height - y - 12);
+    const width = term.width - 2;
+
+    this.drawBox(1, y, width, height, `TASKS (${this.viewMode.toUpperCase()})`);
+
+    // Filter tasks based on view mode
+    let displayTasks = this.tasks;
+    switch (this.viewMode) {
+      case 'critical':
+        displayTasks = this.tasks.filter((t) => t.priority === 'P0');
+        break;
+      case 'in-progress':
+        displayTasks = this.tasks.filter((t) => t.status === 'in-progress');
+        break;
+      case 'completed':
+        displayTasks = this.tasks.filter((t) => t.status === 'completed')
+          .sort((a, b) => new Date(b.completed_at || 0).getTime() - new Date(a.completed_at || 0).getTime());
+        break;
+      case 'overview':
+        // Show mix: all in-progress, then P0s, then recent
+        const inProgress = this.tasks.filter((t) => t.status === 'in-progress');
+        const criticalNotStarted = this.tasks.filter(
+          (t) => t.priority === 'P0' && t.status === 'not-started'
+        );
+        const blocked = this.tasks.filter((t) => t.status === 'blocked');
+        displayTasks = [...inProgress, ...criticalNotStarted, ...blocked].slice(0, height - 3);
+        break;
+    }
+
+    // Display tasks
+    const maxTasks = height - 3;
+    const visibleTasks = displayTasks.slice(this.scrollOffset, this.scrollOffset + maxTasks);
+
+    if (visibleTasks.length === 0) {
+      term.moveTo(3, y + 2);
+      term.gray('No tasks to display in this view');
+    } else {
+      visibleTasks.forEach((task, index) => {
+        term.moveTo(3, y + 2 + index);
+
+        // Status icon
+        term(this.getStatusIcon(task.status) + ' ');
+
+        // Task ID with priority color
+        term[this.getPriorityColor(task.priority)](task.id.padEnd(10));
+
+        // Simple fixed-width layout to prevent overlap
+        // Title: up to 50 characters, then truncate
+        const maxTitleLength = Math.min(50, width - 35); // Leave 35 chars for status
+        const title = task.title.substring(0, maxTitleLength);
+        term.white(title);
+
+        // Position status/progress at a fixed column
+        const statusX = Math.max(60, 3 + 12 + maxTitleLength + 2); // Icon + ID + title + padding
+        term.moveTo(statusX, y + 2 + index);
+        
+        if (task.status === 'in-progress') {
+          // Show progress percentage
+          term.yellow(`${task.progress || 0}%`);
+        } else if (task.status === 'completed') {
+          term.green('✅ ' + (task.completed_at ? new Date(task.completed_at).toLocaleDateString() : 'Done'));
+        } else {
+          term.gray(task.status);
+        }
+      });
+    }
+
+    // Scroll indicator
+    if (displayTasks.length > maxTasks) {
+      term.moveTo(width - 3, y + 1);
+      term.gray(`${this.scrollOffset + 1}/${displayTasks.length}`);
+    }
+  }
+
+  drawMiniProgressBar(percentage, width, y, x) {
+    const filled = Math.round((width * percentage) / 100);
+    const empty = width - filled;
+
+    term.moveTo(x, y);
+
+    for (let i = 0; i < filled; i++) {
+      term.green('▓');
+    }
+    for (let i = 0; i < empty; i++) {
+      term.gray('░');
+    }
+
+    term.bold(` ${percentage}%`);
+  }
+
+  drawActivityFeed() {
+    const y = term.height - 10;
+    const width = term.width - 2;
+
+    this.drawBox(1, y, width, 8, 'ACTIVITY FEED');
+
+    if (this.recentActivity.length === 0) {
+      term.moveTo(3, y + 2);
+      term.gray('Waiting for activity...');
+    } else {
+      this.recentActivity.slice(0, 5).forEach((activity, index) => {
+        term.moveTo(3, y + 2 + index);
+
+        // Time
+        term.gray(`[${activity.time}] `);
+
+        // Message with color based on type
+        switch (activity.type) {
+          case 'new':
+            term.cyan(activity.message);
+            break;
+          case 'status':
+            term.yellow(activity.message);
+            break;
+          case 'progress':
+            term.green(activity.message);
+            break;
+          case 'error':
+            term.red(activity.message);
+            break;
+          default:
+            term.white(activity.message);
+        }
+      });
+    }
+  }
+
+  drawHelpBar() {
+    const y = term.height - 1;
+
+    term.moveTo(1, y);
+    term.eraseLine();
+    term.bgBlack.white(
+      ' [1] Overview  [2] Critical  [3] Active  [4] All  [↑↓] Scroll  [R] Refresh  [Q] Quit '
+    );
+  }
+
+  formatDuration(ms) {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    if (hours > 0) {
+      return `${hours}h ${minutes % 60}m`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${seconds % 60}s`;
+    } else {
+      return `${seconds}s`;
+    }
+  }
+
+  render() {
+    if (!this.isRunning) return;
+
+    // Simple clear approach - just clear the whole screen
+    term.clear();
+
+    this.loadTasks();
+    const metrics = this.calculateMetrics();
+
+    this.drawHeader();
+    this.drawMetricsPanel(metrics);
+    this.drawTasksPanel();
+    this.drawActivityFeed();
+    this.drawHelpBar();
+  }
+
+  setupKeyboardHandlers() {
+    // Enable input grabbing
+    term.grabInput(true);
+
+    term.on('key', (key) => {
+      switch (key) {
+        case 'q':
+        case 'Q':
+        case 'ESCAPE':
+        case 'CTRL_C':
+          this.quit();
+          break;
+
+        case '1':
+          this.viewMode = 'overview';
+          this.scrollOffset = 0;
+          this.render();
+          break;
+
+        case '2':
+          this.viewMode = 'critical';
+          this.scrollOffset = 0;
+          this.render();
+          break;
+
+        case '3':
+          this.viewMode = 'in-progress';
+          this.scrollOffset = 0;
+          this.render();
+          break;
+
+        case '4':
+          this.viewMode = 'all';
+          this.scrollOffset = 0;
+          this.render();
+          break;
+
+        case '5':
+          this.viewMode = 'completed';
+          this.scrollOffset = 0;
+          this.render();
+          break;
+
+        case 'UP':
+          if (this.scrollOffset > 0) {
+            this.scrollOffset--;
+            this.render();
+          }
+          break;
+
+        case 'DOWN':
+          const maxScroll = Math.max(0, this.tasks.length - 10);
+          if (this.scrollOffset < maxScroll) {
+            this.scrollOffset++;
+            this.render();
+          }
+          break;
+
+        case 'r':
+        case 'R':
+          this.addActivity('Manual refresh triggered', 'info');
+          this.render();
+          break;
+      }
+    });
+  }
+
+  quit() {
+    this.isRunning = false;
+
+    // Clean up
+    clearInterval(this.refreshTimer);
+    fs.unwatchFile(this.tasksPath);
+
+    // Release terminal
+    term.grabInput(false);
+    term.fullscreen(false);
+    term.hideCursor(false); // Show cursor - use hideCursor(false) instead of showCursor()
+    term.clear();
+
+    // Show session summary with CREAITE branding
+    console.log('\n' + this.tealGradient('━'.repeat(60)));
+    console.log(
+      this.tealGradient('CRE') +
+        this.goldGradient('AI') +
+        this.tealGradient('TE') +
+        ' Dashboard Session Complete'
+    );
+    console.log(this.tealGradient('━'.repeat(60)) + '\n');
+
+    const metrics = this.calculateMetrics();
+    console.log('📊 Session Summary:');
+    console.log(`  • Duration: ${this.formatDuration(Date.now() - this.sessionStartTime)}`);
+    console.log(`  • Tasks Completed Today: ${metrics.todayCompleted}`);
+    console.log(`  • Active Tasks: ${metrics.byStatus.inProgress}`);
+    console.log(`  • Overall Progress: ${metrics.completionRate}%`);
+    console.log(`  • Activity Events: ${this.recentActivity.length}\n`);
+
+    process.exit(0);
+  }
+
+  async run() {
+    // Setup terminal
+    term.fullscreen(true);
+    term.hideCursor();
+    // Initial clear for first render
+    term.clear();
+
+    // Initial load
+    this.loadTasks();
+    this.addActivity('Dashboard started', 'info');
+
+    // Start progress tracker
+    const tracker = new ProgressTracker();
+    setInterval(() => {
+      tracker.updateAllProgress();
+    }, 15000); // Update progress every 15 seconds
+
+    // Setup keyboard
+    this.setupKeyboardHandlers();
+
+    // Initial render
+    this.render();
+
+    // Auto-refresh every 2 seconds
+    this.refreshTimer = setInterval(() => {
+      this.render();
+    }, this.refreshInterval);
+
+    // Watch file for changes
+    fs.watchFile(this.tasksPath, { interval: 500 }, () => {
+      this.render();
+    });
+
+    // Handle termination
+    process.on('SIGINT', () => this.quit());
+    process.on('SIGTERM', () => this.quit());
+  }
+}
+
+// Run the improved dashboard
+const dashboard = new ImprovedLiveDashboard();
+dashboard.run().catch((err) => {
+  term.moveTo(1, 1);
+  term.eraseDisplayBelow();
+  console.error('Error:', err.message);
+  process.exit(1);
+});

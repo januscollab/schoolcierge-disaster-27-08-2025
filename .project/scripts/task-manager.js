@@ -2,11 +2,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const taskState = require('./task-state-manager');
 
 class TaskManager {
   constructor() {
     this.tasksPath = path.join(__dirname, '../tasks/backlog.json');
     this.depsPath = path.join(__dirname, '../tasks/dependencies.json');
+    this.taskState = taskState;
     this.ensureFiles();
   }
 
@@ -23,16 +25,29 @@ class TaskManager {
     }
   }
 
-  loadTasks() {
+  async loadTasks() {
+    return await this.taskState.getTasks();
+  }
+
+  // Synchronous version for backward compatibility (deprecated)
+  loadTasksSync() {
+    if (!fs.existsSync(this.tasksPath)) {
+      return [];
+    }
     return JSON.parse(fs.readFileSync(this.tasksPath, 'utf8'));
   }
 
-  saveTasks(tasks) {
+  async saveTasks(tasks) {
+    await this.taskState.saveTasks(tasks);
+  }
+
+  // Synchronous version for backward compatibility (deprecated)
+  saveTasksSync(tasks) {
     fs.writeFileSync(this.tasksPath, JSON.stringify(tasks, null, 2));
   }
 
   generateId() {
-    const tasks = this.loadTasks();
+    const tasks = this.loadTasksSync(); // Use sync version for ID generation
     const maxId = tasks.reduce((max, task) => {
       const num = parseInt(task.id.split('-')[1] || 0);
       return num > max ? num : max;
@@ -40,6 +55,37 @@ class TaskManager {
     return `TASK-${String(maxId + 1).padStart(3, '0')}`;
   }
 
+  addTask(title, options = {}) {
+    return this.add(title, options);
+  }
+
+  updateTask(taskId, updates) {
+    return this.update(taskId, updates);
+  }
+
+  isValidPriority(priority) {
+    return ['P0', 'P1', 'P2', 'P3'].includes(priority);
+  }
+
+  isValidStatus(status) {
+    return ['not-started', 'in-progress', 'blocked', 'completed'].includes(status);
+  }
+
+  addTask(title, options = {}) {
+    return this.add(title, options);
+  }
+
+  updateTask(taskId, updates) {
+    return this.update(taskId, updates);
+  }
+
+  isValidPriority(priority) {
+    return ["P0", "P1", "P2", "P3"].includes(priority);
+  }
+
+  isValidStatus(status) {
+    return ["not-started", "in-progress", "blocked", "completed"].includes(status);
+  }
   add(title, options = {}) {
     const tasks = this.loadTasks();
     const newTask = {
@@ -95,8 +141,10 @@ class TaskManager {
   }
 
   update(taskId, updates) {
-    const tasks = this.loadTasks();
-    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    // Strip quotes if present
+    const cleanTaskId = taskId.replace(/^['"](.*)['"]$/, '$1');
+    const tasks = this.loadTasksSync(); // Use sync version for now
+    const taskIndex = tasks.findIndex(t => t.id === cleanTaskId);
     
     if (taskIndex === -1) {
       console.error(`❌ Task ${taskId} not found`);
@@ -142,8 +190,8 @@ class TaskManager {
     return true;
   }
 
-  list(filter = {}) {
-    const tasks = this.loadTasks();
+  async list(filter = {}) {
+    const tasks = await this.loadTasks();
     let filtered = tasks;
 
     if (filter.status) {
@@ -192,12 +240,14 @@ class TaskManager {
     console.log(`Total: ${summary.total} | Not Started: ${summary['not-started']} | In Progress: ${summary['in-progress']} | Blocked: ${summary.blocked} | Completed: ${summary.completed}`);
   }
 
-  detail(taskId) {
-    const tasks = this.loadTasks();
-    const task = tasks.find(t => t.id === taskId);
+  async detail(taskId) {
+    // Strip quotes if present
+    const cleanTaskId = taskId.replace(/^['"](.*)['"]$/, '$1');
+    const tasks = await this.loadTasks();
+    const task = tasks.find(t => t.id === cleanTaskId);
 
     if (!task) {
-      console.error(`❌ Task ${taskId} not found`);
+      console.error(`❌ Task '${cleanTaskId}' not found`);
       return;
     }
 
@@ -266,7 +316,7 @@ switch (command) {
         listFilter[key] = args[i + 1];
       }
     }
-    manager.list(listFilter);
+    manager.list(listFilter).catch(console.error);
     break;
 
   case 'detail':
@@ -274,7 +324,7 @@ switch (command) {
       console.error('Usage: task-manager detail TASK-001');
       process.exit(1);
     }
-    manager.detail(args[0]);
+    manager.detail(args[0]).catch(console.error);
     break;
 
   case 'complete':
@@ -314,3 +364,9 @@ Options:
   --dependencies IDs       Comma-separated task IDs this depends on
     `);
 }
+
+// Export the class for testing
+module.exports = TaskManager;
+
+// Export the class for testing
+module.exports = TaskManager;

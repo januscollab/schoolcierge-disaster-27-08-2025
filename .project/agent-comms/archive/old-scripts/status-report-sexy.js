@@ -10,6 +10,17 @@ const gradient = require('gradient-string');
 const figlet = require('figlet');
 const term = require('terminal-kit').terminal;
 
+// Event logging
+const { logEvent } = require('./event-ticker');
+
+// Dependency resolution
+const DependencyResolver = require('./dependency-resolver');
+
+// Task health monitoring
+const TaskHealthMonitor = require('./task-health-monitor');
+const TaskHealthScorer = require('./health-scorer');
+const AutoRemediationEngine = require('./auto-remediation');
+
 // ANSI color codes as chalk replacement
 const chalk = {
   bold: (text) => `\x1b[1m${text}\x1b[0m`,
@@ -144,16 +155,37 @@ class SexyStatusReporter {
   displayHeader() {
     console.clear();
     
-    // Display CreaAIte branding
+    // CREAITE branding with teal CRE/TE and gold AI
     console.log();
-    console.log(
-      this.brandGradient(
-        figlet.textSync('CreaAIte', {
-          font: 'Big',
-          horizontalLayout: 'default'
-        })
-      )
-    );
+    
+    // Generate the full ASCII art first
+    const tealGradient = gradient(['#008B8B', '#00CED1', '#40E0D0']);
+    const goldGradient = gradient(['#FFD700', '#FFA500']);
+    
+    const fullLogo = figlet.textSync('CREAITE', {
+      font: 'Big',
+      horizontalLayout: 'default',
+    });
+    
+    // Split into lines and color each part
+    const lines = fullLogo.split('\n');
+    lines.forEach(line => {
+      if (line.trim()) {
+        // For 'Big' font, approximate positions: CRE (0-29), AI (29-47), TE (47-end)
+        const cre = line.substring(0, 29);
+        const ai = line.substring(29, 47);
+        const te = line.substring(47);
+        
+        // Apply colors directly to text
+        console.log(
+          tealGradient(cre) + 
+          goldGradient(ai) + 
+          tealGradient(te)
+        );
+      } else {
+        console.log(line);
+      }
+    });
     
     console.log(
       boxen(
@@ -356,6 +388,8 @@ class SexyStatusReporter {
   }
 
   async runInteractive() {
+    logEvent('command_executed', 'Status report started', { command: 'cx status' });
+    
     const spinner = ora({
       text: 'Loading task data...',
       spinner: 'dots12',
@@ -365,6 +399,13 @@ class SexyStatusReporter {
     await new Promise(resolve => setTimeout(resolve, 500));
     
     const metrics = this.calculateMetrics();
+    
+    logEvent('system_event', `Status calculated: ${metrics.completionRate}% complete`, {
+      totalTasks: metrics.total,
+      completed: metrics.byStatus.completed,
+      inProgress: metrics.byStatus['in-progress'],
+      blocked: metrics.byStatus.blocked
+    });
     
     spinner.succeed(chalk.green('Task data loaded successfully!'));
     
@@ -377,6 +418,11 @@ class SexyStatusReporter {
     const markdown = this.generateMarkdownReport(metrics);
     fs.writeFileSync(this.progressPath, markdown);
     
+    logEvent('system_event', 'Progress report saved', {
+      file: this.progressPath,
+      completionRate: metrics.completionRate
+    });
+    
     console.log(
       '\n' + 
       chalk.green('✅ Progress report saved to: ') + 
@@ -385,7 +431,7 @@ class SexyStatusReporter {
   }
 
   generateMarkdownReport(metrics) {
-    const now = new Date().toISOString().split('T')[0];
+    const now = new Date().toLocaleString();
     
     return `# 📊 SchoolCierge Development Progress
 
@@ -450,6 +496,96 @@ ${Object.entries(metrics.byCategory).map(([cat, count]) =>
   }
 
   async run(format = 'interactive') {
+    // Comprehensive auto-healing system
+    if (format === 'interactive') {
+      console.log(chalk.cyan('\n🏥 Comprehensive Health Check & Auto-Healing...'));
+      let totalFixes = 0;
+      const healthScorer = new TaskHealthScorer();
+      const remediationEngine = new AutoRemediationEngine();
+      const healthMonitor = new TaskHealthMonitor();
+      
+      // 1. Auto-resolve dependencies first
+      try {
+        const resolver = new DependencyResolver();
+        const updatedCount = resolver.autoRun();
+        if (updatedCount > 0) {
+          console.log(chalk.green(`  ✅ Resolved ${updatedCount} task dependencies`));
+          totalFixes += updatedCount;
+        }
+      } catch (error) {
+        // Silent fail
+      }
+      
+      // 2. Comprehensive health scoring and remediation
+      try {
+        const tasks = this.loadTasks();
+        let criticalIssues = 0;
+        let remediatedIssues = 0;
+        
+        // Analyze each active task with the new health scorer
+        for (const task of tasks) {
+          if (task.status === 'not-started' && task.progress === 0) continue;
+          
+          // Calculate health score
+          const healthScore = healthScorer.calculateHealthScore(task);
+          
+          // Get issues from monitor
+          const issues = healthMonitor.detectHealthIssues(task);
+          
+          // Auto-remediate if health score is poor or critical
+          if (healthScore.overall < 60 || issues.some(i => i.severity === 'critical')) {
+            criticalIssues++;
+            
+            // Apply auto-remediation
+            const result = await remediationEngine.remediate(task, issues, {
+              dryRun: false,
+              safeMode: true,
+              maxAutoFixes: 5
+            });
+            
+            if (result.success && result.applied.length > 0) {
+              remediatedIssues += result.applied.length;
+              
+              // Log specific fixes
+              for (const fix of result.applied) {
+                if (fix.type === 'falseCompletion') {
+                  console.log(chalk.green(`  ✅ Fixed false completion: ${task.id}`));
+                } else if (fix.type === 'stuck') {
+                  console.log(chalk.green(`  ✅ Unstuck task: ${task.id}`));
+                } else if (fix.type === 'invalidBlocked') {
+                  console.log(chalk.green(`  ✅ Unblocked: ${task.id}`));
+                } else if (fix.type === 'progressMismatch') {
+                  console.log(chalk.green(`  ✅ Adjusted progress: ${task.id}`));
+                }
+              }
+            }
+          }
+          
+          // Show warnings for tasks with poor health
+          if (healthScore.overall < 40 && healthScore.overall > 0) {
+            console.log(chalk.yellow(`  ⚠️  ${task.id}: Health score ${healthScore.overall}% (${healthScore.status})`));
+          }
+        }
+        
+        totalFixes += remediatedIssues;
+        
+        // 3. Report health summary
+        const healthCheck = healthMonitor.quickCheck();
+        if (healthCheck.stuckTasks.length > 0) {
+          console.log(chalk.yellow(`  ⚠️  ${healthCheck.stuckTasks.length} tasks need attention: ${healthCheck.stuckTasks.slice(0, 3).join(', ')}${healthCheck.stuckTasks.length > 3 ? '...' : ''}`));
+        }
+        
+      } catch (error) {
+        console.log(chalk.gray('  ⚠️  Health check partially failed'));
+      }
+      
+      if (totalFixes > 0) {
+        console.log(chalk.green(chalk.bold(`\n✨ Auto-healed ${totalFixes} issues\n`)));
+      } else {
+        console.log(chalk.gray('  ✓ All systems healthy\n'));
+      }
+    }
+    
     switch (format) {
       case 'json':
         const metrics = this.calculateMetrics();
@@ -486,8 +622,7 @@ ${Object.entries(metrics.byCategory).map(([cat, count]) =>
         await this.runInteractive();
     }
     
-    // Ensure terminal is reset
-    term.processExit(0);
+    // Terminal cleanup is handled by the process exit
   }
 
   generateHTMLDashboard(metrics) {
@@ -611,10 +746,66 @@ ${Object.entries(metrics.byCategory).map(([cat, count]) =>
 
 // CLI handling
 const reporter = new SexyStatusReporter();
-const formatArg = process.argv.find(arg => arg.startsWith('--format'));
-const format = formatArg ? formatArg.split('=')[1] || process.argv[process.argv.indexOf(formatArg) + 1] : 'interactive';
 
-reporter.run(format).catch(err => {
-  console.error(chalk.red('Error:'), err);
-  process.exit(1);
-});
+// Check if a specific task ID was provided
+let taskIdArg = process.argv[2];
+// Remove quotes if present (npm can pass arguments with quotes)
+if (taskIdArg) {
+  taskIdArg = taskIdArg.replace(/^['"]|['"]$/g, '');
+}
+// console.error('DEBUG: taskIdArg =', taskIdArg, 'argv =', process.argv);
+if (taskIdArg && taskIdArg.match(/^TASK-\d+$/i)) {
+  // Show detailed status for specific task
+  try {
+    const tasks = JSON.parse(fs.readFileSync(path.join(__dirname, '../tasks/backlog.json'), 'utf8'));
+    const task = tasks.find(t => t.id.toUpperCase() === taskIdArg.toUpperCase());
+    
+    if (!task) {
+      console.error(chalk.red(`Task ${taskIdArg.toUpperCase()} not found`));
+      process.exit(1);
+    }
+
+    console.log(`\\n${chalk.bold.cyan('📊 Task Status Report')}`);
+    console.log(chalk.gray('━'.repeat(60)));
+    console.log(`${chalk.bold('Task ID:')} ${chalk.cyan(task.id)}`);
+    console.log(`${chalk.bold('Title:')} ${task.title}`);
+    console.log(`${chalk.bold('Status:')} ${chalk[task.status === 'completed' ? 'green' : task.status === 'in-progress' ? 'yellow' : 'gray'](task.status)}`);
+    console.log(`${chalk.bold('Priority:')} ${chalk[task.priority === 'P0' ? 'red' : task.priority === 'P1' ? 'yellow' : 'blue'](task.priority)}`);
+    console.log(`${chalk.bold('Category:')} ${task.category}`);
+    console.log(`${chalk.bold('Progress:')} ${task.progress || 0}%`);
+    
+    if (task.started_at) {
+      const started = new Date(task.started_at);
+      console.log(`${chalk.bold('Started:')} ${started.toLocaleDateString()} ${started.toLocaleTimeString()}`);
+    }
+    
+    if (task.completed_at) {
+      const completed = new Date(task.completed_at);
+      console.log(`${chalk.bold('Completed:')} ${completed.toLocaleDateString()} ${completed.toLocaleTimeString()}`);
+    }
+    
+    if (task.estimates) {
+      console.log(`${chalk.bold('Effort:')} ${task.estimates.effort_hours}h (${task.estimates.complexity})`);
+    }
+    
+    if (task.dependencies && task.dependencies.blocked_by.length > 0) {
+      console.log(`${chalk.bold('Blocked by:')} ${task.dependencies.blocked_by.join(', ')}`);
+    }
+    
+    console.log(chalk.gray('━'.repeat(60)));
+    console.log();
+    process.exit(0);  // Exit successfully after showing task status
+  } catch (error) {
+    console.error(chalk.red('Error:'), error.message);
+    process.exit(1);
+  }
+} else {
+  // Show overall status
+  const formatArg = process.argv.find(arg => arg.startsWith('--format'));
+  const format = formatArg ? formatArg.split('=')[1] || process.argv[process.argv.indexOf(formatArg) + 1] : 'interactive';
+  
+  reporter.run(format).catch(err => {
+    console.error(chalk.red('Error:'), err);
+    process.exit(1);
+  });
+}
