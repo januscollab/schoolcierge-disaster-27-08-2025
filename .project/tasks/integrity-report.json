@@ -1,11 +1,11 @@
 {
-  "timestamp": "2025-08-27T16:26:32.739Z",
+  "timestamp": "2025-08-27T17:44:09.591Z",
   "stats": {
-    "total": 14,
-    "completed": 7,
+    "total": 17,
+    "completed": 8,
     "falsePositives": 4,
     "verified": 2,
-    "inProgress": 7,
+    "inProgress": 9,
     "stalled": 0
   },
   "issues": [

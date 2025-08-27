@@ -83,6 +83,7 @@ const commandMap = {
   'security': 'npm run security:audit',
   'audit': 'npm run security:audit',
   'test': 'node .project/scripts/test-runner.js',
+  'generate-test': 'node .project/scripts/generate-test.js',
   
   // Integrity checking
   'integrity': 'node .project/scripts/integrity-checker.js',

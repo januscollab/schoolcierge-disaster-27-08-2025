@@ -67,6 +67,35 @@
 
 **Everything else belongs in organized subdirectories.**
 
+## RULES FOR WORKING WITH ALAN
+
+### 🚫 NEVER BULLSHIT
+1. **If in doubt - ASK FOR CLARITY**
+   - Don't make assumptions
+   - Don't generate fake data or results
+   - Don't pretend something works when it doesn't
+   
+2. **BE HONEST ABOUT:**
+   - What's actually implemented vs what's planned
+   - What tests are real vs placeholders
+   - What works vs what's broken
+   - What you know vs what you're guessing
+
+3. **WHEN SOMETHING ISN'T WORKING:**
+   - Say exactly what's broken
+   - Show the actual error
+   - Don't hide failures behind success messages
+
+4. **TEST RESULTS MUST BE REAL:**
+   - No fake coverage percentages
+   - No success messages when tests don't exist
+   - No placeholder data in reports
+
+5. **IF YOU DON'T KNOW:**
+   - Say "I don't know"
+   - Ask for the information you need
+   - Don't make it up
+
 ---
-*Last Updated: 2025-08-26*
+*Last Updated: 2025-08-27*
 *Enforcement: IMMEDIATE*

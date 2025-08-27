@@ -55,12 +55,12 @@ class TaskManager {
     return `TASK-${String(maxId + 1).padStart(3, '0')}`;
   }
 
-  addTask(title, options = {}) {
-    return this.add(title, options);
+  async addTask(title, options = {}) {
+    return await this.add(title, options);
   }
 
-  updateTask(taskId, updates) {
-    return this.update(taskId, updates);
+  async updateTask(taskId, updates) {
+    return await this.update(taskId, updates);
   }
 
   isValidPriority(priority) {
@@ -71,12 +71,12 @@ class TaskManager {
     return ['not-started', 'in-progress', 'blocked', 'completed'].includes(status);
   }
 
-  addTask(title, options = {}) {
-    return this.add(title, options);
+  async addTask(title, options = {}) {
+    return await this.add(title, options);
   }
 
-  updateTask(taskId, updates) {
-    return this.update(taskId, updates);
+  async updateTask(taskId, updates) {
+    return await this.update(taskId, updates);
   }
 
   isValidPriority(priority) {
@@ -86,8 +86,8 @@ class TaskManager {
   isValidStatus(status) {
     return ["not-started", "in-progress", "blocked", "completed"].includes(status);
   }
-  add(title, options = {}) {
-    const tasks = this.loadTasks();
+  async add(title, options = {}) {
+    const tasks = await this.taskState.getTasks();
     const newTask = {
       id: this.generateId(),
       title,
@@ -134,59 +134,53 @@ class TaskManager {
       progress: 0
     };
 
-    tasks.push(newTask);
-    this.saveTasks(tasks);
+    await this.taskState.addTask(newTask, 'task:add');
     console.log(`✅ Created task ${newTask.id}: ${title}`);
     return newTask.id;
   }
 
-  update(taskId, updates) {
+  async update(taskId, updates) {
     // Strip quotes if present
     const cleanTaskId = taskId.replace(/^['"](.*)['"]$/, '$1');
-    const tasks = this.loadTasksSync(); // Use sync version for now
-    const taskIndex = tasks.findIndex(t => t.id === cleanTaskId);
     
-    if (taskIndex === -1) {
-      console.error(`❌ Task ${taskId} not found`);
+    // Check if task exists
+    const task = await this.taskState.getTask(cleanTaskId);
+    if (!task) {
+      console.error(`❌ Task '${cleanTaskId}' not found`);
       return false;
     }
 
-    const task = tasks[taskIndex];
+    // Prepare updates with automatic status/progress handling
+    const processedUpdates = { ...updates };
+    console.log('DEBUG: Initial updates received:', updates);
     
-    // Update status
+    // Update status-related fields
     if (updates.status) {
-      task.status = updates.status;
       if (updates.status === 'completed') {
-        task.completed_at = new Date().toISOString();
-        task.progress = 100;
+        processedUpdates.completed_at = new Date().toISOString();
+        processedUpdates.progress = 100;
       } else if (updates.status === 'in-progress' && task.progress === 0) {
-        task.started_at = new Date().toISOString();
-        task.progress = task.progress || 10;
+        processedUpdates.started_at = new Date().toISOString();
+        processedUpdates.progress = processedUpdates.progress || 10;
       }
     }
 
-    // Update progress
+    // Update progress-related fields
     if (updates.progress !== undefined) {
-      task.progress = parseInt(updates.progress);
-      if (task.progress >= 100) {
-        task.status = 'completed';
-        task.completed_at = new Date().toISOString();
-      } else if (task.progress > 0 && task.status === 'not-started') {
-        task.status = 'in-progress';
-        task.started_at = new Date().toISOString();
+      processedUpdates.progress = parseInt(updates.progress);
+      if (processedUpdates.progress >= 100) {
+        processedUpdates.status = 'completed';
+        processedUpdates.completed_at = new Date().toISOString();
+      } else if (processedUpdates.progress > 0 && task.status === 'not-started') {
+        processedUpdates.status = 'in-progress';
+        processedUpdates.started_at = new Date().toISOString();
       }
     }
 
-    // Update other fields
-    Object.keys(updates).forEach(key => {
-      if (!['status', 'progress'].includes(key)) {
-        task[key] = updates[key];
-      }
-    });
-
-    tasks[taskIndex] = task;
-    this.saveTasks(tasks);
-    console.log(`✅ Updated task ${taskId}`);
+    // Update via TaskStateManager
+    console.log('DEBUG: Sending updates to TaskStateManager:', processedUpdates);
+    await this.taskState.updateTask(cleanTaskId, processedUpdates, 'task:update');
+    console.log(`✅ Updated task ${cleanTaskId}`);
     return true;
   }
 
@@ -257,8 +251,8 @@ class TaskManager {
     console.log(JSON.stringify(task, null, 2));
   }
 
-  complete(taskId) {
-    return this.update(taskId, { status: 'completed' });
+  async complete(taskId) {
+    return await this.update(taskId, { status: 'completed' });
   }
 
   start(taskId) {
@@ -273,7 +267,8 @@ const args = process.argv.slice(3);
 
 switch (command) {
   case 'add':
-    const title = args[0];
+    // Strip quotes from title (cx wrapper adds them)
+    const title = args[0] ? args[0].replace(/^['"](.*)['"]$/, '$1') : '';
     if (!title) {
       console.error('Usage: task-manager add "Task Title" [--priority P0] [--category backend]');
       process.exit(1);
@@ -281,17 +276,27 @@ switch (command) {
     
     const options = {};
     for (let i = 1; i < args.length; i += 2) {
-      if (args[i].startsWith('--')) {
-        const key = args[i].substring(2);
-        options[key] = args[i + 1];
+      // Strip quotes from arguments (cx wrapper adds them)
+      const arg = args[i] ? args[i].replace(/^['"](.*)['"]$/, '$1') : '';
+      const value = args[i + 1] ? args[i + 1].replace(/^['"](.*)['"]$/, '$1') : '';
+      
+      if (arg.startsWith('--')) {
+        const key = arg.substring(2);
+        options[key] = value;
       }
     }
     
-    manager.add(title, options);
+    manager.add(title, options)
+      .then(() => process.exit(0))
+      .catch(err => {
+        console.error('Error adding task:', err);
+        process.exit(1);
+      });
     break;
 
   case 'update':
     const updateId = args[0];
+    console.log('DEBUG: update args:', args);
     if (!updateId) {
       console.error('Usage: task-manager update TASK-001 --status in-progress --progress 50');
       process.exit(1);
@@ -299,13 +304,23 @@ switch (command) {
     
     const updates = {};
     for (let i = 1; i < args.length; i += 2) {
-      if (args[i].startsWith('--')) {
-        const key = args[i].substring(2);
-        updates[key] = args[i + 1];
+      // Strip quotes from arguments (cx wrapper adds them)
+      const arg = args[i] ? args[i].replace(/^['"](.*)['"]$/, '$1') : '';
+      const value = args[i + 1] ? args[i + 1].replace(/^['"](.*)['"]$/, '$1') : '';
+      
+      if (arg.startsWith('--')) {
+        const key = arg.substring(2);
+        updates[key] = value;
       }
     }
+    console.log('DEBUG: parsed updates:', updates);
     
-    manager.update(updateId, updates);
+    manager.update(updateId, updates)
+      .then(() => process.exit(0))
+      .catch(err => {
+        console.error('Error updating task:', err);
+        process.exit(1);
+      });
     break;
 
   case 'list':
@@ -316,7 +331,12 @@ switch (command) {
         listFilter[key] = args[i + 1];
       }
     }
-    manager.list(listFilter).catch(console.error);
+    manager.list(listFilter)
+      .then(() => process.exit(0))
+      .catch(err => {
+        console.error('Error listing tasks:', err);
+        process.exit(1);
+      });
     break;
 
   case 'detail':
@@ -324,7 +344,12 @@ switch (command) {
       console.error('Usage: task-manager detail TASK-001');
       process.exit(1);
     }
-    manager.detail(args[0]).catch(console.error);
+    manager.detail(args[0])
+      .then(() => process.exit(0))
+      .catch(err => {
+        console.error('Error getting task details:', err);
+        process.exit(1);
+      });
     break;
 
   case 'complete':
@@ -332,7 +357,12 @@ switch (command) {
       console.error('Usage: task-manager complete TASK-001');
       process.exit(1);
     }
-    manager.complete(args[0]);
+    manager.complete(args[0])
+      .then(() => process.exit(0))
+      .catch(err => {
+        console.error('Error completing task:', err);
+        process.exit(1);
+      });
     break;
 
   case 'start':
